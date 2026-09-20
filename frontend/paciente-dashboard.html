@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedConnect | Portal del Paciente</title>
+  <meta name="description"
+    content="Expediente clínico, agenda de consultas médicas, recetas y resultados de laboratorio interoperables en MedConnect.">
+
+  <!-- Tipografía Profesional Médica (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Hoja de Estilos Compartida -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body id="patientDashboardApp">
+  <!-- Fondo decorativo con ondas y partículas sutiles de ambiente clínico -->
+  <div class="clinical-bg-pattern" aria-hidden="true"></div>
+
+  <!-- =========================================================
+       1. ENCABEZADO SUPERIOR (HEADER DEL DASHBOARD PACIENTE)
+       ========================================================= -->
+  <header class="header-main">
+    <div class="header-container">
+      <div class="brand-identity">
+        <!-- Isotipo Clínico Minimalista MedConnect idéntico a index.html -->
+        <div class="brand-logo-wrapper">
+          <svg class="brand-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+            aria-label="Logo MedConnect">
+            <rect width="32" height="32" rx="8" fill="#EDF5F5" />
+            <path d="M16 7V25M7 16H25" stroke="#347072" stroke-width="3" stroke-linecap="round" />
+            <circle cx="16" cy="16" r="3.5" fill="#2D6061" />
+            <circle cx="7" cy="16" r="2" fill="#5F9EA0" />
+            <circle cx="25" cy="16" r="2" fill="#5F9EA0" />
+            <circle cx="16" cy="7" r="2" fill="#5F9EA0" />
+            <circle cx="16" cy="25" r="2" fill="#5F9EA0" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">MedConnect</span>
+          <span class="brand-tag">Portal del Paciente</span>
+        </div>
+      </div>
+
+      <!-- Información y Avatar Rápido del Paciente (Esqueleto para BD) -->
+      <div class="header-patient-info" aria-label="Perfil del Paciente Actual">
+        <div class="patient-avatar-badge" id="patientAvatarBadge" title="Perfil del Paciente">--</div>
+        <div class="patient-header-details">
+          <span class="patient-header-name" id="patientHeaderName">--</span>
+          <span class="patient-header-id" id="patientHeaderId">ID: -- • CURP: --</span>
+        </div>
+      </div>
+
+      <!-- Acciones Principales de Navegación del Header -->
+      <div class="header-dashboard-actions">
+        <a href="medico-receta.html" class="btn-header-schedule" style="background: #E8F3F3; color: #2D6061; border: 1px solid #BCDADA; text-decoration: none;" title="Módulo de Emisión de Recetas Médicas">
+          <span>🩺 Emitir Receta</span>
+        </a>
+
+        <button type="button" class="btn-header-schedule" id="btnHeaderSchedule" title="Agendar una nueva cita médica">
+          <span>+ Agendar Nueva Cita</span>
+        </button>
+
+        <a href="index.html" class="btn-header-logout" id="btnLogoutPatient" title="Cerrar sesión de forma segura">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Cerrar Sesión</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       2. CONTENIDO PRINCIPAL: PANEL PACIENTE (2 COLUMNAS)
+       ========================================================= -->
+  <main class="main-content">
+    
+    <!-- Banner de Bienvenida e Indicador de Red Médica -->
+    <section class="dashboard-welcome-banner" aria-labelledby="welcomeTitle">
+      <div class="welcome-info-main">
+        <span class="welcome-kicker">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          Expediente Clínico Digital
+        </span>
+        <h1 class="welcome-title" id="welcomeTitle">
+          Bienvenido al Portal del Paciente
+        </h1>
+        <div class="welcome-meta-row">
+          <span class="welcome-meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 21h18M3 7v14M21 7v14M6 11h4M6 15h4M14 11h4M14 15h4M9 3h6v4H9z" />
+            </svg>
+            <strong>Clínica Asignada:</strong> <span id="welcomeClinicVal">--</span>
+          </span>
+          <span class="welcome-meta-item">
+          </span>
+        </div>
+      </div>
+
+      <div class="welcome-actions-side">
+        <div class="patient-status-badge">
+          <span class="status-indicator"></span>
+          <span>Red Médica Conectada</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Layout en 2 Columnas Responsivas -->
+    <div class="dashboard-grid">
+
+      <!-- =======================================================
+           COLUMNA IZQUIERDA: GESTIÓN Y SECCIÓN DE CITAS
+           ======================================================= -->
+      <div class="dashboard-column dashboard-col-left">
+
+        <!-- 1. Widget de Calendario Mensual -->
+        <article class="clinical-card" aria-labelledby="calHeading">
+          <header class="clinical-card-header">
+            <div class="clinical-card-title-group">
+              <div class="clinical-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </div>
+              <div>
+                <h2 class="clinical-card-title" id="calHeading">Calendario de Consultas</h2>
+                <p class="clinical-card-subtitle">Días con citas programadas y control mensual</p>
+              </div>
+            </div>
+
+            <div class="calendar-nav-controls">
+              <button type="button" class="calendar-btn-nav" id="calPrevBtn" title="Mes anterior" aria-label="Mes anterior">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+              <button type="button" class="calendar-btn-nav" id="calTodayBtn" title="Ir al mes actual" style="font-size: 0.72rem; font-weight: 700; width: auto; padding: 0 8px;">
+                Hoy
+              </button>
+              <button type="button" class="calendar-btn-nav" id="calNextBtn" title="Mes siguiente" aria-label="Mes siguiente">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+          </header>
+
+          <div class="calendar-widget-wrapper">
+            <div class="calendar-header-nav">
+              <span class="calendar-current-month" id="calendarMonthTitle"></span>
+            </div>
+
+            <!-- Cabecera de días de la semana -->
+            <div class="calendar-weekdays-row" aria-hidden="true">
+              <span>Lun</span>
+              <span>Mar</span>
+              <span>Mié</span>
+              <span>Jue</span>
+              <span>Vie</span>
+              <span>Sáb</span>
+              <span>Dom</span>
+            </div>
+
+            <!-- Matriz dinámica de días generada por script.js -->
+            <div class="calendar-days-grid" id="calendarDaysGrid" role="grid" aria-label="Días del mes">
+              <!-- Renderizado dinámico según los datos de la BD -->
+            </div>
+
+            <!-- Aviso dinámico al hacer clic en un día -->
+            <div class="calendar-selection-notice hidden" id="calendarSelectionNotice">
+              <div id="calendarNoticeText"></div>
+            </div>
+
+            <!-- Barra de Leyenda del Calendario -->
+            <div class="calendar-legend-bar">
+              <div class="legend-item">
+                <span class="legend-dot dot-appt"></span>
+                <span>Cita Programada</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot dot-today"></span>
+                <span>Hoy</span>
+              </div>
+              <div class="legend-item">
+                <button type="button" class="link-discreet" id="btnScheduleNewFromBanner" style="font-size: 0.75rem;">
+                  + Nueva Cita
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2. Tarjeta Destacada "Próxima Cita" (Esqueleto Vacío para BD) -->
+        <article class="featured-appointment-card empty-appt-state" id="featuredApptCard" aria-labelledby="featuredApptTitle">
+          <div class="empty-state-content">
+            <div class="empty-state-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <h3 class="empty-state-title" id="featuredApptTitle">Sin Citas Próximas</h3>
+            <p class="empty-state-text">No tienes consultas médicas agendadas en este momento.</p>
+            <button type="button" class="btn-primary btn-empty-schedule" id="btnEmptyScheduleAppt">
+              + Agendar Cita
+            </button>
+          </div>
+        </article>
+
+        <!-- 3. Historial de Citas Pasadas (Tabla Limpia para BD) -->
+        <article class="clinical-card" aria-labelledby="historyHeading">
+          <header class="clinical-card-header">
+            <div class="clinical-card-title-group">
+              <div class="clinical-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
+              <div>
+                <h2 class="clinical-card-title" id="historyHeading">Historial de Citas Pasadas</h2>
+                <p class="clinical-card-subtitle">Registros y diagnósticos de consultas previas</p>
+              </div>
+            </div>
+          </header>
+
+          <div class="history-table-container">
+            <table class="clinical-history-table">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Médico & Especialidad</th>
+                  <th>Diagnóstico / Motivo</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody">
+                <tr class="empty-row">
+                  <td colspan="5" class="empty-state-cell">
+                    No hay registros de citas previas en el historial clínico.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- =======================================================
+           COLUMNA DERECHA: EXPEDIENTE, INDICADORES Y DOCUMENTOS
+           ======================================================= -->
+      <div class="dashboard-column dashboard-col-right">
+
+        <!-- 1. Ficha de Salud Rápida & Alergias Destacadas (Limpia) -->
+        <article class="clinical-card" aria-labelledby="healthCardHeading">
+          <header class="clinical-card-header">
+            <div class="clinical-card-title-group">
+              <div class="clinical-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                </svg>
+              </div>
+              <div>
+                <h2 class="clinical-card-title" id="healthCardHeading">Ficha de Salud Rápida</h2>
+                <p class="clinical-card-subtitle">Signos vitales e información clínica del expediente</p>
+              </div>
+            </div>
+          </header>
+
+          <!-- Métricas biométricas limpias con identificadores para BD -->
+          <div class="health-quick-metrics-grid">
+            <div class="health-metric-box">
+              <span class="metric-box-label">Edad</span>
+              <span class="metric-box-value" id="metricAge">--</span>
+              <span class="metric-box-sub">Años</span>
+            </div>
+            <div class="health-metric-box">
+              <span class="metric-box-label">Tipo Sangre</span>
+              <span class="metric-box-value" id="metricBloodType">--</span>
+              <span class="metric-box-sub">Factor RH</span>
+            </div>
+            <div class="health-metric-box">
+              <span class="metric-box-label">Presión Art.</span>
+              <span class="metric-box-value" id="metricBloodPressure">--</span>
+              <span class="metric-box-sub">mmHg</span>
+            </div>
+            <div class="health-metric-box">
+              <span class="metric-box-label">Estatura</span>
+              <span class="metric-box-value" id="metricHeight">--</span>
+              <span class="metric-box-sub">Metros</span>
+            </div>
+            <div class="health-metric-box">
+              <span class="metric-box-label">Peso</span>
+              <span class="metric-box-value" id="metricWeight">--</span>
+              <span class="metric-box-sub">Kilogramos</span>
+            </div>
+            <div class="health-metric-box">
+              <span class="metric-box-label">IMC</span>
+              <span class="metric-box-value" id="metricBmi">--</span>
+              <span class="metric-box-sub">kg/m²</span>
+            </div>
+          </div>
+
+          <!-- Contenedor para Alergias Conocidas (Limpio) -->
+          <div class="allergies-clinical-container" role="region" aria-label="Alergias Conocidas del Paciente">
+            <div class="allergies-header">
+              <div class="allergies-title-group">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                <span>Alergias Clínicas Registradas</span>
+              </div>
+              <span class="allergies-verify-seal">Expediente</span>
+            </div>
+
+            <div class="allergies-tags-list" id="allergiesList">
+              <span class="empty-placeholder-text">Sin alergias clínicas registradas en el expediente.</span>
+            </div>
+
+            <p class="allergies-note">
+              * Notificación obligatoria para prescripción médica y administración farmacológica.
+            </p>
+          </div>
+        </article>
+
+        <!-- 2. Medicamentos Activos (Limpio) -->
+        <article class="clinical-card" aria-labelledby="medsHeading">
+          <header class="clinical-card-header">
+            <div class="clinical-card-title-group">
+              <div class="clinical-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"></path>
+                  <path d="m8.5 8.5 7 7"></path>
+                </svg>
+              </div>
+              <div>
+                <h2 class="clinical-card-title" id="medsHeading">Medicamentos Activos</h2>
+                <p class="clinical-card-subtitle">Tratamientos vigentes y posología prescrita</p>
+              </div>
+            </div>
+          </header>
+
+          <!-- Filtros de medicamentos -->
+          <div class="medications-filters-bar" role="tablist">
+            <button type="button" class="med-filter-btn active" data-med-filter="all">Todos (0)</button>
+            <button type="button" class="med-filter-btn" data-med-filter="chronic">Crónicos (0)</button>
+            <button type="button" class="med-filter-btn" data-med-filter="temporary">Temporales (0)</button>
+          </div>
+
+          <!-- Lista de Medicamentos (Vacía para BD) -->
+          <div class="medications-list" id="medicationsList">
+            <div class="empty-state-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"></path>
+                <path d="m8.5 8.5 7 7"></path>
+              </svg>
+              <p>No hay medicamentos ni tratamientos activos registrados.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3. Documentos y Estudios (Limpio) -->
+        <article class="clinical-card" aria-labelledby="docsHeading">
+          <header class="clinical-card-header">
+            <div class="clinical-card-title-group">
+              <div class="clinical-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="12" y1="18" x2="12" y2="12"></line>
+                  <line x1="9" y1="15" x2="15" y2="15"></line>
+                </svg>
+              </div>
+              <div>
+                <h2 class="clinical-card-title" id="docsHeading">Documentos y Estudios</h2>
+                <p class="clinical-card-subtitle">Descarga de recetas digitales y resultados de laboratorio</p>
+              </div>
+            </div>
+          </header>
+
+          <div class="documents-grid-list" id="documentsList">
+            <div class="empty-state-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+              <p>No hay documentos ni estudios clínicos disponibles para descarga.</p>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- =========================================================
+       3. MODALES INTERACTIVOS (AGENDAR, REPROGRAMAR, CANCELAR)
+       ========================================================= -->
+
+  <!-- Modal 1: Agendar Nueva Cita -->
+  <div class="modal-overlay hidden" id="modalScheduleAppt" role="dialog" aria-modal="true" aria-labelledby="modalSchedTitle">
+    <div class="modal-card">
+      <button type="button" class="modal-close" aria-label="Cerrar modal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="modal-header">
+        <div class="modal-icon-wrapper patient-modal-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        </div>
+        <div>
+          <span class="modal-tag-badge patient-badge">Servicio de Citas</span>
+          <h3 class="modal-title" id="modalSchedTitle">Agendar Nueva Cita</h3>
+          <p class="modal-subtitle">Selecciona especialidad, médico y horario disponible</p>
+        </div>
+      </div>
+
+      <form id="formScheduleAppt" class="auth-form">
+        <!-- 1. Clínica / Sede (Sin clínicas precargadas - Solo clínicas registradas en MedConnect) -->
+        <div class="form-group">
+          <label class="form-label" for="schedClinic">Clínica / Sede Médica <span class="req-star">*</span></label>
+          <select id="schedClinic" class="form-select" required>
+            <option value="" disabled selected>No hay clínicas registradas en MedConnect</option>
+          </select>
+          <span style="font-size: 0.74rem; color: var(--text-muted); display: block; margin-top: 4px;">
+            * Solo se muestran sedes vinculadas y autorizadas en la base de datos de MedConnect.
+          </span>
+        </div>
+
+        <!-- 2. Especialidad (Catálogo Base Existente) -->
+        <div class="form-group">
+          <label class="form-label" for="schedSpecialty">Especialidad Requerida <span class="req-star">*</span></label>
+          <select id="schedSpecialty" class="form-select" required>
+            <option value="" disabled selected>Selecciona una especialidad...</option>
+            <option value="Medicina General">Medicina General</option>
+            <option value="Medicina Interna">Medicina Interna</option>
+            <option value="Cardiología Preventiva">Cardiología Preventiva</option>
+            <option value="Nutrición Clínica">Nutrición Clínica</option>
+            <option value="Oftalmología">Oftalmología</option>
+            <option value="Dermatología">Dermatología</option>
+            <option value="Pediatría">Pediatría</option>
+            <option value="Ginecología y Obstetricia">Ginecología y Obstetricia</option>
+            <option value="Traumatología y Ortopedia">Traumatología y Ortopedia</option>
+          </select>
+        </div>
+
+        <!-- 3. Médico Especialista (En Blanco para BD - Sin doctores precargados) -->
+        <div class="form-group">
+          <label class="form-label" for="schedDoctor">Médico Especialista</label>
+          <select id="schedDoctor" class="form-select" disabled>
+            <option value="" selected>Sin médicos registrados aún en la red</option>
+          </select>
+          <span style="font-size: 0.74rem; color: var(--text-muted); display: block; margin-top: 4px;">
+            * La asignación de especialista se realizará automáticamente al sincronizar con la base de datos.
+          </span>
+        </div>
+
+        <div class="modal-form-grid">
+          <div class="form-group">
+            <label class="form-label" for="schedDate">Fecha de Consulta <span class="req-star">*</span></label>
+            <input type="date" id="schedDate" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="schedTime">Horario Disponible <span class="req-star">*</span></label>
+            <select id="schedTime" class="form-select" required>
+              <option value="" disabled selected>Selecciona un horario...</option>
+              <option value="09:00 hrs">09:00 hrs</option>
+              <option value="10:30 hrs">10:30 hrs</option>
+              <option value="11:30 hrs">11:30 hrs</option>
+              <option value="16:00 hrs">16:00 hrs</option>
+              <option value="17:30 hrs">17:30 hrs</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="schedReason">Motivo de Consulta (Opcional)</label>
+          <input type="text" id="schedReason" class="form-input" placeholder="Ej. Revisión general, seguimiento clínico">
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel btn-modal-cancel">Cancelar</button>
+          <button type="submit" class="btn-primary btn-submit-patient" style="width: auto;">
+            Confirmar y Agendar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Reprogramar Cita -->
+  <div class="modal-overlay hidden" id="modalRescheduleAppt" role="dialog" aria-modal="true" aria-labelledby="modalReschedTitle">
+    <div class="modal-card">
+      <button type="button" class="modal-close" aria-label="Cerrar modal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="modal-header">
+        <div class="modal-icon-wrapper patient-modal-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+        </div>
+        <div>
+          <span class="modal-tag-badge patient-badge">Gestión de Agenda</span>
+          <h3 class="modal-title" id="modalReschedTitle">Reprogramar Consulta</h3>
+          <p class="modal-subtitle" id="modalReschedSubtitle">Selecciona nueva fecha y horario</p>
+        </div>
+      </div>
+
+      <form id="formRescheduleAppt" class="auth-form">
+        <div class="form-section-block highlight-medical-block">
+          <p id="reschedCurrentApptText" style="font-size: 0.8rem; color: var(--text-secondary); margin: 0;">
+            Selecciona los nuevos datos para reprogramar tu cita.
+          </p>
+        </div>
+
+        <div class="modal-form-grid">
+          <div class="form-group">
+            <label class="form-label" for="reschedDate">Nueva Fecha <span class="req-star">*</span></label>
+            <input type="date" id="reschedDate" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reschedTime">Nuevo Horario <span class="req-star">*</span></label>
+            <select id="reschedTime" class="form-select" required>
+              <option value="" disabled selected>Selecciona un horario...</option>
+              <option value="09:30 hrs">09:30 hrs</option>
+              <option value="11:30 hrs">11:30 hrs</option>
+              <option value="15:00 hrs">15:00 hrs</option>
+              <option value="17:00 hrs">17:00 hrs</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reschedReason">Motivo de la reprogramación</label>
+          <input type="text" id="reschedReason" class="form-input" placeholder="Ej. Cambio de horario laboral">
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel btn-modal-cancel">Volver</button>
+          <button type="submit" class="btn-primary btn-submit-patient" style="width: auto;">
+            Confirmar Reprogramación
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Confirmación para Cancelar Cita -->
+  <div class="modal-overlay hidden" id="modalCancelAppt" role="dialog" aria-modal="true" aria-labelledby="modalCancelTitle">
+    <div class="modal-card">
+      <button type="button" class="modal-close" aria-label="Cerrar modal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="modal-header">
+        <div class="modal-icon-wrapper" style="background: var(--state-error-bg); color: var(--state-error-text); border: 1px solid var(--state-error-border);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+            <line x1="9" y1="9" x2="15" y2="15"></line>
+          </svg>
+        </div>
+        <div>
+          <span class="modal-tag-badge" style="background: var(--state-error-bg); color: var(--state-error-text);">Confirmación Requerida</span>
+          <h3 class="modal-title" id="modalCancelTitle">¿Deseas cancelar tu cita?</h3>
+          <p class="modal-subtitle" id="modalCancelSubtitle">Esta acción liberará el espacio en la agenda médica</p>
+        </div>
+      </div>
+
+      <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
+        Al cancelar, el espacio quedará disponible para otros pacientes. Podrás volver a agendar en cualquier momento desde tu panel principal.
+      </p>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel btn-modal-cancel">Mantener Cita</button>
+        <button type="button" class="btn-primary" id="btnConfirmCancelAction" style="background-color: #8C2F2C; border-color: #6D2321; width: auto;">
+          Sí, Cancelar Cita
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor para Notificaciones Toast Clínicas -->
+  <div class="clinical-toast-container" id="clinicalToastContainer" aria-live="polite"></div>
+
+  <!-- =========================================================
+       4. PIE DE PÁGINA INSTITUCIONAL
+       ========================================================= -->
+  <footer class="footer-main">
+    <div class="footer-bottom">
+      <p>© 2026 MedConnect México. Plataforma de Salud Digital e Interoperabilidad Clínica. Cumplimiento NOM-004-SSA3-2012 y HL7 FHIR.</p>
+    </div>
+  </footer>
+
+  <!-- Conector API y Script Compartido -->
+  <script src="api-client.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // Carga dinámica de recetas médicas emitidas
+    document.addEventListener('DOMContentLoaded', async () => {
+      const docsList = document.getElementById('documentsList');
+      if (!docsList || !window.MedConnectAPI) return;
+
+      try {
+        const res = await window.MedConnectAPI.getPrescriptions();
+        const prescriptions = res.data?.prescriptions || [];
+
+        if (prescriptions.length > 0) {
+          docsList.innerHTML = '';
+          prescriptions.forEach(rx => {
+            const card = document.createElement('div');
+            card.className = 'document-download-card';
+            card.style.cssText = 'background: #FFFFFF; border: 1px solid #CAD6DF; border-radius: 10px; padding: 1.25rem; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;';
+            
+            const medsSummary = (rx.treatments || []).map(t => `${t.medication} (${t.dose})`).join(', ');
+
+            card.innerHTML = `
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+                  <span style="background: #E8F3F3; color: #2D6061; font-weight: 700; font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 6px; font-family: monospace;">${rx.folio}</span>
+                  <strong style="color: #1E2B37; font-size: 0.95rem;">Receta Médica Electrónica</strong>
+                </div>
+                <div style="font-size: 0.85rem; color: #4A5F6E; margin-bottom: 0.2rem;">
+                  Médico: <strong>${rx.doctor?.name || 'Dr. Asignado'}</strong> (${rx.doctor?.specialty || 'Medicina General'})
+                </div>
+                <div style="font-size: 0.8rem; color: #7E92A2;">
+                  Tratamientos: <em>${medsSummary || 'Tratamiento asignado'}</em>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.5rem;">
+                <a href="medico-receta.html" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.825rem; text-decoration: none; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.35rem;">
+                  <span>👁️</span> Ver / Emitir
+                </a>
+              </div>
+            `;
+            docsList.appendChild(card);
+          });
+        }
+      } catch (e) {
+        console.warn('Error cargando recetas en dashboard:', e);
+      }
+    });
+  </script>
+</body>
+
+</html>

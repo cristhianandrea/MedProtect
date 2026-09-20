@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedConnect | Portal de Acceso Universal y Red de Salud</title>
+  <meta name="description"
+    content="Plataforma de interoperabilidad y gestión integral para pacientes, médicos y redes clínicas hospitalarias y consultorios independientes.">
+
+  <!-- Tipografía Profesional Médica (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Hoja de Estilos -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- Fondo decorativo con ondas y partículas sutiles de ambiente clínico -->
+  <div class="clinical-bg-pattern" aria-hidden="true"></div>
+
+  <!-- =========================================================
+       1. ENCABEZADO SUPERIOR (HEADER INTERACTIVO CON BOTÓN DE AFILIACIÓN)
+       ========================================================= -->
+  <header class="header-main">
+    <div class="header-container">
+      <div class="brand-identity">
+        <!-- Isotipo Clínico Minimalista MedConnect -->
+        <div class="brand-logo-wrapper">
+          <svg class="brand-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+            aria-label="Logo MedConnect">
+            <rect width="32" height="32" rx="8" fill="#EDF5F5" />
+            <path d="M16 7V25M7 16H25" stroke="#347072" stroke-width="3" stroke-linecap="round" />
+            <circle cx="16" cy="16" r="3.5" fill="#2D6061" />
+            <circle cx="7" cy="16" r="2" fill="#5F9EA0" />
+            <circle cx="25" cy="16" r="2" fill="#5F9EA0" />
+            <circle cx="16" cy="7" r="2" fill="#5F9EA0" />
+            <circle cx="16" cy="25" r="2" fill="#5F9EA0" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">MedConnect</span>
+          <span class="brand-tag">Portal de Salud Interoperable</span>
+        </div>
+      </div>
+
+      <!-- Acciones de Cabecera: Afiliarse / Registrarse e Inicio de Sesión -->
+      <div class="header-actions-group">
+        <!-- Botón Principal: Afiliarse / Registrarse (Abre selector de 3 opciones) -->
+        <button type="button" class="btn-header-affiliate" id="btnHeaderAffiliate">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="8.5" cy="7" r="4"></circle>
+            <line x1="20" y1="8" x2="20" y2="14"></line>
+            <line x1="23" y1="11" x2="17" y2="11"></line>
+          </svg>
+          <span>Afiliarse / Registrarse</span>
+        </button>
+
+        <!-- Botón de Acceso Rápido: Emisión de Recetas -->
+        <a href="medico-receta.html" class="btn-header-login-link" style="text-decoration: none; background: #E8F3F3; color: #2D6061; border: 1px solid #BCDADA; font-weight: 700;">
+          <span>🩺 Emitir Receta</span>
+        </a>
+
+        <!-- Botón de Inicio de Sesión (Abre Modal de Acceso Multi-Rol) -->
+        <button type="button" class="btn-header-login-link" id="btnHeaderLogin">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>Iniciar Sesión</span>
+        </button>
+
+        <!-- Indicador de Seguridad y Estado Clínico -->
+        <div class="header-status">
+          <span class="status-indicator"></span>
+          <span class="status-text">Red Médica Segura (TLS 256-bit)</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       2. SECCIÓN PRINCIPAL / HERO CON CARRUSEL VISUAL Y CÓMO FUNCIONA
+       ========================================================= -->
+  <main class="main-content">
+    <section class="hero-auth-section">
+      <div class="hero-grid">
+
+        <!-- Panel Izquierdo: ¿Cómo funciona MedConnect? (Explicación de valor de la plataforma) -->
+        <div class="hero-intro-column">
+          <div class="badge-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            <span>Ecosistema de Salud Conectado • Atención Universal</span>
+          </div>
+
+          <h1 class="hero-title">
+            Conectividad Integral para Pacientes, Médicos e Instituciones
+          </h1>
+
+          <p class="hero-subtitle">
+            Plataforma médica centralizada que une el expediente seguro del paciente, la práctica de los especialistas y
+            la red de clínicas públicas, privadas y consultorios independientes.
+          </p>
+
+          <!-- Bloque Informativo: ¿Cómo funciona MedConnect? -->
+          <div class="how-it-works-block">
+            <div class="how-it-works-header">
+              <span class="how-kicker">Guía Rápida del Sistema</span>
+              <h2 class="how-title">¿Cómo funciona la plataforma?</h2>
+            </div>
+
+            <div class="how-steps-grid">
+              <div class="how-step-card">
+                <div class="how-step-badge">1</div>
+                <div class="how-step-body">
+                  <strong>Expediente Digital Universal</strong>
+                  <p>Pacientes y familias unifican su historial clínico, alergias y clínica asignada con total seguridad y privacidad.</p>
+                </div>
+              </div>
+
+              <div class="how-step-card">
+                <div class="how-step-badge">2</div>
+                <div class="how-step-body">
+                  <strong>Atención Médica & Interconsultas</strong>
+                  <p>Doctores con Cédula verificada acceden a notas previas en tiempo real, emiten recetas y coordinan derivaciones.</p>
+                </div>
+              </div>
+
+              <div class="how-step-card">
+                <div class="how-step-badge">3</div>
+                <div class="how-step-body">
+                  <strong>Red Hospitalaria Integrada</strong>
+                  <p>Hospitales del sector público (IMSS, ISSSTE), clínicas privadas y consultorios anexos a farmacias enlazados.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Separador y Enlace para Guía de Menores de Edad -->
+            <div class="how-minor-link-separator"></div>
+            <div class="how-minor-link-wrapper">
+              <button type="button" class="link-minor-guide-trigger" id="btnOpenMinorGuideModal">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="7" r="4"></circle>
+                  <path d="M5.5 21v-2a6.5 6.5 0 0 1 13 0v2"></path>
+                </svg>
+                <span>¿Cómo registrar y vincular a un menor de edad?</span>
+                <span class="link-arrow">→</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel Derecho: Carrusel Visual Limpio para Imágenes del Usuario -->
+        <div class="hero-visual-column">
+          
+          <!-- =========================================================
+               CARRUSEL DE IMÁGENES MEDCONNECT
+               Pega tus imágenes en la carpeta images/ y asigna las rutas aquí.
+               ========================================================= -->
+          <div class="hero-carousel-container" id="heroCarousel" aria-label="Galería de imágenes MedConnect">
+            <div class="carousel-track" id="carouselTrack">
+              
+              <!-- ==============================================
+                   SLIDE 1: Pega tu imagen aquí (ej. images/slide1.jpg)
+                   ============================================== -->
+              <div class="carousel-slide active" data-slide-index="0">
+                <img src="images/slide1.jpg" alt="MedConnect Imagen 1" class="carousel-img"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <!-- Caja de referencia visible si aún no colocas la imagen en images/slide1.jpg -->
+                <div class="carousel-placeholder-box">
+                  <div class="carousel-placeholder-icon">📷</div>
+                  <span class="carousel-placeholder-title">Espacio para Imagen 1</span>
+                  <span class="carousel-placeholder-path">Coloca tu archivo en: <code>images/slide1.jpg</code></span>
+                </div>
+              </div>
+
+              <!-- ==============================================
+                   SLIDE 2: Pega tu imagen aquí (ej. images/slide2.jpg)
+                   ============================================== -->
+              <div class="carousel-slide" data-slide-index="1">
+                <img src="images/slide2.jpg" alt="MedConnect Imagen 2" class="carousel-img"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <div class="carousel-placeholder-box">
+                  <div class="carousel-placeholder-icon">📷</div>
+                  <span class="carousel-placeholder-title">Espacio para Imagen 2</span>
+                  <span class="carousel-placeholder-path">Coloca tu archivo en: <code>images/slide2.jpg</code></span>
+                </div>
+              </div>
+
+              <!-- ==============================================
+                   SLIDE 3: Pega tu imagen aquí (ej. images/slide3.jpg)
+                   ============================================== -->
+              <div class="carousel-slide" data-slide-index="2">
+                <img src="images/slide3.jpg" alt="MedConnect Imagen 3" class="carousel-img"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <div class="carousel-placeholder-box">
+                  <div class="carousel-placeholder-icon">📷</div>
+                  <span class="carousel-placeholder-title">Espacio para Imagen 3</span>
+                  <span class="carousel-placeholder-path">Coloca tu archivo en: <code>images/slide3.jpg</code></span>
+                </div>
+              </div>
+
+              <!-- ==============================================
+                   SLIDE 4: Pega tu imagen aquí (ej. images/slide4.jpg)
+                   ============================================== -->
+              <div class="carousel-slide" data-slide-index="3">
+                <img src="images/slide4.jpg" alt="MedConnect Imagen 4" class="carousel-img"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <div class="carousel-placeholder-box">
+                  <div class="carousel-placeholder-icon">📷</div>
+                  <span class="carousel-placeholder-title">Espacio para Imagen 4</span>
+                  <span class="carousel-placeholder-path">Coloca tu archivo en: <code>images/slide4.jpg</code></span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Controles de Navegación del Carrusel -->
+            <button type="button" class="carousel-control prev" id="carouselPrevBtn" aria-label="Diapositiva anterior">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <button type="button" class="carousel-control next" id="carouselNextBtn" aria-label="Siguiente diapositiva">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+
+            <!-- Indicadores Puntos -->
+            <div class="carousel-indicators" id="carouselIndicators" aria-label="Indicadores de diapositivas">
+              <button type="button" class="carousel-dot active" data-slide-to="0" aria-label="Ir a diapositiva 1"></button>
+              <button type="button" class="carousel-dot" data-slide-to="1" aria-label="Ir a diapositiva 2"></button>
+              <button type="button" class="carousel-dot" data-slide-to="2" aria-label="Ir a diapositiva 3"></button>
+              <button type="button" class="carousel-dot" data-slide-to="3" aria-label="Ir a diapositiva 4"></button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         3. SECCIÓN DESTACADA: LOS 3 PILARES Y PROPUESTA DE VALOR
+         ========================================================= -->
+    <section class="section-informative section-three-uses">
+      <div class="section-header-centered">
+        <span class="section-kicker">Arquitectura de la Plataforma</span>
+        <h2 class="section-title">3 Modalidades Integradas en un Mismo Entorno</h2>
+        <p class="section-description">
+          MedConnect articula la interacción entre pacientes, médicos e instituciones para eliminar barreras y asegurar
+          continuidad asistencial.
+        </p>
+      </div>
+
+      <div class="three-uses-grid">
+
+        <!-- Tarjeta Uso 1: Pacientes -->
+        <div class="use-card use-card-patient">
+          <div class="use-card-badge">Ciudadanos & Pacientes</div>
+          <div class="use-card-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <h3 class="use-card-title">Registro & Expediente de Pacientes</h3>
+          <p class="use-card-desc">
+            Cada persona puede registrarse con su fecha de nacimiento, tipo de sangre, alergias y clínica asignada para
+            llevar su historial a cualquier centro de atención.
+          </p>
+          <ul class="use-card-checklist">
+            <li><strong>CURP opcional</strong> y validación estricta de teléfono.</li>
+            <li><strong>Declaración obligatoria de alergias</strong> y tipo sanguíneo.</li>
+            <li><strong>Clínica de adscripción</strong> y datos físicos para dosis médicas.</li>
+          </ul>
+        </div>
+
+        <!-- Tarjeta Uso 2: Personal Médico -->
+        <div class="use-card use-card-doctor">
+          <div class="use-card-badge">Personal Clínico</div>
+          <div class="use-card-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+          </div>
+          <h3 class="use-card-title">Médicos & Especialistas</h3>
+          <p class="use-card-desc">
+            Los profesionales de la salud se registran validando su Cédula Profesional, especialidad y centro de
+            adscripción para realizar notas médicas y coordinar derivaciones.
+          </p>
+          <ul class="use-card-checklist">
+            <li><strong>Validación de Cédula Profesional</strong> y especialidad.</li>
+            <li><strong>Consulta de expedientes y alergias</strong> en tiempo real.</li>
+            <li><strong>Envío y recepción de interconsultas</strong> certificadas.</li>
+          </ul>
+        </div>
+
+        <!-- Tarjeta Uso 3: Clínicas y Consultorios -->
+        <div class="use-card use-card-clinic">
+          <div class="use-card-badge">Instituciones & Sedes</div>
+          <div class="use-card-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </div>
+          <h3 class="use-card-title">Clínicas Públicas & Consultorios Independientes</h3>
+          <p class="use-card-desc">
+            Integración para instituciones gubernamentales (IMSS, ISSSTE, SSA), hospitales privados, y consultorios
+            independientes o anexos a farmacias (Similares, Guadalajara, Benavides, del Ahorro).
+          </p>
+          <ul class="use-card-checklist">
+            <li><strong>Registro multi-sede</strong> o consultorios individuales.</li>
+            <li><strong>Responsable sanitario</strong> y director médico certificado.</li>
+            <li><strong>Conexión con agendas y expediente universal</strong> MedConnect.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         4. INDICADORES Y PROPUESTA DE VALOR
+         ========================================================= -->
+    <section class="section-informative">
+
+      <!-- 4.1 TARJETAS DE ESTADÍSTICAS REQUERIDAS (MÉDICOS, PACIENTES, CLÍNICAS) -->
+      <div class="stats-container">
+        <div class="section-header-centered">
+          <span class="section-kicker">Métricas y Cobertura Operativa</span>
+          <h2 class="section-title">Indicadores del Ecosistema Clínico</h2>
+          <p class="section-description">Monitoreo continuo de pacientes, profesionales y sedes integradas en tiempo real.</p>
+        </div>
+
+        <div class="stats-grid">
+
+          <!-- 1. PACIENTES REGISTRADOS -->
+          <div class="stat-card" id="statCardPatients">
+            <div class="stat-card-header">
+              <div class="stat-icon-bubble">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+              <span class="stat-badge">Población Atendida</span>
+            </div>
+            <div class="stat-body">
+              <div class="stat-value-wrapper">
+                <span class="stat-value" id="statPatientsValue">[ 640,000+ ]</span>
+                <span class="stat-unit">Expedientes</span>
+              </div>
+              <h3 class="stat-label">Pacientes Registrados</h3>
+              <p class="stat-subtext">Historiales de salud activos con expediente digital universal, tipo de sangre y registro de alergias.</p>
+            </div>
+            <div class="stat-footer">
+              <div class="stat-indicator-dot"></div>
+              <span>Protección estricta y cifrado de datos</span>
+            </div>
+          </div>
+
+          <!-- 2. MÉDICOS REGISTRADOS -->
+          <div class="stat-card" id="statCardDoctors">
+            <div class="stat-card-header">
+              <div class="stat-icon-bubble">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                </svg>
+              </div>
+              <span class="stat-badge">Comunidad Médica</span>
+            </div>
+            <div class="stat-body">
+              <div class="stat-value-wrapper">
+                <span class="stat-value" id="statDoctorsValue">[ 14,250+ ]</span>
+                <span class="stat-unit">Especialistas</span>
+              </div>
+              <h3 class="stat-label">Médicos Registrados</h3>
+              <p class="stat-subtext">Doctores generales y especialistas con Cédula Profesional validada ante la DGP.</p>
+            </div>
+            <div class="stat-footer">
+              <div class="stat-indicator-dot"></div>
+              <span>Validación continua de Cédula Profesional</span>
+            </div>
+          </div>
+
+          <!-- 3. CLÍNICAS Y CONSULTORIOS REGISTRADOS -->
+          <div class="stat-card" id="statCardBranches">
+            <div class="stat-card-header">
+              <div class="stat-icon-bubble">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+              </div>
+              <span class="stat-badge">Red Hospitalaria & Farmacias</span>
+            </div>
+            <div class="stat-body">
+              <div class="stat-value-wrapper">
+                <span class="stat-value" id="statBranchesValue">[ 1,840+ ]</span>
+                <span class="stat-unit">Sedes</span>
+              </div>
+              <h3 class="stat-label">Clínicas y Consultorios Registrados</h3>
+              <p class="stat-subtext">Hospitales públicos, clínicas privadas y consultorios independientes vinculados a la red.</p>
+            </div>
+            <div class="stat-footer">
+              <div class="stat-indicator-dot"></div>
+              <span>Sincronización activa entre nodos asistenciales</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 4.2 PROPUESTA DE VALOR: BENEFICIOS DE INTEROPERABILIDAD -->
+      <div class="value-prop-container">
+        <div class="value-prop-header">
+          <span class="section-kicker">Propuesta de Valor Integral</span>
+          <h2 class="section-title">¿Por qué conectar su ecosistema a MedConnect?</h2>
+          <p class="section-description">
+            Diseñado para unificar el registro de pacientes, potenciar la labor de los médicos y conectar todo tipo de
+            clínica bajo estándares universales.
+          </p>
+        </div>
+
+        <div class="value-cards-grid">
+
+          <div class="value-card">
+            <div class="value-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+            </div>
+            <div class="value-card-content">
+              <h3 class="value-card-title">Interoperabilidad y Derivación Fluida</h3>
+              <p class="value-card-text">
+                Coordina interconsultas y derivaciones de pacientes entre consultorios de primer contacto, clínicas y
+                hospitales de alta especialidad sin papeleo duplicado.
+              </p>
+              <ul class="value-card-list">
+                <li>Sincronización de agendas entre centros médicos</li>
+                <li>Transferencia segura de notas de referencia médica</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="value-card">
+            <div class="value-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <div class="value-card-content">
+              <h3 class="value-card-title">Expediente Clínico Universal Seguro</h3>
+              <p class="value-card-text">
+                Acceso instantáneo y regulado a antecedentes, alergias críticas y recetas digitales bajo directivas de
+                estricta protección de datos personales de salud.
+              </p>
+              <ul class="value-card-list">
+                <li>Cifrado médico en tránsito y en reposo</li>
+                <li>Trazabilidad y auditoría de accesos por profesional con Cédula</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="value-card">
+            <div class="value-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+              </svg>
+            </div>
+            <div class="value-card-content">
+              <h3 class="value-card-title">Cobertura para Todo Nivel Asistencial</h3>
+              <p class="value-card-text">
+                Plataforma inclusiva diseñada tanto para grandes redes hospitalarias como para consultorios médicos
+                independientes y farmacias con atención primaria.
+              </p>
+              <ul class="value-card-list">
+                <li>Integración sin costo de infraestructura compleja</li>
+                <li>Fácil adopción por parte de pacientes y doctores</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Banner de Afiliación Directa (Abre el Selector de 3 modalidades) -->
+        <div class="affiliation-banner">
+          <div class="affiliation-content">
+            <div class="affiliation-badge">Alianza Médica Estratégica</div>
+            <h3 class="affiliation-title">¿Deseas afiliarte a la Red MedConnect?</h3>
+            <p class="affiliation-desc">
+              Regístrate como nuevo paciente, profesional médico o incorpora tu centro asistencial a nuestro estándar interoperable.
+            </p>
+          </div>
+          <div class="affiliation-action">
+            <button type="button" class="btn-banner-register" id="bannerRegisterBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="8.5" cy="7" r="4"></circle>
+                <polyline points="17 11 19 13 23 9"></polyline>
+              </svg>
+              <span>Afíliate con Nosotros</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       5. MODALES INTERACTIVOS (SELECTOR DE AFILIACIÓN, GUÍA Y FORMULARIOS)
+       ========================================================= -->
+
+  <!-- =========================================================
+       MODAL GUÍA: ¿CÓMO REGISTRAR Y VINCULAR A UN MENOR DE EDAD?
+       ========================================================= -->
+  <div class="modal-overlay hidden" id="minorGuideModal" role="dialog" aria-modal="true"
+    aria-labelledby="minorGuideTitle">
+    <div class="modal-card modal-card-lg minor-guide-popup-card">
+      <button type="button" class="modal-close" id="closeMinorGuideModalBtn" aria-label="Cerrar modal de guía">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="minor-tutorial-header">
+        <div class="tutorial-badge-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="7" r="4"></circle>
+            <path d="M5.5 21v-2a6.5 6.5 0 0 1 13 0v2"></path>
+          </svg>
+          <span>Atención Pediátrica & Enlace Familiar</span>
+        </div>
+        <h2 class="tutorial-title" id="minorGuideTitle">¿Cómo registrar y vincular a un menor de edad?</h2>
+        <p class="tutorial-desc">
+          En MedConnect los menores de edad quedan protegidos y vinculados directamente al expediente del padre, madre o tutor legal sin requerir datos de contacto propios.
+        </p>
+      </div>
+
+      <!-- Flujo explicativo en 3 pasos -->
+      <div class="tutorial-steps-grid">
+        <div class="tutorial-step-item">
+          <div class="tutorial-step-circle">1</div>
+          <div class="tutorial-step-content">
+            <h4>Obtén el Código del Tutor</h4>
+            <p>El padre, madre o tutor legal ya registrado consulta su <strong>Código de Expediente</strong> (ej. <code>MC-PAC-2026-8421</code>).</p>
+          </div>
+        </div>
+
+        <div class="tutorial-step-arrow">→</div>
+
+        <div class="tutorial-step-item">
+          <div class="tutorial-step-circle">2</div>
+          <div class="tutorial-step-content">
+            <h4>Ingresa y Enlaza el Código</h4>
+            <p>Introduce el código y parentesco para asociar automáticamente el <strong>teléfono de contacto, colonia, municipio y clínica familiar</strong>.</p>
+          </div>
+        </div>
+
+        <div class="tutorial-step-arrow">→</div>
+
+        <div class="tutorial-step-item">
+          <div class="tutorial-step-circle">3</div>
+          <div class="tutorial-step-content">
+            <h4>Completa la Ficha Pediátrica</h4>
+            <p>Indica la <strong>fecha de nacimiento, tipo de sangre y alergias</strong> del menor para generar su expediente pediátrico oficial.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer-hint" style="margin-top: 24px; border-top: 1px solid var(--border-subtle); padding-top: 16px;">
+        <p>¿Deseas realizar el registro ahora? Utiliza el botón <strong>Afiliarse / Registrarse</strong> en la cabecera para vincular a tu hijo(a).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL 0: INICIO DE SESIÓN MULTI-ROL (LOGIN POP-UP)
+       ========================================================= -->
+  <div class="modal-overlay hidden" id="loginModal" role="dialog" aria-modal="true"
+    aria-labelledby="loginModalTitle">
+    <div class="modal-card modal-card-lg login-modal-card">
+      <button type="button" class="modal-close" id="closeLoginModalBtn" aria-label="Cerrar modal de inicio de sesión">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="modal-header text-center">
+        <div class="modal-icon-wrapper login-modal-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <div>
+          <span class="modal-tag-badge">Acceso Seguro a la Red MedConnect</span>
+          <h3 class="modal-title" id="loginModalTitle">Iniciar Sesión</h3>
+          <p class="modal-subtitle">Selecciona tu perfil de acceso para ingresar a tu expediente o panel médico.</p>
+        </div>
+      </div>
+
+      <!-- Selector de 4 Pestañas de Rol en el Modal de Login -->
+      <div class="login-role-tabs-wrapper" role="tablist" aria-label="Seleccionar perfil de acceso">
+        <button type="button" class="login-role-tab active" id="tabLoginPatient" role="tab" aria-selected="true"
+          data-login-role="patient">
+          <span class="tab-icon">👤</span>
+          <span class="tab-label">Paciente</span>
+        </button>
+        <button type="button" class="login-role-tab" id="tabLoginMinor" role="tab" aria-selected="false"
+          data-login-role="minor">
+          <span class="tab-icon">👶</span>
+          <span class="tab-label">Menor de Edad</span>
+        </button>
+        <button type="button" class="login-role-tab" id="tabLoginDoctor" role="tab" aria-selected="false"
+          data-login-role="doctor">
+          <span class="tab-icon">🩺</span>
+          <span class="tab-label">Médico</span>
+        </button>
+        <button type="button" class="login-role-tab" id="tabLoginClinic" role="tab" aria-selected="false"
+          data-login-role="clinic">
+          <span class="tab-icon">🏥</span>
+          <span class="tab-label">Clínica</span>
+        </button>
+      </div>
+
+      <!-- ==========================================
+           PANEL 1: LOGIN PACIENTE ADULTO
+           ========================================== -->
+      <div class="login-role-panel active" id="loginPanelPatient" role="tabpanel">
+        <form id="patientLoginForm" class="auth-form" novalidate>
+          <div class="form-group">
+            <label for="patientCredential" class="form-label">CURP, Teléfono o Correo Registrado</label>
+            <div class="input-container">
+              <span class="input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </span>
+              <input type="text" id="patientCredential" name="patientCredential" class="form-input"
+                placeholder="ej. CURP, 5512345678 o correo@ejemplo.com" autocomplete="username" />
+            </div>
+            <span class="field-error" id="patientUserError"></span>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="patientPassword" class="form-label">Contraseña</label>
+            </div>
+            <div class="input-container">
+              <span class="input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </span>
+              <input type="password" id="patientPassword" name="patientPassword" class="form-input password-input"
+                placeholder="••••••••••••" autocomplete="current-password" />
+              <button type="button" class="password-toggle" data-toggle-target="patientPassword"
+                aria-label="Mostrar u ocultar contraseña">
+                <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg class="eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                  </path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </button>
+            </div>
+            <span class="field-error" id="patientPasswordError"></span>
+          </div>
+
+          <div class="form-auxiliary-row">
+            <label class="remember-me-checkbox">
+              <input type="checkbox" id="patientRememberMe" />
+              <span class="checkbox-text">Recordar en este equipo</span>
+            </label>
+            <button type="button" class="link-discreet forgot-trigger-btn" data-role-hint="patient">
+              ¿Olvidaste tu contraseña?
+            </button>
+          </div>
+
+          <button type="submit" class="btn-primary" id="patientLoginBtn">
+            <span class="btn-text">Iniciar Sesión en Portal Paciente</span>
+            <svg class="btn-arrow" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                clip-rule="evenodd" />
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- ==========================================
+           PANEL 2: LOGIN MENOR DE EDAD / TUTOR
+           ========================================== -->
+      <div class="login-role-panel hidden" id="loginPanelMinor" role="tabpanel">
+        <form id="minorLoginForm" class="auth-form" novalidate>
+          <div class="form-group">
+            <label for="minorLoginCode" class="form-label">Código de Expediente del Tutor o CURP del Menor</label>
+            <div class="input-container">
+              <span class="input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <circle cx="12" cy="7" r="4"></circle>
+                  <path d="M5.5 21v-2a6.5 6.5 0 0 1 13 0v2"></path>
+                </svg>
+              </span>
+              <input type="text" id="minorLoginCode" name="minorLoginCode" class="form-input uppercase-input"
+                placeholder="ej. MC-PAC-2026-8421 o CURP del menor" autocomplete="username" />
+            </div>
+            <span class="field-helper">Acceso bajo la tutela y autorización del padre, madre o tutor legal.</span>
+            <span class="field-error" id="minorLoginCodeError"></span>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="minorLoginPassword" class="form-label">Contraseña del Tutor / Adulto Responsable</label>
+            </div>
+            <div class="input-container">
+              <span class="input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </span>
+              <input type="password" id="minorLoginPassword" name="minorLoginPassword" class="form-input password-input"
+                placeholder="••••••••••••" autocomplete="current-password" />
+              <button type="button" class="password-toggle" data-toggle-target="minorLoginPassword"
+                aria-label="Mostrar u ocultar contraseña">
+                <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg class="eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                  </path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </button>
+            </div>
+            <span class="field-error" id="minorLoginPasswordError"></span>
+          </div>
+
+          <div class="form-auxiliary-row">
+            <label class="remember-me-checkbox">
+              <input type="checkbox" id="minorRememberMe" />
+              <span class="checkbox-text">Recordar acceso pediátrico</span>
+            </label>
+            <button type="button" class="link-discreet forgot-trigger-btn" data-role-hint="patient">
+              ¿Olvidaste tu contraseña?
+            </button>
+          </div>
+
+          <button type="submit" class="btn-primary btn-minor-login" id="minorLoginBtn">
+            <span class="btn-text">Acceder al Expediente Pediátrico</span>
+            <svg class="btn-arrow" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                clip-rule="evenodd" />
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- ==========================================
+           PANEL 3: LOGIN MÉDICO / ESPECIALISTA
+           ========================================== -->
+      <div class="login-role-panel hidden" id="loginPanelDoctor" role="tabpanel">
+        <form id="doctorLoginForm" class="auth-form" novalidate>
+          <div class="form-group">
+            <label for="doctorCredential" class="form-label">Cédula Profesional o Correo Profesional</label>
+            <div class="input-container">
+              <span class="input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+              </span>
+              <input type="text" id="doctorCredential" name="doctorCredential" class="form-input"
+                placeholder="ej. Cédula Profesional (ej. 12345678) o dr.perez@clinica.org" autocomplete="username" />
+            </div>
+            <span class="field-error" id="doctorUserError"></span>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="doctorPassword" class="form-label">Contraseña Profesional</label>
+            </div>
+            <div class="input-container">
+              <span class="input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </span>
+              <input type="password" id="doctorPassword" name="doctorPassword" class="form-input password-input"
+                placeholder="••••••••••••" autocomplete="current-password" />
+              <button type="button" class="password-toggle" data-toggle-target="doctorPassword"
+                aria-label="Mostrar u ocultar contraseña">
+                <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg class="eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                  </path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </button>
+            </div>
+            <span class="field-error" id="doctorPasswordError"></span>
+          </div>
+
+          <div class="form-auxiliary-row">
+            <label class="remember-me-checkbox">
+              <input type="checkbox" id="doctorRememberMe" />
+              <span class="checkbox-text">Equipo médico verificado</span>
+            </label>
+            <button type="button" class="link-discreet forgot-trigger-btn" data-role-hint="doctor">
+              ¿Olvidaste tu contraseña?
+            </button>
+          </div>
+
+          <button type="submit" class="btn-primary btn-doctor-login" id="doctorLoginBtn">
+            <span class="btn-text">Iniciar Sesión Médica</span>
+            <svg class="btn-arrow" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                clip-rule="evenodd" />
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- ==========================================
+           PANEL 4: LOGIN CLÍNICA / HOSPITAL / SEDE
+           ========================================== -->
+      <div class="login-role-panel hidden" id="loginPanelClinic" role="tabpanel">
+        <form id="clinicLoginForm" class="auth-form" novalidate>
+          <div class="form-group">
+            <label for="clinicCredential" class="form-label">ID de Establecimiento o Correo Oficial</label>
+            <div class="input-container">
+              <span class="input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+              </span>
+              <input type="text" id="clinicCredential" name="clinicCredential" class="form-input"
+                placeholder="ej. CLI-CDMX-09 o direccion@clinica.org" autocomplete="username" />
+            </div>
+            <span class="field-error" id="clinicUserError"></span>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="clinicPassword" class="form-label">Clave de Administración de Sede</label>
+            </div>
+            <div class="input-container">
+              <span class="input-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </span>
+              <input type="password" id="clinicPassword" name="clinicPassword" class="form-input password-input"
+                placeholder="••••••••••••" autocomplete="current-password" />
+              <button type="button" class="password-toggle" data-toggle-target="clinicPassword"
+                aria-label="Mostrar u ocultar contraseña">
+                <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg class="eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                  </path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </button>
+            </div>
+            <span class="field-error" id="clinicPasswordError"></span>
+          </div>
+
+          <div class="form-auxiliary-row">
+            <label class="remember-me-checkbox">
+              <input type="checkbox" id="clinicRememberMe" />
+              <span class="checkbox-text">Sede autorizada</span>
+            </label>
+            <button type="button" class="link-discreet forgot-trigger-btn" data-role-hint="clinic">
+              ¿Olvidaste tu clave?
+            </button>
+          </div>
+
+          <button type="submit" class="btn-primary btn-clinic-login" id="clinicLoginBtn">
+            <span class="btn-text">Acceso al Panel de Sede</span>
+            <svg class="btn-arrow" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                clip-rule="evenodd" />
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- Alerta Dinámica dentro del Modal de Login -->
+      <div id="loginModalAlert" class="auth-alert hidden" role="status"></div>
+
+      <!-- Footer con enlace para cambiar a Afiliarse / Registrarse -->
+      <div class="modal-footer-hint" style="margin-top: 18px; border-top: 1px solid var(--border-subtle); padding-top: 14px;">
+        <p>¿Aún no tienes una cuenta registrada? <button type="button" class="link-discreet-bold" id="btnSwitchToAffiliationFromLogin">Crear cuenta / Afiliarme aquí →</button></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL 0.5: SELECTOR DE AFILIACIÓN (CREAR CUENTA / 4 PERFILES)
+       ========================================================= -->
+  <div class="modal-overlay hidden" id="modalAffiliationChooser" role="dialog" aria-modal="true"
+    aria-labelledby="affiliateChooserTitle">
+    <div class="modal-card modal-card-lg affiliation-chooser-card">
+      <button type="button" class="modal-close" id="closeAffiliateChooserBtn" aria-label="Cerrar modal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="modal-header text-center">
+        <div class="modal-icon-wrapper affiliate-modal-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="8.5" cy="7" r="4"></circle>
+            <polyline points="17 11 19 13 23 9"></polyline>
+          </svg>
+        </div>
+        <div>
+          <span class="modal-tag-badge">Afiliación a MedConnect</span>
+          <h3 class="modal-title" id="affiliateChooserTitle">Selecciona tu Perfil de Registro</h3>
+          <p class="modal-subtitle">Elige cómo deseas integrarte a la Red de Salud Universal Interoperable.</p>
+        </div>
+      </div>
+
+      <div class="affiliation-options-grid">
+        <!-- Opción 1: Paciente Adulto -->
+        <button type="button" class="affiliation-option-card option-patient" id="choosePatientRegisterBtn">
+          <div class="option-icon-box">👤</div>
+          <div class="option-content">
+            <h4>Nuevo Paciente Adulto</h4>
+            <p>Crea tu expediente digital con tu fecha de nacimiento, tipo de sangre, alergias y clínica habitual.</p>
+            <span class="option-btn-link">Registrar Paciente →</span>
+          </div>
+        </button>
+
+        <!-- Opción 2: Menor de Edad / Hijo -->
+        <button type="button" class="affiliation-option-card option-minor" id="chooseMinorRegisterBtn">
+          <div class="option-icon-box">👶</div>
+          <div class="option-content">
+            <h4>Registrar Menor de Edad / Hijo</h4>
+            <p>Vincula a tu hijo(a) o dependiente usando tu código de expediente de padre, madre o tutor legal.</p>
+            <span class="option-btn-link">Registrar Menor de Edad →</span>
+          </div>
+        </button>
+
+        <!-- Opción 3: Médico -->
+        <button type="button" class="affiliation-option-card option-doctor" id="chooseDoctorRegisterBtn">
+          <div class="option-icon-box">🩺</div>
+          <div class="option-content">
+            <h4>Personal Médico & Especialista</h4>
+            <p>Valida tu Cédula Profesional, emite recetas y gestiona notas de interconsulta certificadas.</p>
+            <span class="option-btn-link">Registrar Médico →</span>
+          </div>
+        </button>
+
+        <!-- Opción 4: Clínica / Consultorio -->
+        <button type="button" class="affiliation-option-card option-clinic" id="chooseClinicRegisterBtn">
+          <div class="option-icon-box">🏥</div>
+          <div class="option-content">
+            <h4>Clínica, Hospital o Consultorio</h4>
+            <p>Afiliación para sedes públicas, privadas o consultorios independientes anexos a farmacias.</p>
+            <span class="option-btn-link">Afiliar Sede →</span>
+          </div>
+        </button>
+      </div>
+
+      <div class="modal-footer-hint">
+        <p>¿Ya tienes una cuenta registrada? <button type="button" class="link-discreet-bold" id="linkLoginFromChooser">Inicia sesión en tu cuenta →</button></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL 0.5: REGISTRO DE MENOR DE EDAD (VINCULADO A TUTOR)
+       ========================================================= -->
+  <div class="modal-overlay hidden" id="registerMinorModal" role="dialog" aria-modal="true"
+    aria-labelledby="minorModalTitle">
+    <div class="modal-card modal-card-xl">
+      <button type="button" class="modal-close" id="closeRegisterMinorModalBtn"
+        aria-label="Cerrar modal de registro de menor">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="modal-header">
+        <div class="modal-icon-wrapper minor-modal-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="7" r="4"></circle>
+            <path d="M5.5 21v-2a6.5 6.5 0 0 1 13 0v2"></path>
+          </svg>
+        </div>
+        <div>
+          <span class="modal-tag-badge minor-badge">Atención Pediátrica • Dependientes</span>
+          <h3 class="modal-title" id="minorModalTitle">Registro de Menor de Edad</h3>
+          <p class="modal-subtitle">Vinculación de expediente pediátrico bajo la tutela de un adulto registrado en la red.</p>
+        </div>
+      </div>
+
+      <form id="registerMinorForm" class="modal-form" novalidate>
+
+        <!-- SECCIÓN 1: VINCULACIÓN CON ADULTO / TUTOR RESPONSABLE -->
+        <div class="form-section-block highlight-tutor-block">
+          <div class="section-block-header">
+            <span class="section-step-num">1</span>
+            <div class="section-step-info">
+              <h4>Identificación del Padre, Madre o Tutor Legal <span class="badge-required">* Enlace Obligatorio</span></h4>
+              <p>Ingresa el código de expediente del adulto registrado para asociar contacto y domicilio automáticamente.</p>
+            </div>
+          </div>
+
+          <div class="modal-form-grid">
+            <!-- Código de Expediente del Tutor -->
+            <div class="form-group">
+              <label for="minorTutorCode" class="form-label">Código de Expediente del Tutor <span class="req-star">*</span></label>
+              <div class="input-with-action">
+                <input type="text" id="minorTutorCode" class="form-input uppercase-input"
+                  placeholder="ej. MC-PAC-2026-8421" required />
+                <button type="button" class="btn-input-action" id="btnVerifyTutorCode">Comprobar</button>
+              </div>
+              <span class="field-helper">¿No tienes el código a la mano? Usa el código demo: <strong>MC-PAC-2026-8421</strong></span>
+              <span class="field-error" id="minorTutorCodeError"></span>
+            </div>
+
+            <!-- Parentesco -->
+            <div class="form-group">
+              <label for="minorRelationship" class="form-label">Parentesco con el Menor <span class="req-star">*</span></label>
+              <select id="minorRelationship" class="form-input form-select" required>
+                <option value="">Selecciona parentesco...</option>
+                <option value="Padre">Padre</option>
+                <option value="Madre">Madre</option>
+                <option value="Tutor Legal">Tutor(a) Legal / Custodio</option>
+                <option value="Abuelo / Abuela">Abuelo / Abuela</option>
+                <option value="Otro Familiar">Otro Familiar Responsable</option>
+              </select>
+              <span class="field-error" id="minorRelationshipError"></span>
+            </div>
+
+            <!-- Tarjeta de Datos Enlazados del Tutor -->
+            <div class="form-group form-group-full">
+              <div class="tutor-linked-card" id="tutorLinkedCard">
+                <div class="tutor-card-badge">
+                  <span class="status-indicator"></span>
+                  <span id="tutorCardStatusText">Tutor Enlazado y Verificado</span>
+                </div>
+                <div class="tutor-card-details">
+                  <div class="tutor-detail-row">
+                    <span class="tutor-detail-label">Nombre del Tutor:</span>
+                    <strong id="tutorLinkedName">María del Carmen González Rodríguez</strong>
+                  </div>
+                  <div class="tutor-detail-row">
+                    <span class="tutor-detail-label">Teléfono de Contacto (Emergencias):</span>
+                    <span id="tutorLinkedPhone">55 1234 5678 (Heredado del Tutor)</span>
+                  </div>
+                  <div class="tutor-detail-row">
+                    <span class="tutor-detail-label">Ubicación & Residencia:</span>
+                    <span id="tutorLinkedAddress">Col. Del Valle Sur, Benito Juárez, CDMX</span>
+                  </div>
+                  <div class="tutor-detail-row">
+                    <span class="tutor-detail-label">Clínica Familiar:</span>
+                    <span id="tutorLinkedClinic">Clínica N° 9 IMSS (Medicina Familiar)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 2: DATOS DEL MENOR DE EDAD -->
+        <div class="form-section-block">
+          <div class="section-block-header">
+            <span class="section-step-num">2</span>
+            <div class="section-step-info">
+              <h4>Datos Personales del Menor de Edad <span class="badge-required">* Requerido</span></h4>
+              <p>Información oficial del paciente pediátrico.</p>
+            </div>
+          </div>
+
+          <div class="modal-form-grid">
+            <!-- Nombre(s) -->
+            <div class="form-group">
+              <label for="minorFirstName" class="form-label">Nombre(s) del Menor <span class="req-star">*</span></label>
+              <input type="text" id="minorFirstName" class="form-input" placeholder="ej. Mateo" required />
+              <span class="field-error" id="minorFirstNameError"></span>
+            </div>
+
+            <!-- Apellido Paterno -->
+            <div class="form-group">
+              <label for="minorLastNameP" class="form-label">Apellido Paterno <span class="req-star">*</span></label>
+              <input type="text" id="minorLastNameP" class="form-input" placeholder="ej. González" required />
+              <span class="field-error" id="minorLastNamePError"></span>
+            </div>
+
+            <!-- Apellido Materno -->
+            <div class="form-group">
+              <label for="minorLastNameM" class="form-label">Apellido Materno <span class="req-star">*</span></label>
+              <input type="text" id="minorLastNameM" class="form-input" placeholder="ej. Pérez" required />
+              <span class="field-error" id="minorLastNameMError"></span>
+            </div>
+
+            <!-- Fecha de Nacimiento (OBLIGATORIA - Menor de 18 años) -->
+            <div class="form-group">
+              <label for="minorBirthDate" class="form-label">Fecha de Nacimiento <span class="req-star">*</span></label>
+              <input type="date" id="minorBirthDate" class="form-input" required />
+              <span class="field-helper" id="minorAgeCalcHelper">Debe corresponder a un menor de 18 años.</span>
+              <span class="field-error" id="minorBirthDateError"></span>
+            </div>
+
+            <!-- Género -->
+            <div class="form-group">
+              <label for="minorGender" class="form-label">Género <span class="req-star">*</span></label>
+              <select id="minorGender" class="form-input form-select" required>
+                <option value="">Selecciona género...</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Otro">Otro</option>
+                <option value="Prefiero no decir">Prefiero no decir</option>
+              </select>
+              <span class="field-error" id="minorGenderError"></span>
+            </div>
+
+            <!-- CURP del menor (Opcional) -->
+            <div class="form-group">
+              <label for="minorCurp" class="form-label">CURP del Menor <span class="label-opt">(Opcional)</span></label>
+              <input type="text" id="minorCurp" class="form-input uppercase-input" placeholder="GOPM180512HDFRRN02"
+                maxlength="18" />
+              <span class="field-error" id="minorCurpError"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 3: DATOS FÍSICOS Y ALERGIAS DEL MENOR -->
+        <div class="form-section-block highlight-medical-block">
+          <div class="section-block-header">
+            <span class="section-step-num">3</span>
+            <div class="section-step-info">
+              <h4>Ficha Médica & Alergias Pediátricas <span class="badge-required">* Seguridad</span></h4>
+              <p>Información crítica para dosificación infantil y prevención de reacciones adversas.</p>
+            </div>
+          </div>
+
+          <div class="modal-form-grid">
+            <!-- Tipo de Sangre (OBLIGATORIO) -->
+            <div class="form-group">
+              <label for="minorBloodType" class="form-label">Tipo de Sangre del Menor <span class="req-star">*</span></label>
+              <select id="minorBloodType" class="form-input form-select" required>
+                <option value="">Selecciona tipo de sangre...</option>
+                <option value="O+">O Positivo (O+)</option>
+                <option value="O-">O Negativo (O-)</option>
+                <option value="A+">A Positivo (A+)</option>
+                <option value="A-">A Negativo (A-)</option>
+                <option value="B+">B Positivo (B+)</option>
+                <option value="B-">B Negativo (B-)</option>
+                <option value="AB+">AB Positivo (AB+)</option>
+                <option value="AB-">AB Negativo (AB-)</option>
+              </select>
+              <span class="field-error" id="minorBloodTypeError"></span>
+            </div>
+
+            <!-- Estatura (cm) -->
+            <div class="form-group">
+              <label for="minorHeight" class="form-label">Estatura <span class="label-opt">(Opcional)</span></label>
+              <div class="input-with-unit">
+                <input type="number" id="minorHeight" class="form-input" placeholder="ej. 110" min="30" max="200" />
+                <span class="unit-badge">cm</span>
+              </div>
+            </div>
+
+            <!-- Peso (kg) -->
+            <div class="form-group">
+              <label for="minorWeight" class="form-label">Peso Corporal <span class="label-opt">(Opcional)</span></label>
+              <div class="input-with-unit">
+                <input type="number" id="minorWeight" class="form-input" placeholder="ej. 18.5" min="2" max="120"
+                  step="0.1" />
+                <span class="unit-badge">kg</span>
+              </div>
+            </div>
+
+            <!-- Alergias del Menor con opción "Otros" -->
+            <div class="form-group form-group-full">
+              <label class="form-label">Alergias del Menor (Medicamentos, Alimentos o Sustancias) <span class="req-star">*</span></label>
+              
+              <div class="allergy-tags-selector">
+                <label class="allergy-tag-pill">
+                  <input type="checkbox" name="minorAllergyTag" value="Ninguna (Sin alergias conocidas)" id="tagMinorNoAllergies" />
+                  <span>🟢 Sin Alergias Conocidas</span>
+                </label>
+                <label class="allergy-tag-pill">
+                  <input type="checkbox" name="minorAllergyTag" value="Penicilina / Amoxicilina" />
+                  <span>⚠️ Penicilina / Amoxicilina</span>
+                </label>
+                <label class="allergy-tag-pill">
+                  <input type="checkbox" name="minorAllergyTag" value="Ibuprofeno infantil / AINEs" />
+                  <span>⚠️ Ibuprofeno / AINEs</span>
+                </label>
+                <label class="allergy-tag-pill">
+                  <input type="checkbox" name="minorAllergyTag" value="Lactosa / Proteína de Leche" />
+                  <span>⚠️ Leche / Lactosa</span>
+                </label>
+                <label class="allergy-tag-pill">
+                  <input type="checkbox" name="minorAllergyTag" value="Huevo" />
+                  <span>⚠️ Huevo</span>
+                </label>
+                <label class="allergy-tag-pill">
+                  <input type="checkbox" name="minorAllergyTag" value="Frutos secos / Cacahuate" />
+                  <span>⚠️ Frutos secos</span>
+                </label>
+                <label class="allergy-tag-pill allergy-tag-others">
+                  <input type="checkbox" name="minorAllergyTag" value="Otros" id="tagMinorAllergyOthers" />
+                  <span>✏️ Otros (Especificar en cuadro)</span>
+                </label>
+              </div>
+
+              <div class="allergy-textarea-wrapper">
+                <textarea id="minorAllergiesText" class="form-input form-textarea" rows="2"
+                  placeholder="Selecciona la opción 'Otros' arriba para ingresar alergias pediátricas específicas aquí..."
+                  disabled></textarea>
+                <span class="field-helper" id="minorAllergiesHelper">El recuadro de texto se activará automáticamente al seleccionar la opción 'Otros'.</span>
+              </div>
+              <span class="field-error" id="minorAllergiesError"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="cancelRegisterMinorBtn">Cancelar</button>
+          <button type="submit" class="btn-primary btn-submit-minor" id="registerMinorSubmitBtn">
+            <span>Vincular y Registrar Menor de Edad</span>
+          </button>
+        </div>
+      </form>
+
+      <div id="minorRegisterAlert" class="auth-alert hidden"></div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL 1: REGISTRO DE PACIENTE (ACTUALIZADO CON NUEVAS REGLAS)
+       ========================================================= -->
+  <div class="modal-overlay hidden" id="registerPatientModal" role="dialog" aria-modal="true"
+    aria-labelledby="patientModalTitle">
+    <div class="modal-card modal-card-xl">
+      <button type="button" class="modal-close" id="closeRegisterPatientModalBtn"
+        aria-label="Cerrar ventana de registro">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="modal-header">
+        <div class="modal-icon-wrapper patient-modal-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="8.5" cy="7" r="4"></circle>
+            <line x1="20" y1="8" x2="20" y2="14"></line>
+            <line x1="23" y1="11" x2="17" y2="11"></line>
+          </svg>
+        </div>
+        <div>
+          <span class="modal-tag-badge patient-badge">Registro de Paciente</span>
+          <h3 class="modal-title" id="patientModalTitle">Crear Expediente de Paciente</h3>
+          <p class="modal-subtitle">Completa tus datos personales para acceder a la red de salud universal MedConnect.</p>
+        </div>
+      </div>
+
+      <form id="registerPatientForm" class="modal-form" novalidate>
+
+        <!-- SECCIÓN 1: DATOS PERSONALES -->
+        <div class="form-section-block">
+          <div class="section-block-header">
+            <span class="section-step-num">1</span>
+            <div class="section-step-info">
+              <h4>Datos de Identificación Personal <span class="badge-required">* Campos Obligatorios</span></h4>
+              <p>Información oficial para tu ficha médica y vinculación en el sistema.</p>
+            </div>
+          </div>
+
+          <div class="modal-form-grid">
+            <!-- Nombres -->
+            <div class="form-group">
+              <label for="patFirstName" class="form-label">Nombre(s) <span class="req-star">*</span></label>
+              <input type="text" id="patFirstName" class="form-input" placeholder="ej. María del Carmen" required />
+              <span class="field-error" id="patFirstNameError"></span>
+            </div>
+
+            <!-- Apellido Paterno -->
+            <div class="form-group">
+              <label for="patLastNameP" class="form-label">Apellido Paterno <span class="req-star">*</span></label>
+              <input type="text" id="patLastNameP" class="form-input" placeholder="ej. González" required />
+              <span class="field-error" id="patLastNamePError"></span>
+            </div>
+
+            <!-- Apellido Materno -->
+            <div class="form-group">
+              <label for="patLastNameM" class="form-label">Apellido Materno <span class="req-star">*</span></label>
+              <input type="text" id="patLastNameM" class="form-input" placeholder="ej. Rodríguez" required />
+              <span class="field-error" id="patLastNameMError"></span>
+            </div>
+
+            <!-- Fecha de Nacimiento (OBLIGATORIA) -->
+            <div class="form-group">
+              <label for="patBirthDate" class="form-label">Fecha de Nacimiento <span class="req-star">*</span></label>
+              <input type="date" id="patBirthDate" class="form-input" required />
+              <span class="field-error" id="patBirthDateError"></span>
+            </div>
+
+            <!-- Género (OBLIGATORIO) -->
+            <div class="form-group">
+              <label for="patGender" class="form-label">Género <span class="req-star">*</span></label>
+              <select id="patGender" class="form-input form-select" required>
+                <option value="">Selecciona género...</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Masculino">Masculino</option>
+                <option value="No binario / Otro">No binario / Otro</option>
+                <option value="Prefiero no decir">Prefiero no decir</option>
+              </select>
+              <span class="field-error" id="patGenderError"></span>
+            </div>
+
+            <!-- Teléfono Celular (OBLIGATORIO - 10 dígitos) -->
+            <div class="form-group">
+              <label for="patPhone" class="form-label">Número de Teléfono Celular <span class="req-star">*</span></label>
+              <input type="tel" id="patPhone" class="form-input" placeholder="ej. 55 1234 5678 (10 dígitos)"
+                maxlength="15" required />
+              <span class="field-error" id="patPhoneError"></span>
+            </div>
+
+            <!-- CURP (OPCIONAL) -->
+            <div class="form-group">
+              <div class="label-row">
+                <label for="patCurp" class="form-label">CURP <span class="label-opt">(Opcional)</span></label>
+                <span class="char-counter" id="curpCounter">0/18</span>
+              </div>
+              <div class="input-container">
+                <input type="text" id="patCurp" class="form-input uppercase-input" placeholder="GORM900101MDFRRN01"
+                  maxlength="18" autocomplete="off" />
+              </div>
+              <span class="field-helper">Opcional. Si se proporciona, debe tener 18 caracteres válidos.</span>
+              <span class="field-error" id="patCurpError"></span>
+            </div>
+
+            <!-- Correo Electrónico (OPCIONAL) -->
+            <div class="form-group">
+              <label for="patEmail" class="form-label">Correo Electrónico <span class="label-opt">(Opcional)</span></label>
+              <input type="email" id="patEmail" class="form-input" placeholder="paciente@correo.com" />
+              <span class="field-error" id="patEmailError"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 2: DATOS FÍSICOS Y MÉDICOS (TIPO DE SANGRE OBLIGATORIO Y ALERGIAS CON OPCIÓN OTROS) -->
+        <div class="form-section-block highlight-medical-block">
+          <div class="section-block-header">
+            <span class="section-step-num">2</span>
+            <div class="section-step-info">
+              <h4>Datos Físicos y Registro de Alergias <span class="badge-required">* Seguridad Médica</span></h4>
+              <p>Datos indispensables para resguardar tu integridad clínica y dosificación médica.</p>
+            </div>
+          </div>
+
+          <div class="modal-form-grid">
+            <!-- Tipo de Sangre (OBLIGATORIO) -->
+            <div class="form-group">
+              <label for="patBloodType" class="form-label">Tipo de Sangre <span class="req-star">*</span></label>
+              <select id="patBloodType" class="form-input form-select" required>
+                <option value="">Selecciona tu tipo de sangre...</option>
+                <option value="O+">O Positivo (O+)</option>
+                <option value="O-">O Negativo (O-)</option>
+                <option value="A+">A Positivo (A+)</option>
+                <option value="A-">A Negativo (A-)</option>
+                <option value="B+">B Positivo (B+)</option>
+                <option value="B-">B Negativo (B-)</option>
+                <option value="AB+">AB Positivo (AB+)</option>
+                <option value="AB-">AB Negativo (AB-)</option>
+              </select>
+              <span class="field-error" id="patBloodTypeError"></span>
+            </div>
+
+            <!-- Estatura (Opcional) -->
+            <div class="form-group">
+              <label for="patHeight" class="form-label">Estatura / Altura <span class="label-opt">(Opcional)</span></label>
+              <div class="input-with-unit">
+                <input type="number" id="patHeight" class="form-input" placeholder="ej. 170" min="40" max="250"
+                  step="1" />
+                <span class="unit-badge">cm</span>
+              </div>
+            </div>
+
+            <!-- Peso (Opcional) -->
+            <div class="form-group">
+              <label for="patWeight" class="form-label">Peso Corporal <span class="label-opt">(Opcional)</span></label>
+              <div class="input-with-unit">
+                <input type="number" id="patWeight" class="form-input" placeholder="ej. 72.5" min="2" max="300"
+                  step="0.5" />
+                <span class="unit-badge">kg</span>
+              </div>
+            </div>
+
+            <!-- REGISTRO DE ALERGIAS CON OPCIÓN 'OTROS' -->
+            <div class="form-group form-group-full">
+              <label class="form-label">
+                Alergias Conocidas (Medicamentos, Alimentos o Sustancias) <span class="req-star">*</span>
+              </label>
+
+              <!-- Selector de Alergias Frecuentes con Opción 'Otros' -->
+              <div class="allergy-tags-selector">
+                <label class="allergy-tag-pill">
+                  <input type="checkbox" name="allergyTag" value="Ninguna (Sin alergias conocidas)"
+                    id="tagNoAllergies" />
+                  <span>🟢 Sin Alergias Conocidas</span>
+                </label>
+                <label class="allergy-tag-pill">
+                  <input type="checkbox" name="allergyTag" value="Penicilina / Derivados" />
+                  <span>⚠️ Penicilina</span>
+                </label>
+                <label class="allergy-tag-pill">
+                  <input type="checkbox" name="allergyTag" value="AINEs / Aspirina / Ibuprofeno" />
+                  <span>⚠️ AINEs / Aspirina</span>
+                </label>
+                <label class="allergy-tag-pill">
+                  <input type="checkbox" name="allergyTag" value="Sulfamidas / Sulfas" />
+                  <span>⚠️ Sulfas</span>
+                </label>
+                <label class="allergy-tag-pill">
+                  <input type="checkbox" name="allergyTag" value="Látex" />
+                  <span>⚠️ Látex</span>
+                </label>
+                <label class="allergy-tag-pill">
+                  <input type="checkbox" name="allergyTag" value="Mariscos / Pescados" />
+                  <span>⚠️ Mariscos</span>
+                </label>
+                <label class="allergy-tag-pill">
+                  <input type="checkbox" name="allergyTag" value="Frutos secos / Cacahuates" />
+                  <span>⚠️ Frutos secos</span>
+                </label>
+                <label class="allergy-tag-pill allergy-tag-others">
+                  <input type="checkbox" name="allergyTag" value="Otros" id="tagAllergyOthers" />
+                  <span>✏️ Otros (Especificar en cuadro)</span>
+                </label>
+              </div>
+
+              <!-- Campo de Texto para Detallar Alergias (Se activa sólo al marcar 'Otros') -->
+              <div class="allergy-textarea-wrapper">
+                <textarea id="patAllergiesText" class="form-input form-textarea" rows="2"
+                  placeholder="Selecciona la opción 'Otros' arriba para ingresar tus alergias específicas aquí..."
+                  disabled></textarea>
+                <span class="field-helper" id="patAllergiesHelper">El recuadro de texto se activará automáticamente al seleccionar la opción 'Otros'.</span>
+              </div>
+              <span class="field-error" id="patAllergiesError"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 3: DATOS DE UBICACIÓN Y CLÍNICA (SIMPLIFICADO: COLONIA Y MUNICIPIO / ESTADO) -->
+        <div class="form-section-block section-optional">
+          <div class="section-block-header">
+            <span class="section-step-num step-optional">3</span>
+            <div class="section-step-info">
+              <h4>Datos de Ubicación & Centro de Atención <span class="badge-optional">Ubicación</span></h4>
+              <p>Facilita la asignación de clínicas cercanas y referencia geográfica.</p>
+            </div>
+          </div>
+
+          <div class="modal-form-grid">
+            <!-- Colonia -->
+            <div class="form-group">
+              <label for="patNeighborhood" class="form-label">Colonia <span class="label-opt">(Opcional)</span></label>
+              <input type="text" id="patNeighborhood" class="form-input"
+                placeholder="ej. Col. Del Valle Sur" />
+            </div>
+
+            <!-- Municipio / Estado (Simplificado) -->
+            <div class="form-group">
+              <label for="patMunicipalityState" class="form-label">Municipio / Estado <span class="label-opt">(Opcional)</span></label>
+              <input type="text" id="patMunicipalityState" class="form-input"
+                placeholder="ej. Benito Juárez / Ciudad de México" />
+            </div>
+
+            <!-- Clínica asignada por ubicación (Opcional) -->
+            <div class="form-group form-group-full">
+              <label for="patAssignedClinic" class="form-label">
+                Clínica o Centro de Salud (Opcional por Ubicación)
+              </label>
+              <div class="input-container">
+                <input type="text" id="patAssignedClinic" class="form-input"
+                  placeholder="ej. Clínica 9 IMSS, Centro de Salud Benito Juárez, Consultorio Farmacia Guadalajara..."
+                  list="suggestedClinicsList" />
+                <datalist id="suggestedClinicsList">
+                  <option value="Clínica N° 9 IMSS (Medicina Familiar)">
+                  <option value="Clínica N° 28 IMSS Gabriel Mancera">
+                  <option value="Hospital General de Zona N° 1">
+                  <option value="Centro de Salud T-III Dr. Galindo">
+                  <option value="Clínica de Medicina Familiar ISSSTE Zaragoza">
+                  <option value="Consultorio Anexo Farmacias Similares Centro">
+                  <option value="Consultorio Médico Farmacias Guadalajara">
+                  <option value="Consultorio Médico Farmacias del Ahorro">
+                  <option value="Hospital Ángeles Lomas (Privado)">
+                </datalist>
+              </div>
+              <span class="field-helper">Opcional. Escribe tu clínica pública habitual o consultorio de referencia.</span>
+              <span class="field-error" id="patClinicError"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 4: CREACIÓN DE CONTRASEÑA -->
+        <div class="form-section-block">
+          <div class="section-block-header">
+            <span class="section-step-num">4</span>
+            <div class="section-step-info">
+              <h4>Seguridad de Acceso <span class="badge-required">* Obligatorio</span></h4>
+              <p>Establece tu contraseña para ingresar a tu portal de paciente.</p>
+            </div>
+          </div>
+
+          <div class="modal-form-grid">
+            <div class="form-group">
+              <label for="patNewPassword" class="form-label">Contraseña <span class="req-star">*</span></label>
+              <input type="password" id="patNewPassword" class="form-input" placeholder="Mínimo 6 caracteres"
+                required />
+              <span class="field-error" id="patNewPassError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="patConfirmPassword" class="form-label">Confirmar Contraseña <span
+                  class="req-star">*</span></label>
+              <input type="password" id="patConfirmPassword" class="form-input" placeholder="Repite tu contraseña"
+                required />
+              <span class="field-error" id="patConfirmPassError"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="cancelRegisterPatientBtn">Cancelar</button>
+          <button type="submit" class="btn-primary btn-submit-patient" id="registerPatientSubmitBtn">
+            <span>Completar Registro de Paciente</span>
+          </button>
+        </div>
+      </form>
+
+      <div id="patientRegisterAlert" class="auth-alert hidden"></div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL 2: REGISTRO DE PERSONAL MÉDICO (MODALIDAD 2)
+       ========================================================= -->
+  <div class="modal-overlay hidden" id="registerDoctorModal" role="dialog" aria-modal="true"
+    aria-labelledby="doctorModalTitle">
+    <div class="modal-card modal-card-xl">
+      <button type="button" class="modal-close" id="closeRegisterDoctorModalBtn" aria-label="Cerrar modal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="modal-header">
+        <div class="modal-icon-wrapper doctor-modal-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+          </svg>
+        </div>
+        <div>
+          <span class="modal-tag-badge doctor-badge">Modalidad 2 • Registro Profesional Médico</span>
+          <h3 class="modal-title" id="doctorModalTitle">Afiliación de Personal Médico</h3>
+          <p class="modal-subtitle">Registro para doctores y especialistas con validación de Cédula Profesional.</p>
+        </div>
+      </div>
+
+      <form id="registerDoctorForm" class="modal-form" novalidate>
+        <div class="form-section-block">
+          <div class="section-block-header">
+            <span class="section-step-num">1</span>
+            <div class="section-step-info">
+              <h4>Datos Profesionales y Cédula <span class="badge-required">* 100% Requerido</span></h4>
+              <p>Datos requeridos para emitir notas clínicas y coordinar interconsultas.</p>
+            </div>
+          </div>
+
+          <div class="modal-form-grid">
+            <!-- Nombres -->
+            <div class="form-group">
+              <label for="docFirstName" class="form-label">Nombre(s) <span class="req-star">*</span></label>
+              <input type="text" id="docFirstName" class="form-input" placeholder="ej. Alejandro" required />
+            </div>
+
+            <!-- Apellido Paterno -->
+            <div class="form-group">
+              <label for="docLastNameP" class="form-label">Apellido Paterno <span class="req-star">*</span></label>
+              <input type="text" id="docLastNameP" class="form-input" placeholder="ej. Herrera" required />
+            </div>
+
+            <!-- Apellido Materno -->
+            <div class="form-group">
+              <label for="docLastNameM" class="form-label">Apellido Materno <span class="req-star">*</span></label>
+              <input type="text" id="docLastNameM" class="form-input" placeholder="ej. Morales" required />
+            </div>
+
+            <!-- CURP del Médico -->
+            <div class="form-group">
+              <label for="docCurp" class="form-label">CURP (18 dígitos) <span class="req-star">*</span></label>
+              <input type="text" id="docCurp" class="form-input uppercase-input" placeholder="HEMA800315HDFRRN09"
+                maxlength="18" required />
+            </div>
+
+            <!-- Cédula Profesional -->
+            <div class="form-group">
+              <label for="docLicense" class="form-label">Cédula Profesional (DGP) <span
+                  class="req-star">*</span></label>
+              <input type="text" id="docLicense" class="form-input" placeholder="ej. 8945120" required />
+            </div>
+
+            <!-- Especialidad Médica -->
+            <div class="form-group">
+              <label for="docSpecialty" class="form-label">Especialidad o Área <span class="req-star">*</span></label>
+              <select id="docSpecialty" class="form-input form-select" required>
+                <option value="">Selecciona especialidad...</option>
+                <option value="Medicina General">Medicina General / Familiar</option>
+                <option value="Pediatría">Pediatría</option>
+                <option value="Ginecología y Obstetricia">Ginecología y Obstetricia</option>
+                <option value="Cardiología">Cardiología</option>
+                <option value="Cirugía General">Cirugía General</option>
+                <option value="Medicina Interna">Medicina Interna</option>
+                <option value="Traumatología y Ortopedia">Traumatología y Ortopedia</option>
+                <option value="Oftalmología">Oftalmología</option>
+                <option value="Dermatología">Dermatología</option>
+                <option value="Otras Especialidades">Otras Especialidades</option>
+              </select>
+            </div>
+
+            <!-- Hospital o Clínica de Adscripción -->
+            <div class="form-group form-group-full">
+              <label for="docHospital" class="form-label">Hospital, Clínica o Consultorio donde labora <span
+                  class="req-star">*</span></label>
+              <input type="text" id="docHospital" class="form-input"
+                placeholder="ej. Hospital General de Zona N° 24 / Consultorio Privado Ángeles" required />
+            </div>
+
+            <!-- Teléfono Profesional -->
+            <div class="form-group">
+              <label for="docPhone" class="form-label">Teléfono de Contacto Médico <span
+                  class="req-star">*</span></label>
+              <input type="tel" id="docPhone" class="form-input" placeholder="ej. 55 9876 5432" required />
+            </div>
+
+            <!-- Correo Institucional / Profesional -->
+            <div class="form-group">
+              <label for="docEmail" class="form-label">Correo Profesional <span class="req-star">*</span></label>
+              <input type="email" id="docEmail" class="form-input" placeholder="dr.herrera@hospital.org" required />
+            </div>
+
+            <!-- Contraseña -->
+            <div class="form-group">
+              <label for="docPassword" class="form-label">Contraseña <span class="req-star">*</span></label>
+              <input type="password" id="docPassword" class="form-input" placeholder="Mínimo 6 caracteres" required />
+            </div>
+
+            <!-- Confirmación -->
+            <div class="form-group">
+              <label for="docConfirmPassword" class="form-label">Confirmar Contraseña <span
+                  class="req-star">*</span></label>
+              <input type="password" id="docConfirmPassword" class="form-input" placeholder="Repite tu contraseña"
+                required />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="cancelRegisterDoctorBtn">Cancelar</button>
+          <button type="submit" class="btn-primary btn-submit-doctor" id="registerDoctorSubmitBtn">
+            <span>Registrar Perfil Médico</span>
+          </button>
+        </div>
+      </form>
+
+      <div id="doctorRegisterAlert" class="auth-alert hidden"></div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL 3: REGISTRO DE CLÍNICA / CONSULTORIO (MODALIDAD 3)
+       ========================================================= -->
+  <div class="modal-overlay hidden" id="registerClinicModal" role="dialog" aria-modal="true"
+    aria-labelledby="clinicModalTitle">
+    <div class="modal-card modal-card-xl">
+      <button type="button" class="modal-close" id="closeRegisterClinicModalBtn" aria-label="Cerrar modal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="modal-header">
+        <div class="modal-icon-wrapper clinic-modal-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+        </div>
+        <div>
+          <span class="modal-tag-badge clinic-badge">Modalidad 3 • Afiliación Institucional</span>
+          <h3 class="modal-title" id="clinicModalTitle">Afiliación de Clínica o Consultorio</h3>
+          <p class="modal-subtitle">Integración para instituciones públicas, hospitales privados y consultorios
+            independientes.</p>
+        </div>
+      </div>
+
+      <form id="registerClinicForm" class="modal-form" novalidate>
+        <div class="modal-form-grid">
+
+          <div class="form-group">
+            <label for="clinicName" class="form-label">Nombre del Establecimiento / Razón Social <span
+                class="req-star">*</span></label>
+            <input type="text" id="clinicName" class="form-input"
+              placeholder="ej. Centro Médico San José / Consultorio Farmacia Guadalajara N° 12" required />
+          </div>
+
+          <div class="form-group">
+            <label for="clinicType" class="form-label">Tipo de Establecimiento <span class="req-star">*</span></label>
+            <select id="clinicType" class="form-input form-select" required>
+              <option value="">Selecciona categoría...</option>
+              <option value="publico_imss_issste">Sector Público (IMSS / ISSSTE / SSA / Centro de Salud)</option>
+              <option value="privado_hospital">Hospital / Policlínico Privado</option>
+              <option value="farmacia_similares">Consultorio Anexo a Farmacia (Similares / Guadalajara / Ahorro / Benavides)</option>
+              <option value="consultorio_independiente">Consultorio Médico Independiente / Particular</option>
+              <option value="laboratorio">Laboratorio Clínico / Imagenología</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="contactDirector" class="form-label">Director Médico / Responsable Sanitario <span
+                class="req-star">*</span></label>
+            <input type="text" id="contactDirector" class="form-input" placeholder="Dr. / Dra. Nombre Completo"
+              required />
+          </div>
+
+          <div class="form-group">
+            <label for="directorLicense" class="form-label">Cédula del Responsable Sanitario <span
+                class="req-star">*</span></label>
+            <input type="text" id="directorLicense" class="form-input" placeholder="ej. 6754321" required />
+          </div>
+
+          <div class="form-group">
+            <label for="clinicBranchesCount" class="form-label">Número de Sedes / Consultorios <span
+                class="req-star">*</span></label>
+            <input type="number" id="clinicBranchesCount" class="form-input"
+              placeholder="ej. 1 para consultorio individual o 5 para red" min="1" required />
+          </div>
+
+          <div class="form-group">
+            <label for="officialEmail" class="form-label">Correo Oficial de Contacto <span
+                class="req-star">*</span></label>
+            <input type="email" id="officialEmail" class="form-input" placeholder="contacto@clinica.org" required />
+          </div>
+
+          <div class="form-group form-group-full">
+            <label for="clinicAddress" class="form-label">Dirección Completa de la Sede Principal <span
+                class="req-star">*</span></label>
+            <input type="text" id="clinicAddress" class="form-input"
+              placeholder="Calle, Número, Colonia, Municipio / Alcaldía, Código Postal y Estado" required />
+          </div>
+
+          <div class="form-group">
+            <label for="clinicPhone" class="form-label">Teléfono de Enlace Técnico / Administrativo <span
+                class="req-star">*</span></label>
+            <input type="tel" id="clinicPhone" class="form-input" placeholder="+52 55 1234 5678" required />
+          </div>
+
+          <div class="form-group">
+            <label for="clinicPass" class="form-label">Crear Clave de Administración de Sede <span
+                class="req-star">*</span></label>
+            <input type="password" id="clinicPass" class="form-input" placeholder="Mínimo 6 caracteres" required />
+          </div>
+
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="cancelRegisterClinicBtn">Cancelar</button>
+          <button type="submit" class="btn-primary btn-submit-clinic" id="registerClinicSubmitBtn">
+            <span>Enviar Solicitud de Afiliación</span>
+          </button>
+        </div>
+      </form>
+
+      <div id="clinicRegisterAlert" class="auth-alert hidden"></div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL 4: RECUPERACIÓN DE ACCESO / CONTRASEÑA
+       ========================================================= -->
+  <div class="modal-overlay hidden" id="forgotModal" role="dialog" aria-modal="true" aria-labelledby="forgotTitle">
+    <div class="modal-card">
+      <button type="button" class="modal-close" id="closeForgotModalBtn" aria-label="Cerrar modal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="modal-header">
+        <div class="modal-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <h3 class="modal-title" id="forgotTitle">Recuperación de Acceso Seguro</h3>
+        <p class="modal-subtitle">Ingresa tu correo o CURP para recibir el código de verificación.</p>
+      </div>
+
+      <form id="forgotPasswordForm" class="modal-form" novalidate>
+        <div class="form-group">
+          <label for="recoveryEmail" class="form-label">Correo Registrado o CURP</label>
+          <div class="input-container">
+            <span class="input-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </span>
+            <input type="text" id="recoveryEmail" class="form-input" placeholder="usuario@correo.com o CURP" required />
+          </div>
+          <span class="field-error" id="recoveryError"></span>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="cancelForgotModalBtn">Cancelar</button>
+          <button type="submit" class="btn-primary" id="recoverySubmitBtn">
+            <span>Enviar Instrucciones</span>
+          </button>
+        </div>
+      </form>
+
+      <div id="recoveryAlert" class="auth-alert hidden"></div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       6. FOOTER INSTITUCIONAL
+       ========================================================= -->
+  <footer class="footer-main">
+    <div class="footer-container">
+      <div class="footer-brand-col">
+        <div class="footer-logo">
+          <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="6" fill="#E3EFEF" />
+            <path d="M16 8V24M8 16H24" stroke="#3A7879" stroke-width="2.5" stroke-linecap="round" />
+          </svg>
+          <span class="footer-brand-name">MedConnect</span>
+        </div>
+        <p class="footer-desc">
+          Plataforma de interoperabilidad médica universal. Conectando pacientes, médicos y centros de salud en una sola
+          red interoperable y confidencial.
+        </p>
+      </div>
+
+      <div class="footer-links-col">
+        <h4 class="footer-heading">Modalidades de Red</h4>
+        <ul class="footer-links">
+          <li><span class="footer-link-action" data-target-role="patient">Portal y Registro de Pacientes</span></li>
+          <li><span class="footer-link-action" data-target-role="doctor">Portal de Personal Médico y Especialistas</span></li>
+          <li><span class="footer-link-action" data-target-role="clinic">Afiliación de Clínicas y Consultorios</span></li>
+          <li><span>Normativa de Protección de Datos Personales</span></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4 class="footer-heading">Seguridad & Soporte</h4>
+        <ul class="footer-links">
+          <li><span>Certificación HL7 / FHIR</span></li>
+          <li><span>Cifrado de Grado Clínico (TLS 256-bit)</span></li>
+          <li><span>Mesa de Ayuda Técnica 24/7</span></li>
+          <li><span>Monitoreo de Nodos en Tiempo Real</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 MedConnect: Portal de Acceso Universal. Plataforma multi-rol para el Sistema Nacional y Privado de Salud. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Conector API y Scripts interactivos -->
+  <script src="api-client.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>

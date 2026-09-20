@@ -1,0 +1,49 @@
+[
+  {
+    "id": "RX-1789371619855",
+    "folio": "FOL-2026-0001",
+    "issuedAt": "2026-09-14T07:40:19.855Z",
+    "doctor": {
+      "name": "Dr. Carlos Mendoza Silva",
+      "professionalId": "CED-PROF-8942150",
+      "specialty": "Medicina Interna",
+      "email": "",
+      "phone": "55-4123-8900"
+    },
+    "clinic": {
+      "name": "Centro Médico San Ángel",
+      "address": "Av. Insurgentes Sur 1450, CDMX",
+      "phone": "55-5678-9000",
+      "clues": ""
+    },
+    "patient": {
+      "name": "Cristhian Andrea Alvarado",
+      "age": "21 años",
+      "curp": "AAMC040915MDF",
+      "allergies": "Penicilina",
+      "patientId": null
+    },
+    "treatments": [
+      {
+        "item": 1,
+        "medication": "Paracetamol",
+        "dose": "1 tableta (500 mg)",
+        "frequency": "Cada 8 horas",
+        "duration": "5 días",
+        "notes": "Tomar después de los alimentos"
+      },
+      {
+        "item": 2,
+        "medication": "Ibuprofeno",
+        "dose": "1 cápsula (400 mg)",
+        "frequency": "Cada 12 horas",
+        "duration": "3 días",
+        "notes": "En caso de dolor o inflamación"
+      }
+    ],
+    "observations": "Reposo relativo por 48 horas. Abundante hidratación.",
+    "signature": null,
+    "status": "Emitida",
+    "createdAt": "2026-09-14T07:40:19.855Z"
+  }
+]

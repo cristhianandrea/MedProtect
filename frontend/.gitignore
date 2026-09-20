@@ -1,0 +1,25 @@
+# Archivos temporales y de caché
+*.tmp
+*.temp
+temp/
+tmp/
+.cache/
+
+# Perfiles y datos de sesiones de navegador
+chrome-profile/
+.chrome/
+browser-data/
+Default/
+
+# Logs
+*.log
+logs/
+
+# Archivos de configuración de editores y sistemas operativos
+.DS_Store
+Thumbs.db
+[Dd]esktop.ini
+.vscode/
+.idea/
+.gemini/
+.antigravity/
