@@ -8,6 +8,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const PDFDocument = require('pdfkit');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -21,10 +22,12 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Servir recursos estáticos de imágenes desde MedConnectApi/images
+// Servir recursos estáticos de imágenes y el portal frontend
 const imagesPath = path.join(__dirname, 'images');
+const frontendPath = path.join(__dirname, '..', 'frontend');
 app.use('/images', express.static(imagesPath));
 app.use('/api/images', express.static(imagesPath));
+app.use(express.static(frontendPath));
 
 // Rutas de archivos de datos JSON
 const dataDir = path.join(__dirname, 'data');
@@ -32,6 +35,7 @@ const usersFile = path.join(dataDir, 'users.json');
 const appointmentsFile = path.join(dataDir, 'appointments.json');
 const medicationsFile = path.join(dataDir, 'medications.json');
 const prescriptionsFile = path.join(dataDir, 'prescriptions.json');
+const consultationsFile = path.join(dataDir, 'consultations.json');
 
 // Utilidades para lectura/escritura de datos
 function loadJSON(filePath, defaultValue) {
@@ -125,8 +129,9 @@ app.post('/api/auth/login', (req, res) => {
     );
   } else if (role === 'doctor') {
     user = (users.doctors || []).find(d => 
-      d.professionalId === credential || 
-      d.email?.toLowerCase() === credential.toLowerCase()
+      (d.professionalId && d.professionalId.toLowerCase() === credential.toLowerCase()) || 
+      (d.email && d.email.toLowerCase() === credential.toLowerCase()) ||
+      (d.id && d.id.toLowerCase() === credential.toLowerCase())
     );
   } else if (role === 'clinic') {
     user = (users.clinics || []).find(c => 
@@ -167,9 +172,22 @@ app.post('/api/auth/register', (req, res) => {
 
   const users = loadJSON(usersFile, { patients: [], minors: [], doctors: [], clinics: [] });
   const newId = `${role.toUpperCase().slice(0, 3)}-${Date.now()}`;
+  
+  let formattedData = { ...data };
+  if (role === 'doctor') {
+    const fullName = data.name || `${data.firstName || ''} ${data.lastNameP || ''} ${data.lastNameM || ''}`.trim();
+    formattedData.name = fullName || 'Dr. Médico Registrado';
+    formattedData.fullName = fullName || formattedData.name;
+    formattedData.professionalId = data.professionalId || data.docLicense || '';
+    formattedData.specialty = data.specialty || 'Medicina General';
+    formattedData.clinicName = data.clinicName || data.docHospital || 'Consultorio Médico Particular';
+    formattedData.phone = data.phone || data.docPhone || '';
+    formattedData.email = data.email || data.docEmail || '';
+  }
+
   const newUser = {
     id: newId,
-    ...data,
+    ...formattedData,
     role,
     createdAt: new Date().toISOString()
   };
@@ -219,6 +237,54 @@ app.get('/api/patient/profile', (req, res) => {
 });
 
 // =========================================================
+// 4.0.1 ENDPOINTS: GESTIÓN DE PACIENTES PARA MÉDICOS (BÚSQUEDA)
+// =========================================================
+app.get('/api/patients', (req, res) => {
+  const { q } = req.query;
+  const users = loadJSON(usersFile, { patients: [] });
+  const rawPatients = users.patients || [];
+
+  // Mapear y sanitizar pacientes (excluir contraseñas)
+  let patients = rawPatients.map(p => {
+    const { password, ...safePatient } = p;
+    const resolvedName = safePatient.fullName || safePatient.name || `${safePatient.firstName || ''} ${safePatient.lastNameP || ''} ${safePatient.lastNameM || ''}`.trim();
+    return {
+      id: safePatient.id,
+      patientId: safePatient.id,
+      name: resolvedName || 'Paciente Sin Nombre',
+      fullName: resolvedName || 'Paciente Sin Nombre',
+      curp: safePatient.curp || '',
+      birthDate: safePatient.birthDate || '',
+      age: safePatient.age || '',
+      gender: safePatient.gender || '',
+      bloodType: safePatient.bloodType || '',
+      allergies: safePatient.allergies || 'Ninguna conocida',
+      phone: safePatient.phone || '',
+      email: safePatient.email || '',
+      assignedClinic: safePatient.assignedClinic || '',
+      createdAt: safePatient.createdAt
+    };
+  });
+
+  if (q && q.trim() !== '') {
+    const normalizeStr = (str) => (str || '').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    const term = normalizeStr(q.trim());
+    patients = patients.filter(p => 
+      normalizeStr(p.name).includes(term) ||
+      normalizeStr(p.curp).includes(term) ||
+      (p.phone && p.phone.includes(term)) ||
+      (p.id && p.id.toLowerCase().includes(term))
+    );
+  }
+
+  res.json({
+    success: true,
+    count: patients.length,
+    patients
+  });
+});
+
+// =========================================================
 // 4.1 ENDPOINTS: PERFIL Y GESTIÓN DE MÉDICOS
 // =========================================================
 // Obtener perfil del médico activo
@@ -227,35 +293,27 @@ app.get('/api/doctor/profile', (req, res) => {
   const users = loadJSON(usersFile, { doctors: [] });
   const doctors = users.doctors || [];
 
+  const { id } = req.query;
   let doctor = null;
   if (professionalId) {
     doctor = doctors.find(d => d.professionalId?.toLowerCase() === professionalId.toLowerCase());
-  } else if (doctors.length > 0) {
-    doctor = doctors[0];
-  } else {
-    // Médico predeterminado demo para inicializar
-    doctor = {
-      id: "DOC-DEFAULT",
-      name: "Dr. Carlos Mendoza Silva",
-      professionalId: "CED-PROF-8942150",
-      specialty: "Medicina Interna y Familiar",
-      email: "dr.mendoza@medconnect.mx",
-      phone: "55-4123-8900",
-      city: "Ciudad de México",
-      state: "CDMX",
-      clinicName: "Centro Médico San Ángel - Consultorio 304",
-      clinicAddress: "Av. Insurgentes Sur 1450, Col. Crédito Constructor, Benito Juárez",
-      clinicPhone: "55-5678-9000",
-      bio: "Especialista en medicina interna con más de 12 años de experiencia en consulta preventiva, diagnóstico clínico y tratamiento integral.",
-      availableForHiring: true,
-      consultationFee: "$800 MXN",
-      schedule: "Lunes a Viernes 09:00 - 18:00 hrs"
-    };
+  }
+  if (!doctor && id) {
+    doctor = doctors.find(d => d.id?.toLowerCase() === String(id).toLowerCase());
   }
 
+  if (!doctor) {
+    return res.json({
+      success: true,
+      doctor: null,
+      message: 'Sin perfil médico coincidente. Inicia sesión o registra tu cédula.'
+    });
+  }
+
+  const { password, ...safeDoctor } = doctor;
   res.json({
     success: true,
-    doctor
+    doctor: safeDoctor
   });
 });
 
@@ -520,6 +578,183 @@ app.delete('/api/appointments/:id', (req, res) => {
 });
 
 // =========================================================
+// 5.5 ENDPOINTS: CONSULTAS MÉDICAS (EXPEDIENTE CLÍNICO)
+// =========================================================
+
+// 5.5.1 Crear nueva Consulta Médica
+app.post('/api/consultations', (req, res) => {
+  const {
+    doctorId,
+    doctorName,
+    doctorLicense,
+    patientId,
+    patientName,
+    patientCurp,
+    patientAllergies,
+    date,
+    reason,
+    symptoms,
+    vitals,
+    physicalExam,
+    diagnosis,
+    notes,
+    treatment
+  } = req.body;
+
+  if (!patientName || patientName.trim() === '') {
+    return res.status(400).json({
+      success: false,
+      message: 'El nombre del paciente es obligatorio para registrar la consulta.'
+    });
+  }
+
+  if (!diagnosis || diagnosis.trim() === '') {
+    return res.status(400).json({
+      success: false,
+      message: 'El diagnóstico clínico es obligatorio.'
+    });
+  }
+
+  const consultations = loadJSON(consultationsFile, []);
+  const newConsultationId = `CON-${Date.now()}`;
+
+  const newConsultation = {
+    id: newConsultationId,
+    consultationId: newConsultationId,
+    doctorId: doctorId || null,
+    doctorName: doctorName || 'Médico Tratante',
+    doctorLicense: doctorLicense || 'CÉDULA-PENDIENTE',
+    patientId: patientId || null,
+    patientName: patientName.trim(),
+    patientCurp: patientCurp?.trim() || '',
+    patientAllergies: patientAllergies?.trim() || '',
+    date: date || new Date().toISOString(),
+    consultationDate: date || new Date().toISOString(),
+    fecha: date || new Date().toISOString(),
+    reason: reason?.trim() || '',
+    motivo: reason?.trim() || '',
+    symptoms: symptoms?.trim() || '',
+    anamnesis: symptoms?.trim() || '',
+    vitals: {
+      bloodPressure: vitals?.bloodPressure || '',
+      heartRate: vitals?.heartRate || '',
+      temperature: vitals?.temperature || '',
+      weight: vitals?.weight || '',
+      height: vitals?.height || '',
+      bmi: vitals?.bmi || ''
+    },
+    physicalExam: physicalExam?.trim() || '',
+    diagnosis: diagnosis.trim(),
+    notes: notes?.trim() || '',
+    treatment: treatment?.trim() || '',
+    tratamiento: treatment?.trim() || '',
+    status: 'Pendiente',
+    prescriptionId: null,
+    prescriptionFolio: null,
+    createdAt: new Date().toISOString()
+  };
+
+  consultations.unshift(newConsultation);
+  saveJSON(consultationsFile, consultations);
+
+  return res.status(201).json({
+    success: true,
+    message: 'Consulta médica registrada exitosamente.',
+    consultationId: newConsultationId,
+    consultation: newConsultation
+  });
+});
+
+// 5.5.2 Listar Consultas Médicas (Filtros por doctorId o patientId)
+app.get('/api/consultations', (req, res) => {
+  const { doctorId, patientId, status } = req.query;
+  const consultations = loadJSON(consultationsFile, []);
+
+  let filtered = consultations;
+
+  if (doctorId) {
+    const docQuery = doctorId.toLowerCase();
+    filtered = filtered.filter(c => 
+      c.doctorId?.toLowerCase() === docQuery || 
+      c.doctorLicense?.toLowerCase() === docQuery
+    );
+  }
+
+  if (patientId) {
+    const patQuery = patientId.toLowerCase();
+    filtered = filtered.filter(c => 
+      c.patientId?.toLowerCase() === patQuery || 
+      c.patientCurp?.toLowerCase() === patQuery
+    );
+  }
+
+  if (status) {
+    filtered = filtered.filter(c => c.status?.toLowerCase() === status.toLowerCase());
+  }
+
+  res.json({
+    success: true,
+    count: filtered.length,
+    consultations: filtered
+  });
+});
+
+// 5.5.3 Obtener Consulta Médica específica por ID
+app.get('/api/consultations/:id', (req, res) => {
+  const { id } = req.params;
+  const consultations = loadJSON(consultationsFile, []);
+
+  const consultation = consultations.find(c => 
+    c.id?.toLowerCase() === id.toLowerCase() || 
+    c.consultationId?.toLowerCase() === id.toLowerCase()
+  );
+
+  if (!consultation) {
+    return res.status(404).json({
+      success: false,
+      message: `Consulta médica con ID '${id}' no encontrada en el sistema.`
+    });
+  }
+
+  res.json({
+    success: true,
+    consultation
+  });
+});
+
+// 5.5.4 Asociar receta a una consulta existente
+app.put('/api/consultations/:id/prescription', (req, res) => {
+  const { id } = req.params;
+  const { prescriptionId, folio } = req.body;
+
+  const consultations = loadJSON(consultationsFile, []);
+  const index = consultations.findIndex(c => 
+    c.id?.toLowerCase() === id.toLowerCase() || 
+    c.consultationId?.toLowerCase() === id.toLowerCase()
+  );
+
+  if (index === -1) {
+    return res.status(404).json({
+      success: false,
+      message: `Consulta con ID '${id}' no encontrada para asociar receta.`
+    });
+  }
+
+  consultations[index].prescriptionId = prescriptionId || consultations[index].prescriptionId;
+  consultations[index].prescriptionFolio = folio || consultations[index].prescriptionFolio;
+  consultations[index].status = 'Completada';
+  consultations[index].updatedAt = new Date().toISOString();
+
+  saveJSON(consultationsFile, consultations);
+
+  res.json({
+    success: true,
+    message: 'Receta vinculada exitosamente a la consulta médica.',
+    consultation: consultations[index]
+  });
+});
+
+// =========================================================
 // 6. ENDPOINTS: MEDICAMENTOS Y RECETAS
 // =========================================================
 app.get('/api/medications', (req, res) => {
@@ -566,7 +801,7 @@ app.get('/api/prescriptions/next-folio', (req, res) => {
 
 // 6.2 Registrar una nueva Receta Médica con tratamientos dinámicos, folio y firma
 app.post('/api/prescriptions', (req, res) => {
-  const { doctor, clinic, patient, treatments, observations, signature, folio } = req.body;
+  const { doctor, clinic, patient, treatments, observations, signature, folio, consultationId, diagnosis, patientId, doctorId } = req.body;
 
   if (!patient || !patient.name || patient.name.trim() === '') {
     return res.status(400).json({
@@ -583,18 +818,39 @@ app.post('/api/prescriptions', (req, res) => {
   }
 
   const prescriptions = loadJSON(prescriptionsFile, []);
-  const assignedFolio = folio && folio.trim() !== '' ? folio.trim() : generateNextFolio(prescriptions);
+
+  if (consultationId) {
+    const existingForConsult = prescriptions.find(p => p.consultationId === consultationId);
+    if (existingForConsult) {
+      return res.json({
+        success: true,
+        message: `La consulta ya tiene receta emitida (Folio: ${existingForConsult.folio}). No se duplicó.`,
+        prescription: existingForConsult,
+        alreadyExists: true
+      });
+    }
+  }
+
+  const assignedFolio = folio && folio.trim() !== '' && !prescriptions.some(p => p.folio === folio.trim())
+    ? folio.trim()
+    : generateNextFolio(prescriptions);
+
+  const resolvedPatientId = patientId || patient.patientId || null;
+  const resolvedDoctorId = doctorId || doctor?.doctorId || doctor?.professionalId || null;
 
   const newPrescription = {
     id: `RX-${Date.now()}`,
     folio: assignedFolio,
+    consultationId: consultationId || null,
+    diagnosis: diagnosis || '',
     issuedAt: new Date().toISOString(),
     doctor: {
       name: doctor?.name || 'Dr. Asignado',
       professionalId: doctor?.professionalId || 'CÉDULA-PENDIENTE',
       specialty: doctor?.specialty || 'Medicina General',
       email: doctor?.email || '',
-      phone: doctor?.phone || ''
+      phone: doctor?.phone || '',
+      doctorId: resolvedDoctorId
     },
     clinic: {
       name: clinic?.name || 'Consultorio Médico Particular',
@@ -607,7 +863,7 @@ app.post('/api/prescriptions', (req, res) => {
       age: patient.age || '',
       curp: patient.curp || '',
       allergies: patient.allergies || 'Ninguna conocida',
-      patientId: patient.patientId || null
+      patientId: resolvedPatientId
     },
     treatments: treatments.map((t, idx) => ({
       item: idx + 1,
@@ -626,6 +882,25 @@ app.post('/api/prescriptions', (req, res) => {
   prescriptions.unshift(newPrescription);
   saveJSON(prescriptionsFile, prescriptions);
 
+  // Vincular automáticamente a la consulta si viene consultationId
+  if (consultationId) {
+    try {
+      const consultations = loadJSON(consultationsFile, []);
+      const cIndex = consultations.findIndex(c => 
+        c.id === consultationId || c.consultationId === consultationId
+      );
+      if (cIndex !== -1) {
+        consultations[cIndex].prescriptionId = newPrescription.id;
+        consultations[cIndex].prescriptionFolio = assignedFolio;
+        consultations[cIndex].status = 'Completada';
+        consultations[cIndex].updatedAt = new Date().toISOString();
+        saveJSON(consultationsFile, consultations);
+      }
+    } catch (err) {
+      console.error('Error actualizando consulta con receta:', err);
+    }
+  }
+
   return res.status(201).json({
     success: true,
     message: `Receta médica emitida exitosamente con Folio: ${assignedFolio}`,
@@ -635,7 +910,7 @@ app.post('/api/prescriptions', (req, res) => {
 
 // 6.3 Listar todas las recetas registradas (con filtros opcionales)
 app.get('/api/prescriptions', (req, res) => {
-  const { patientId, curp, doctorId } = req.query;
+  const { patientId, curp, doctorId, consultationId } = req.query;
   const prescriptions = loadJSON(prescriptionsFile, []);
 
   let filtered = prescriptions;
@@ -647,7 +922,10 @@ app.get('/api/prescriptions', (req, res) => {
     filtered = filtered.filter(p => p.patient?.curp?.toLowerCase() === curp.toLowerCase());
   }
   if (doctorId) {
-    filtered = filtered.filter(p => p.doctor?.professionalId === doctorId);
+    filtered = filtered.filter(p => p.doctor?.professionalId === doctorId || p.doctor?.doctorId === doctorId);
+  }
+  if (consultationId) {
+    filtered = filtered.filter(p => p.consultationId === consultationId);
   }
 
   res.json({
@@ -680,12 +958,126 @@ app.get('/api/prescriptions/:folio', (req, res) => {
   });
 });
 
+// 6.5 PDF real de receta (documento generado, no captura de pantalla)
+app.get('/api/prescriptions/:folio/pdf', (req, res) => {
+  const { folio } = req.params;
+  const prescriptions = loadJSON(prescriptionsFile, []);
+  const prescription = prescriptions.find(p =>
+    p.folio?.toLowerCase() === folio.toLowerCase() ||
+    p.id?.toLowerCase() === folio.toLowerCase()
+  );
+
+  if (!prescription) {
+    return res.status(404).json({
+      success: false,
+      message: `Receta con folio o ID '${folio}' no encontrada.`
+    });
+  }
+
+  try {
+    const safeFolio = String(prescription.folio || folio).replace(/[^\w.-]/g, '_');
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="Receta-${safeFolio}.pdf"`);
+
+    const doc = new PDFDocument({ size: 'LETTER', margin: 50 });
+    doc.pipe(res);
+
+    const issued = prescription.issuedAt || prescription.createdAt || new Date().toISOString();
+    const issuedLabel = new Date(issued).toLocaleDateString('es-MX', {
+      year: 'numeric', month: 'long', day: 'numeric'
+    });
+
+    doc.fillColor('#2D6061').fontSize(18).font('Helvetica-Bold').text('MedConnect', { align: 'left' });
+    doc.fontSize(10).font('Helvetica').fillColor('#4A5F6E').text('Receta médica electrónica', { align: 'left' });
+    doc.moveDown(0.4);
+    doc.fillColor('#1E2B37').fontSize(11).font('Helvetica-Bold')
+      .text(`Folio: ${prescription.folio || '--'}`, { continued: true })
+      .font('Helvetica').text(`    Fecha: ${issuedLabel}`, { align: 'left' });
+
+    doc.moveDown(0.6);
+    doc.strokeColor('#347072').lineWidth(1.5).moveTo(50, doc.y).lineTo(562, doc.y).stroke();
+    doc.moveDown(0.8);
+
+    const doctor = prescription.doctor || {};
+    const clinic = prescription.clinic || {};
+    const patient = prescription.patient || {};
+
+    doc.fillColor('#2D6061').fontSize(12).font('Helvetica-Bold').text('Médico tratante');
+    doc.moveDown(0.2);
+    doc.fillColor('#1E2B37').fontSize(10).font('Helvetica')
+      .text(`Nombre: ${doctor.name || 'Médico tratante'}`)
+      .text(`Especialidad: ${doctor.specialty || 'No especificada'}`)
+      .text(`Cédula profesional: ${doctor.professionalId || '--'}`)
+      .text(`Teléfono: ${doctor.phone || '--'}    Correo: ${doctor.email || '--'}`)
+      .text(`Institución: ${clinic.name || '--'}`)
+      .text(`Dirección: ${clinic.address || '--'}`);
+
+    doc.moveDown(0.7);
+    doc.fillColor('#2D6061').fontSize(12).font('Helvetica-Bold').text('Paciente');
+    doc.moveDown(0.2);
+    doc.fillColor('#1E2B37').fontSize(10).font('Helvetica')
+      .text(`Nombre: ${patient.name || '--'}`)
+      .text(`CURP: ${patient.curp || '--'}    Edad: ${patient.age || '--'}`)
+      .text(`Alergias: ${patient.allergies || 'Ninguna conocida'}`);
+
+      if (prescription.diagnosis) {
+      doc.moveDown(0.7);
+      doc.fillColor('#2D6061').fontSize(12).font('Helvetica-Bold').text('Diagnóstico');
+      doc.moveDown(0.2);
+      doc.fillColor('#1E2B37').fontSize(10).font('Helvetica').text(prescription.diagnosis, { width: 512 });
+    }
+
+    doc.moveDown(0.7);
+    doc.fillColor('#2D6061').fontSize(12).font('Helvetica-Bold').text('Tratamiento');
+    doc.moveDown(0.35);
+
+    const treatments = Array.isArray(prescription.treatments) ? prescription.treatments : [];
+    if (treatments.length === 0) {
+      doc.fillColor('#1E2B37').fontSize(10).font('Helvetica').text('Sin medicamentos registrados.');
+    } else {
+      treatments.forEach((t, idx) => {
+        doc.fillColor('#1E2B37').fontSize(10).font('Helvetica-Bold')
+          .text(`${idx + 1}. ${t.medication || 'Medicamento'}`);
+        doc.font('Helvetica')
+          .text(`   Dosis: ${t.dose || '--'}    Frecuencia: ${t.frequency || '--'}    Duración: ${t.duration || '--'}`);
+        if (t.notes) {
+          doc.text(`   Indicaciones: ${t.notes}`);
+        }
+        doc.moveDown(0.25);
+      });
+    }
+
+    doc.moveDown(0.5);
+    doc.fillColor('#2D6061').fontSize(12).font('Helvetica-Bold').text('Indicaciones generales');
+    doc.moveDown(0.2);
+    doc.fillColor('#1E2B37').fontSize(10).font('Helvetica')
+      .text(prescription.observations || 'Sin observaciones adicionales.', { width: 512 });
+
+    doc.moveDown(1.6);
+    doc.strokeColor('#CAD6DF').lineWidth(0.8).moveTo(360, doc.y).lineTo(540, doc.y).stroke();
+    doc.moveDown(0.3);
+    doc.fontSize(9).fillColor('#4A5F6E').text(doctor.name || 'Firma del médico tratante', 360, doc.y, { width: 180, align: 'center' });
+    doc.text('Firma / rúbrica', 360, doc.y, { width: 180, align: 'center' });
+
+    doc.moveDown(2);
+    doc.fontSize(8).fillColor('#7E92A2')
+      .text('Documento generado por MedConnect. Uso clínico de demostración.', 50, 720, { width: 512, align: 'center' });
+
+    doc.end();
+  } catch (err) {
+    console.error('Error generando PDF de receta:', err);
+    if (!res.headersSent) {
+      res.status(500).json({ success: false, message: 'No se pudo generar el PDF de la receta.' });
+    }
+  }
+});
+
 // =========================================================
 // 7. INICIAR SERVIDOR
 // =========================================================
 app.listen(PORT, () => {
   console.log('========================================================');
   console.log(`🩺 MedConnect API Server iniciado en http://localhost:${PORT}`);
-  console.log(`📡 Base de datos lista: Sin información precargada.`);
+  console.log(`🌐 Portal: http://localhost:${PORT}/index.html`);
   console.log('========================================================');
 });

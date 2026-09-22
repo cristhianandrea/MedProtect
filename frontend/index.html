@@ -29,6 +29,7 @@
   <header class="header-main">
     <div class="header-container">
       <div class="brand-identity">
+        <a id="publicBrandLink" data-nav-home href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 0.75rem; color: inherit;">
         <!-- Isotipo Clínico Minimalista MedConnect -->
         <div class="brand-logo-wrapper">
           <svg class="brand-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -46,6 +47,7 @@
           <span class="brand-name">MedConnect</span>
           <span class="brand-tag">Portal de Salud Interoperable</span>
         </div>
+        </a>
       </div>
 
       <!-- Acciones de Cabecera: Afiliarse / Registrarse e Inicio de Sesión -->
@@ -63,8 +65,14 @@
         </button>
 
         <!-- Botón de Acceso Rápido: Emisión de Recetas -->
-        <a href="medico-receta.html" class="btn-header-login-link" style="text-decoration: none; background: #E8F3F3; color: #2D6061; border: 1px solid #BCDADA; font-weight: 700;">
-          <span>🩺 Emitir Receta</span>
+        <a href="medico-dashboard.html#inicio" id="portalMedicoLink" class="btn-header-login-link" style="text-decoration: none; background: #E8F3F3; color: #2D6061; border: 1px solid #BCDADA; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+          </svg>
+          <span>Portal médico</span>
         </a>
 
         <!-- Botón de Inicio de Sesión (Abre Modal de Acceso Multi-Rol) -->
@@ -646,22 +654,30 @@
       <div class="login-role-tabs-wrapper" role="tablist" aria-label="Seleccionar perfil de acceso">
         <button type="button" class="login-role-tab active" id="tabLoginPatient" role="tab" aria-selected="true"
           data-login-role="patient">
-          <span class="tab-icon">👤</span>
+          <span class="tab-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
           <span class="tab-label">Paciente</span>
         </button>
         <button type="button" class="login-role-tab" id="tabLoginMinor" role="tab" aria-selected="false"
           data-login-role="minor">
-          <span class="tab-icon">👶</span>
+          <span class="tab-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+          </span>
           <span class="tab-label">Menor de Edad</span>
         </button>
         <button type="button" class="login-role-tab" id="tabLoginDoctor" role="tab" aria-selected="false"
           data-login-role="doctor">
-          <span class="tab-icon">🩺</span>
+          <span class="tab-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </span>
           <span class="tab-label">Médico</span>
         </button>
         <button type="button" class="login-role-tab" id="tabLoginClinic" role="tab" aria-selected="false"
           data-login-role="clinic">
-          <span class="tab-icon">🏥</span>
+          <span class="tab-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M16 6h.01M8 10h.01M16 10h.01M8 14h.01M16 14h.01"/></svg>
+          </span>
           <span class="tab-label">Clínica</span>
         </button>
       </div>
@@ -1010,7 +1026,9 @@
       <div class="affiliation-options-grid">
         <!-- Opción 1: Paciente Adulto -->
         <button type="button" class="affiliation-option-card option-patient" id="choosePatientRegisterBtn">
-          <div class="option-icon-box">👤</div>
+          <div class="option-icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
           <div class="option-content">
             <h4>Nuevo Paciente Adulto</h4>
             <p>Crea tu expediente digital con tu fecha de nacimiento, tipo de sangre, alergias y clínica habitual.</p>
@@ -1020,7 +1038,9 @@
 
         <!-- Opción 2: Menor de Edad / Hijo -->
         <button type="button" class="affiliation-option-card option-minor" id="chooseMinorRegisterBtn">
-          <div class="option-icon-box">👶</div>
+          <div class="option-icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+          </div>
           <div class="option-content">
             <h4>Registrar Menor de Edad / Hijo</h4>
             <p>Vincula a tu hijo(a) o dependiente usando tu código de expediente de padre, madre o tutor legal.</p>
@@ -1030,7 +1050,9 @@
 
         <!-- Opción 3: Médico -->
         <button type="button" class="affiliation-option-card option-doctor" id="chooseDoctorRegisterBtn">
-          <div class="option-icon-box">🩺</div>
+          <div class="option-icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
           <div class="option-content">
             <h4>Personal Médico & Especialista</h4>
             <p>Valida tu Cédula Profesional, emite recetas y gestiona notas de interconsulta certificadas.</p>
@@ -1040,7 +1062,9 @@
 
         <!-- Opción 4: Clínica / Consultorio -->
         <button type="button" class="affiliation-option-card option-clinic" id="chooseClinicRegisterBtn">
-          <div class="option-icon-box">🏥</div>
+          <div class="option-icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M16 6h.01M8 10h.01M16 10h.01M8 14h.01M16 14h.01"/></svg>
+          </div>
           <div class="option-content">
             <h4>Clínica, Hospital o Consultorio</h4>
             <p>Afiliación para sedes públicas, privadas o consultorios independientes anexos a farmacias.</p>
@@ -1984,6 +2008,19 @@
   <!-- Conector API y Scripts interactivos -->
   <script src="api-client.js"></script>
   <script src="script.js"></script>
+  <script>
+    (function bindPublicPortalCta() {
+      const api = window.MedConnectAPI;
+      if (api && api.isAuthenticated()) return;
+      const portal = document.getElementById('portalMedicoLink');
+      if (!portal) return;
+      portal.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('btnHeaderLogin')?.click();
+        setTimeout(() => document.getElementById('tabLoginDoctor')?.click(), 40);
+      });
+    })();
+  </script>
 </body>
 
 </html>

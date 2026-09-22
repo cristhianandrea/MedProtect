@@ -14,10 +14,13 @@
 
   <!-- Estilos Globales de la Plataforma -->
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="ui-icons.css">
 
   <style>
     /* Estilos Especializados para el Módulo de Receta Médica */
     .rx-main-layout {
+      position: relative;
+      z-index: 1;
       max-width: 1200px;
       margin: 2rem auto;
       padding: 0 1.5rem;
@@ -44,6 +47,7 @@
       display: flex;
       align-items: center;
       gap: 0.6rem;
+      color: #FFFFFF;
     }
 
     .rx-banner-info p {
@@ -68,12 +72,48 @@
       font-weight: 600;
     }
 
-    .rx-folio-number {
-      font-size: 1.5rem;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      color: #FFFFFF;
-      font-family: 'Inter', monospace;
+    .rx-consult-summary {
+      background: #FFFFFF;
+      border: 1px solid #C8DFDF;
+      border-left: 5px solid #347072;
+      border-radius: 14px;
+      padding: 1.15rem 1.5rem;
+      margin-bottom: 1.5rem;
+      display: none;
+      box-shadow: 0 4px 12px rgba(30, 43, 55, 0.04);
+    }
+
+    .rx-consult-summary.visible {
+      display: block;
+    }
+
+    .rx-consult-summary h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1E2B37;
+      margin-bottom: 0.75rem;
+    }
+
+    .rx-consult-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .rx-consult-meta dt {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: #587184;
+      margin-bottom: 0.15rem;
+    }
+
+    .rx-consult-meta dd {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #1E2B37;
+      margin: 0;
     }
 
     .rx-grid {
@@ -591,7 +631,7 @@
   <header class="header-main">
     <div class="header-container">
       <div class="brand-identity">
-        <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 0.75rem;">
+        <a id="brandHomeLink" data-nav-home href="medico-dashboard.html#inicio" style="text-decoration: none; display: flex; align-items: center; gap: 0.75rem;">
           <div class="brand-logo-wrapper">
             <svg class="brand-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Logo MedConnect">
               <rect width="32" height="32" rx="8" fill="#EDF5F5" />
@@ -609,9 +649,15 @@
       </div>
 
       <nav class="nav-links" style="display: flex; gap: 1.25rem; align-items: center;">
-        <a href="index.html" class="nav-link">Inicio</a>
-        <a href="paciente-dashboard.html" class="nav-link">Portal Paciente</a>
-        <a href="medico-receta.html" class="nav-link active" style="color: #347072; font-weight: 700;">Emisión de Recetas</a>
+        <a href="medico-dashboard.html#inicio" class="nav-link" data-nav-home><span data-icon="home"></span> Inicio</a>
+        <a href="medico-dashboard.html#consulta" class="nav-link" style="display:inline-flex; align-items:center; gap:0.35rem;">
+          <span data-icon="arrow-left"></span> Dashboard médico
+        </a>
+        <a href="medico-dashboard.html#recetas" class="nav-link">Recetas</a>
+        <a href="medico-dashboard.html#historial" class="nav-link">Historial</a>
+        <button type="button" class="btn-action-secondary" id="btnLogoutDoctorRx">
+          <span data-icon="log-out"></span> Cerrar sesión
+        </button>
       </nav>
     </div>
   </header>
@@ -623,14 +669,36 @@
     <section class="rx-top-banner">
       <div class="rx-banner-info">
         <h1>
-          <span>🩺</span> Módulo de Prescripción Médica Electrónica
+          <span data-icon="file-text"></span> Receta médica electrónica
         </h1>
-        <p>Generación oficial de recetas clínicas con tratamientos dinámicos, folio oficial y firma digital certificada.</p>
+        <p>Los datos del médico se toman de su perfil. El folio se asigna al guardar.</p>
       </div>
       <div class="rx-folio-card">
         <div class="rx-folio-label">Folio Consecutivo</div>
         <div class="rx-folio-number" id="lblFolioDisplay">FOL-2026-0001</div>
       </div>
+    </section>
+
+    <section class="rx-consult-summary" id="consultSummaryCard" aria-live="polite">
+      <h2>Consulta clínica vinculada</h2>
+      <dl class="rx-consult-meta">
+        <div>
+          <dt>ID de consulta</dt>
+          <dd id="sumConsultId">—</dd>
+        </div>
+        <div>
+          <dt>Diagnóstico</dt>
+          <dd id="sumConsultDiagnosis">—</dd>
+        </div>
+        <div>
+          <dt>Motivo</dt>
+          <dd id="sumConsultReason">—</dd>
+        </div>
+        <div>
+          <dt>Tratamiento de consulta</dt>
+          <dd id="sumConsultTreatment">—</dd>
+        </div>
+      </dl>
     </section>
 
     <form id="formPrescription" onsubmit="event.preventDefault();">
@@ -642,31 +710,38 @@
         <div class="rx-card">
           <div class="rx-card-header">
             <h2 class="rx-card-title">
-              <span>👨‍⚕️</span> Datos del Médico Emisor
+              <span data-icon="user"></span> Médico emisor
             </h2>
-            <span class="treatment-badge">NOM-004-SSA3</span>
+            <span class="treatment-badge">Desde perfil profesional</span>
           </div>
+          <p style="font-size: 0.8rem; color: #587184; margin-bottom: 0.85rem;">
+            Estos datos se toman del perfil del médico. Para cambiarlos, edítalos en <a href="medico-dashboard.html#perfil" style="color:#2D6061;font-weight:700;">Mi Perfil Profesional</a>.
+          </p>
 
           <div class="rx-form-row">
             <div class="rx-form-group">
               <label for="docName">Nombre Completo del Médico *</label>
-              <input type="text" id="docName" class="rx-input" value="Dr. Carlos Mendoza Silva" required placeholder="Ej. Dr. Juan Pérez">
+              <input type="text" id="docName" class="rx-input" readonly>
             </div>
             <div class="rx-form-group">
               <label for="docLicense">Cédula Profesional *</label>
-              <input type="text" id="docLicense" class="rx-input" value="CED-PROF-8942150" required placeholder="Ej. 12345678">
+              <input type="text" id="docLicense" class="rx-input" readonly>
             </div>
           </div>
 
           <div class="rx-form-row">
             <div class="rx-form-group">
               <label for="docSpecialty">Especialidad</label>
-              <input type="text" id="docSpecialty" class="rx-input" value="Medicina Interna y Familiar" placeholder="Ej. Pediatría">
+              <input type="text" id="docSpecialty" class="rx-input" readonly>
             </div>
             <div class="rx-form-group">
               <label for="docPhone">Teléfono de Contacto</label>
-              <input type="tel" id="docPhone" class="rx-input" value="55-4123-8900" placeholder="Ej. 55-1234-5678">
+              <input type="text" id="docPhone" class="rx-input" readonly>
             </div>
+          </div>
+          <div class="rx-form-group">
+            <label for="docEmail">Correo institucional</label>
+            <input type="text" id="docEmail" class="rx-input" readonly>
           </div>
         </div>
 
@@ -674,7 +749,7 @@
         <div class="rx-card">
           <div class="rx-card-header">
             <h2 class="rx-card-title">
-              <span>🏥</span> Clínica o Consultorio Particular
+              <span data-icon="building"></span> Clínica o consultorio
             </h2>
             <span class="treatment-badge">Sede Registrada</span>
           </div>
@@ -682,17 +757,17 @@
           <div class="rx-form-row">
             <div class="rx-form-group">
               <label for="clinicName">Nombre del Consultorio / Clínica *</label>
-              <input type="text" id="clinicName" class="rx-input" value="Centro Médico San Ángel - Consultorio 304" required>
+              <input type="text" id="clinicName" class="rx-input" readonly>
             </div>
             <div class="rx-form-group">
               <label for="clinicPhone">Teléfono del Consultorio</label>
-              <input type="tel" id="clinicPhone" class="rx-input" value="55-5678-9000">
+              <input type="tel" id="clinicPhone" class="rx-input" readonly>
             </div>
           </div>
 
           <div class="rx-form-group">
             <label for="clinicAddress">Dirección Completa</label>
-            <input type="text" id="clinicAddress" class="rx-input" value="Av. Insurgentes Sur 1450, Col. Crédito Constructor, CDMX">
+            <input type="text" id="clinicAddress" class="rx-input" readonly>
           </div>
         </div>
 
@@ -702,11 +777,11 @@
       <div class="rx-card">
         <div class="rx-card-header">
           <h2 class="rx-card-title">
-            <span>👤</span> Datos del Paciente
+            <span data-icon="users"></span> Paciente
           </h2>
-          <div style="display: flex; gap: 0.5rem;">
-            <button type="button" class="preset-chip" onclick="quickLoadPatient('Cristhian Andrea Alvarado', '21 años', 'AAMC040915MDF', 'Penicilina')">
-              Cargar Paciente Demo
+          <div style="display: flex; gap: 0.5rem;" id="demoPatientActions">
+            <button type="button" class="preset-chip" onclick="quickLoadPatient('Juan Perez', '36 años', 'PEPJ900101HDFRRN01', 'Ninguna conocida')">
+              Cargar paciente de demostración
             </button>
           </div>
         </div>
@@ -714,19 +789,19 @@
         <div class="rx-form-row" style="grid-template-columns: 2fr 1fr 1.5fr 1.5fr;">
           <div class="rx-form-group">
             <label for="patientName">Nombre Completo del Paciente *</label>
-            <input type="text" id="patientName" class="rx-input" placeholder="Nombre completo" value="Cristhian Andrea Alvarado" required>
+            <input type="text" id="patientName" class="rx-input" placeholder="Nombre completo" required>
           </div>
           <div class="rx-form-group">
             <label for="patientAge">Edad</label>
-            <input type="text" id="patientAge" class="rx-input" placeholder="Ej. 21 años" value="21 años">
+            <input type="text" id="patientAge" class="rx-input" placeholder="Ej. 21 años">
           </div>
           <div class="rx-form-group">
             <label for="patientCurp">CURP / Identificador</label>
-            <input type="text" id="patientCurp" class="rx-input" placeholder="18 caracteres" value="AAMC040915MDF">
+            <input type="text" id="patientCurp" class="rx-input" placeholder="18 caracteres">
           </div>
           <div class="rx-form-group">
-            <label for="patientAllergies" style="color: #C53030;">🚨 Alergias Conocidas</label>
-            <input type="text" id="patientAllergies" class="rx-input" style="border-color: #FEB2B2; background: #FFFBFB;" placeholder="Ej. Ninguna / Penicilina" value="Penicilina (Reacción cutánea)">
+            <label for="patientAllergies">Alergias conocidas</label>
+            <input type="text" id="patientAllergies" class="rx-input" style="border-color: #FEB2B2; background: #FFFBFB;" placeholder="Ej. Ninguna / Penicilina">
           </div>
         </div>
       </div>
@@ -736,7 +811,7 @@
         <div class="rx-card-header">
           <div>
             <h2 class="rx-card-title">
-              <span>💊</span> Prescripción de Tratamientos y Medicamentos
+              <span data-icon="pill"></span> Tratamiento
             </h2>
             <p style="font-size: 0.85rem; color: #7E92A2; margin-top: 0.2rem;">
               Agregue cada fármaco con su dosis, frecuencia y duración. Puede prescribir múltiples medicamentos dinámicamente.
@@ -768,16 +843,16 @@
 
         <!-- Botón para Agregar Otro Tratamiento -->
         <button type="button" class="btn-add-treatment" onclick="addTreatmentRow()">
-          <span style="font-size: 1.2rem;">➕</span> Agregar Otro Tratamiento / Medicamento a la Receta
+          <span data-icon="plus"></span> Agregar medicamento
         </button>
       </div>
 
       <!-- Sección 4: Observaciones Generales y Cuidados -->
       <div class="rx-card">
         <div class="rx-card-header">
-          <h2 class="rx-card-title">
-            <span>📋</span> Indicaciones no Farmacológicas y Observaciones Generales
-          </h2>
+            <h2 class="rx-card-title">
+              <span data-icon="clipboard"></span> Indicaciones generales
+            </h2>
         </div>
 
         <div class="rx-form-group" style="margin-bottom: 1rem;">
@@ -802,12 +877,12 @@
         <div class="rx-card-header">
           <div>
             <h2 class="rx-card-title">
-              <span>✍️</span> Firma Digital del Médico Tratante
+              <span data-icon="pen"></span> Firma del médico
             </h2>
-            <p style="font-size: 0.85rem; color: #7E92A2;">Firme en el recuadro interactivo utilizando el ratón, touchpad o pantalla táctil.</p>
+            <p style="font-size: 0.85rem; color: #7E92A2;">Firme en el recuadro con el ratón o la pantalla táctil. Opcional para la demostración.</p>
           </div>
           <button type="button" class="btn-clear-sig" onclick="clearSignatureCanvas()">
-            🧹 Limpiar Firma
+            <span data-icon="eraser"></span> Limpiar firma
           </button>
         </div>
 
@@ -816,7 +891,7 @@
             <canvas id="signatureCanvas" width="900" height="200"></canvas>
           </div>
           <div class="signature-controls">
-            <span class="signature-hint" id="sigStatusHint">✏️ Dibuje su rúbrica sobre la línea punteada.</span>
+            <span class="signature-hint" id="sigStatusHint">Dibuje su rúbrica sobre la línea punteada.</span>
             <span class="treatment-badge" style="background: #E8F1F8; color: #2B5777;">Firma Electrónica Simple Certificada</span>
           </div>
         </div>
@@ -824,14 +899,20 @@
 
       <!-- Barra de Acciones Final -->
       <div class="rx-actions-footer">
+        <a href="medico-dashboard.html#consulta" class="btn-action-lg btn-secondary-action" style="text-decoration: none;">
+          <span data-icon="arrow-left"></span> Volver a consultas
+        </a>
         <button type="button" class="btn-action-lg btn-secondary-action" onclick="previewPrescriptionModal()">
-          <span>👁️</span> Vista Previa Oficial
+          <span data-icon="eye"></span> Vista previa
         </button>
         <button type="button" class="btn-action-lg btn-secondary-action" onclick="printOfficialPrescriptionDirect()">
-          <span>🖨️</span> Imprimir Receta (PDF)
+          <span data-icon="printer"></span> Imprimir
+        </button>
+        <button type="button" class="btn-action-lg btn-secondary-action" id="btnDownloadPdf" onclick="downloadOfficialPdf()">
+          <span data-icon="download"></span> Descargar PDF
         </button>
         <button type="button" class="btn-action-lg btn-primary-action" id="btnSavePrescription" onclick="savePrescription()">
-          <span>💾</span> Guardar Receta en Expediente
+          <span data-icon="save"></span> Guardar receta
         </button>
       </div>
 
@@ -844,13 +925,19 @@
   <div class="modal-backdrop-rx" id="modalPrescriptionPreview">
     <div class="modal-content-rx">
       <div class="modal-header-rx">
-        <h3 style="font-size: 1.1rem; font-weight: 700; color: #1E2B37;">📄 Formato Oficial de Receta Médica Imprimible</h3>
-        <div style="display: flex; gap: 0.75rem;">
-          <button type="button" class="btn-action-lg btn-primary-action" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="window.print()">
-            <span>🖨️</span> Imprimir / Descargar PDF
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: #1E2B37;">Receta médica imprimible</h3>
+        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+          <button type="button" class="btn-action-lg btn-secondary-action" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="window.print()">
+            <span data-icon="printer"></span> Imprimir
           </button>
+          <button type="button" class="btn-action-lg btn-primary-action" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="downloadOfficialPdf()">
+            <span data-icon="download"></span> Descargar PDF
+          </button>
+          <a href="medico-dashboard.html#inicio" class="btn-action-lg btn-secondary-action" style="padding: 0.5rem 1rem; font-size: 0.85rem; text-decoration: none;">
+            <span data-icon="check"></span> Finalizar
+          </a>
           <button type="button" class="btn-clear-sig" onclick="closePreviewModal()">
-            ✕ Cerrar
+            <span data-icon="x"></span> Cerrar
           </button>
         </div>
       </div>
@@ -896,6 +983,11 @@
             <div style="text-align: right; color: #C53030;">
               <strong>Alergias: </strong><span id="prevPatientAllergies">Penicilina</span>
             </div>
+          </div>
+
+          <!-- Diagnóstico Clínico de la Consulta -->
+          <div id="prevDiagnosisContainer" style="background: #F8FBFC; border: 1px solid #DFEDED; border-radius: 8px; padding: 0.6rem 1rem; margin-bottom: 1.25rem; font-size: 0.875rem;">
+            <strong style="color: #2D6061;">Diagnóstico Clínico Asociado: </strong><span id="prevDiagnosisVal" style="color: #1E2B37;">--</span>
           </div>
 
           <!-- Símbolo Rx y Tabla de Medicamentos -->
@@ -944,6 +1036,7 @@
   <div id="clinicalToastContainer" style="position: fixed; bottom: 20px; right: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 10px;"></div>
 
   <!-- Scripts de la Aplicación -->
+  <script src="ui-icons.js"></script>
   <script src="api-client.js"></script>
   <script>
     // =========================================================
@@ -952,15 +1045,185 @@
 
     let treatmentCounter = 0;
     let canvas, ctx, isDrawing = false, hasSignature = false;
+    let currentConsultationId = null;
+    let currentPatientId = null;
+    let currentDoctorId = null;
+    let currentDiagnosis = '';
+    let savedPrescriptionFolio = null;
+    let isExistingPrescription = false;
 
     document.addEventListener('DOMContentLoaded', async () => {
-      initSignatureCanvas();
-      await fetchNextFolio();
+      document.getElementById('btnLogoutDoctorRx')?.addEventListener('click', () => {
+        if (window.MedConnectAPI) window.MedConnectAPI.logout();
+        window.location.href = 'index.html';
+      });
 
-      // Cargar tratamientos de ejemplo iniciales (Paracetamol e Ibuprofeno solicitados en la tarea)
-      addTreatmentRow('Paracetamol', '1 tableta (500 mg)', 'Cada 8 horas', '5 días', 'Tomar con abundante agua');
-      addTreatmentRow('Ibuprofeno', '1 tableta (400 mg)', 'Cada 12 horas', '3 días', 'En caso de molestia o inflamación');
+      if (!window.MedConnectAPI || !window.MedConnectAPI.isAuthenticated()) {
+        document.querySelector('.rx-main-layout')?.insertAdjacentHTML('afterbegin', `
+          <div class="panel-card" style="text-align:center; padding:2rem; margin-bottom:1.5rem;">
+            <h2>Sesión médica requerida</h2>
+            <p>Inicia sesión como médico para emitir o consultar recetas.</p>
+            <a href="index.html" class="btn-action-primary" style="display:inline-flex; text-decoration:none;">Ir a iniciar sesión</a>
+          </div>`);
+        return;
+      }
+
+      if (!window.MedConnectAPI.requireAuth('doctor')) {
+        window.location.replace(window.MedConnectAPI.getAuthenticatedHomeUrl());
+        return;
+      }
+
+      initSignatureCanvas();
+      await loadDoctorFromProfile();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      currentConsultationId = urlParams.get('consultationId');
+      const folioParam = urlParams.get('folio');
+
+      if (folioParam) {
+        await loadExistingPrescription(folioParam);
+        return;
+      }
+
+      if (currentConsultationId) {
+        await loadConsultationContext(currentConsultationId);
+      } else {
+        await fetchNextFolio();
+        addTreatmentRow('Paracetamol', '1 tableta (500 mg)', 'Cada 8 horas', '5 días', 'Tomar con abundante agua');
+      }
     });
+
+    function applyDoctorProfile(doc) {
+      if (!doc) return;
+      document.getElementById('docName').value = doc.name || doc.fullName || '';
+      document.getElementById('docLicense').value = doc.professionalId || '';
+      document.getElementById('docSpecialty').value = doc.specialty || '';
+      document.getElementById('docPhone').value = doc.phone || '';
+      document.getElementById('docEmail').value = doc.email || '';
+      document.getElementById('clinicName').value = doc.clinicName || 'Consultorio Médico Particular';
+      document.getElementById('clinicAddress').value = doc.clinicAddress || '';
+      document.getElementById('clinicPhone').value = doc.clinicPhone || doc.phone || '';
+      currentDoctorId = doc.id || doc.professionalId || currentDoctorId;
+    }
+
+    async function loadDoctorFromProfile() {
+      if (!window.MedConnectAPI) return;
+      const activeDoc = window.MedConnectAPI.getActiveUser();
+      if (!activeDoc) return;
+      applyDoctorProfile(activeDoc);
+      try {
+        const res = await window.MedConnectAPI.getDoctorProfile(activeDoc.professionalId || '', activeDoc.id || '');
+        if (res.ok && res.data?.doctor) {
+          applyDoctorProfile({ ...activeDoc, ...res.data.doctor });
+        }
+      } catch (err) {
+        console.warn('No se pudo refrescar el perfil médico:', err);
+      }
+    }
+
+    function enterViewOnlyMode(folio) {
+      isExistingPrescription = true;
+      savedPrescriptionFolio = folio;
+      document.getElementById('lblFolioDisplay').textContent = folio;
+      const saveBtn = document.getElementById('btnSavePrescription');
+      if (saveBtn) {
+        saveBtn.innerHTML = `${uiIcon('eye')} Receta ya emitida`;
+        saveBtn.disabled = true;
+      }
+      showToast(`Receta existente ${folio}. No se generó un folio nuevo.`, 'info');
+    }
+
+    async function loadExistingPrescription(folioOrId) {
+      if (!window.MedConnectAPI) return false;
+      const res = await window.MedConnectAPI.getPrescriptionByFolio(folioOrId);
+      if (!res.ok || !res.data?.prescription) return false;
+      const p = res.data.prescription;
+      enterViewOnlyMode(p.folio || folioOrId);
+
+      if (p.doctor) applyDoctorProfile({
+        name: p.doctor.name,
+        professionalId: p.doctor.professionalId,
+        specialty: p.doctor.specialty,
+        phone: p.doctor.phone,
+        email: p.doctor.email,
+        clinicName: p.clinic?.name,
+        clinicAddress: p.clinic?.address,
+        clinicPhone: p.clinic?.phone,
+        id: p.doctor.doctorId
+      });
+      if (p.patient) {
+        document.getElementById('patientName').value = p.patient.name || '';
+        document.getElementById('patientAge').value = p.patient.age || '';
+        document.getElementById('patientCurp').value = p.patient.curp || '';
+        document.getElementById('patientAllergies').value = p.patient.allergies || '';
+      }
+      currentDiagnosis = p.diagnosis || currentDiagnosis;
+      currentConsultationId = p.consultationId || currentConsultationId;
+      currentPatientId = p.patient?.patientId || currentPatientId;
+      document.getElementById('rxObservations').value = p.observations || '';
+
+      document.getElementById('treatmentsContainer').innerHTML = '';
+      treatmentCounter = 0;
+      (p.treatments || []).forEach(t => {
+        addTreatmentRow(t.medication || '', t.dose || '', t.frequency || '', t.duration || '', t.notes || '');
+      });
+      return true;
+    }
+
+    async function loadConsultationContext(conId) {
+      if (!window.MedConnectAPI) return;
+      try {
+        const res = await window.MedConnectAPI.getConsultationById(conId);
+        if (!res.ok || !res.data?.consultation) return;
+        const c = res.data.consultation;
+        currentConsultationId = c.id || c.consultationId;
+        currentPatientId = c.patientId;
+        currentDoctorId = c.doctorId || currentDoctorId;
+        currentDiagnosis = c.diagnosis || '';
+
+        fillConsultSummary(c);
+        const demoActions = document.getElementById('demoPatientActions');
+        if (demoActions) demoActions.style.display = 'none';
+
+        if (c.patientName) document.getElementById('patientName').value = c.patientName;
+        if (c.patientCurp) document.getElementById('patientCurp').value = c.patientCurp;
+        if (c.patientAllergies) document.getElementById('patientAllergies').value = c.patientAllergies;
+        if (c.vitals?.weight && c.vitals?.height) {
+          document.getElementById('patientAge').value = `${c.vitals.weight}kg • Talla ${c.vitals.height}m (IMC: ${c.vitals.bmi || '--'})`;
+        }
+
+        const existingFolio = c.prescriptionFolio || c.prescriptionId;
+        if (existingFolio) {
+          const loaded = await loadExistingPrescription(existingFolio);
+          if (loaded) return;
+          const listRes = await window.MedConnectAPI.getPrescriptions({ consultationId: currentConsultationId });
+          const existing = listRes.data?.prescriptions?.[0];
+          if (existing) {
+            await loadExistingPrescription(existing.folio || existing.id);
+            return;
+          }
+        }
+
+        await fetchNextFolio();
+
+        const treatmentText = (c.treatment || c.tratamiento || '').trim();
+        const notesText = (c.notes || '').trim();
+        const notesAreTreatment = notesText && treatmentText && notesText === treatmentText;
+        const careNotes = (notesText && !notesAreTreatment)
+          ? notesText
+          : 'Reposo relativo durante 48 horas. Hidratación abundante (mínimo 2 litros de agua al día). Evitar cambios bruscos de temperatura. En caso de fiebre persistente mayor a 38.5°C acudir a valoración.';
+        document.getElementById('rxObservations').value = careNotes;
+
+        document.getElementById('treatmentsContainer').innerHTML = '';
+        treatmentCounter = 0;
+        const parsedTreatments = parseTreatmentText(treatmentText);
+        parsedTreatments.forEach(t => addTreatmentRow(t.med, t.dose, t.freq, t.dur, t.notes));
+
+        showToast(`Consulta ${currentConsultationId} lista para emitir receta.`, 'success');
+      } catch (err) {
+        console.warn('Error cargando contexto de consulta:', err);
+      }
+    }
 
     // 1. OBTENER FOLIO ÚNICO AUTOMÁTICO
     async function fetchNextFolio() {
@@ -978,6 +1241,54 @@
       return fallback;
     }
 
+    function fillConsultSummary(c) {
+      const card = document.getElementById('consultSummaryCard');
+      if (!card) return;
+      document.getElementById('sumConsultId').textContent = c.id || c.consultationId || '—';
+      document.getElementById('sumConsultDiagnosis').textContent = c.diagnosis || '—';
+      document.getElementById('sumConsultReason').textContent = c.reason || '—';
+      document.getElementById('sumConsultTreatment').textContent = c.treatment || c.tratamiento || 'Sin tratamiento capturado en consulta';
+      card.classList.add('visible');
+    }
+
+    function parseTreatmentText(text) {
+      const raw = String(text || '').trim();
+      if (!raw) {
+        return [{
+          med: 'Paracetamol',
+          dose: '1 tableta (500 mg)',
+          freq: 'Cada 8 horas',
+          dur: '5 días',
+          notes: 'Tomar después de los alimentos'
+        }];
+      }
+
+      const chunks = raw
+        .split(/[.\n;]+/)
+        .map(s => s.trim())
+        .filter(s => s.length > 2)
+        .filter(s => !/^(reposo|hidrataci[oó]n|indicaciones)/i.test(s));
+
+      const source = chunks.length ? chunks : [raw];
+      return source.map(chunk => {
+        const freqMatch = chunk.match(/cada\s+\d+\s*(horas?|hrs?|h|d[ií]as?)/i);
+        const durMatch = chunk.match(/(?:por|durante)\s+\d+\s*(d[ií]as?|semanas?)/i);
+        const doseMatch = chunk.match(/(\d+\s*(?:mg|ml|mcg)|1\s*(?:tableta|c[aá]psula|pastilla)(?:\s*\([^)]+\))?)/i);
+        let med = chunk;
+        if (freqMatch) med = med.replace(freqMatch[0], '');
+        if (durMatch) med = med.replace(durMatch[0], '');
+        if (doseMatch) med = med.replace(doseMatch[0], '');
+        med = med.replace(/\s+/g, ' ').replace(/^[\s,:-]+|[\s,:-]+$/g, '');
+        return {
+          med: med || chunk,
+          dose: doseMatch ? doseMatch[0] : '',
+          freq: freqMatch ? freqMatch[0] : '',
+          dur: durMatch ? durMatch[0].replace(/^(por|durante)\s+/i, '') : '',
+          notes: 'Indicación registrada en consulta'
+        };
+      });
+    }
+
     // 2. AGREGADOR DINÁMICO DE TRATAMIENTOS / MEDICAMENTOS
     function addTreatmentRow(med = '', dose = '', freq = '', dur = '', notes = '') {
       treatmentCounter++;
@@ -991,7 +1302,7 @@
         <div class="treatment-header">
           <span class="treatment-badge">Tratamiento #${treatmentCounter}</span>
           <button type="button" class="btn-remove-treatment" onclick="removeTreatmentRow(${treatmentCounter})">
-            🗑️ Eliminar
+            ${uiIcon('trash')} Eliminar
           </button>
         </div>
         <div class="treatment-inputs-grid">
@@ -1102,7 +1413,7 @@
       const coords = getCanvasCoordinates(e);
       ctx.beginPath();
       ctx.moveTo(coords.x, coords.y);
-      document.getElementById('sigStatusHint').textContent = '✍️ Firma en proceso...';
+      document.getElementById('sigStatusHint').textContent = 'Firma en proceso...';
       document.getElementById('sigStatusHint').style.color = '#347072';
     }
 
@@ -1117,7 +1428,7 @@
       if (isDrawing) {
         isDrawing = false;
         ctx.closePath();
-        document.getElementById('sigStatusHint').textContent = '✅ Firma registrada correctamente.';
+        document.getElementById('sigStatusHint').textContent = 'Firma registrada.';
         document.getElementById('sigStatusHint').style.color = '#2E7260';
       }
     }
@@ -1126,7 +1437,7 @@
       if (!ctx || !canvas) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       hasSignature = false;
-      document.getElementById('sigStatusHint').textContent = '✏️ Dibuje su rúbrica sobre la línea punteada.';
+      document.getElementById('sigStatusHint').textContent = 'Dibuje su rúbrica sobre la línea punteada.';
       document.getElementById('sigStatusHint').style.color = '#7E92A2';
       showToast('Lienzo de firma limpiado.', 'info');
     }
@@ -1144,7 +1455,9 @@
         name: document.getElementById('docName').value.trim(),
         professionalId: document.getElementById('docLicense').value.trim(),
         specialty: document.getElementById('docSpecialty').value.trim(),
-        phone: document.getElementById('docPhone').value.trim()
+        phone: document.getElementById('docPhone').value.trim(),
+        email: document.getElementById('docEmail').value.trim(),
+        doctorId: currentDoctorId
       };
 
       const clinic = {
@@ -1188,6 +1501,10 @@
 
       return {
         folio,
+        consultationId: currentConsultationId || null,
+        diagnosis: currentDiagnosis || '',
+        patientId: currentPatientId || null,
+        doctorId: currentDoctorId || null,
         doctor,
         clinic,
         patient,
@@ -1200,6 +1517,11 @@
 
     // 6. GUARDAR RECETA EN EXPEDIENTE (API Y LOCALSTORAGE)
     async function savePrescription() {
+      if (isExistingPrescription && savedPrescriptionFolio) {
+        previewPrescriptionModal();
+        return;
+      }
+
       const data = collectPrescriptionData();
 
       if (!data.patient.name) {
@@ -1215,26 +1537,47 @@
 
       const saveBtn = document.getElementById('btnSavePrescription');
       saveBtn.disabled = true;
-      saveBtn.innerHTML = '<span>⏳</span> Guardando en expediente...';
+      saveBtn.innerHTML = `${uiIcon('loader')} Guardando receta...`;
 
       try {
         const res = await window.MedConnectAPI.createPrescription(data);
-        if (res.ok) {
-          showToast(`¡Receta guardada exitosamente con Folio: ${data.folio}!`, 'success');
-          // Abrir modal de vista previa para imprimir
+        if (res.ok && res.data?.prescription) {
+          const saved = res.data.prescription;
+          savedPrescriptionFolio = saved.folio;
+          document.getElementById('lblFolioDisplay').textContent = saved.folio;
+          if (res.data.alreadyExists) {
+            enterViewOnlyMode(saved.folio);
+            showToast(`La consulta ya tiene receta (Folio: ${saved.folio}).`, 'info');
+          } else {
+            enterViewOnlyMode(saved.folio);
+            showToast(`¡Receta guardada con Folio: ${saved.folio}!`, 'success');
+          }
           previewPrescriptionModal();
-          // Actualizar al siguiente folio para la próxima receta
-          setTimeout(fetchNextFolio, 1500);
         } else {
-          showToast(res.error || 'Error al guardar la receta.', 'error');
+          showToast(res.data?.message || res.error || 'Error al guardar la receta.', 'error');
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = `${uiIcon('save')} Guardar receta`;
         }
       } catch (err) {
         console.error('Error guardando:', err);
         showToast('Receta respaldada en almacenamiento clínico local.', 'success');
         previewPrescriptionModal();
-      } finally {
         saveBtn.disabled = false;
-        saveBtn.innerHTML = '<span>💾</span> Guardar Receta en Expediente';
+        saveBtn.innerHTML = `${uiIcon('save')} Guardar receta`;
+      }
+    }
+
+    async function downloadOfficialPdf() {
+      const folio = savedPrescriptionFolio;
+      if (!folio) {
+        showToast('Guarda la receta primero para generar el PDF oficial.', 'error');
+        return;
+      }
+      try {
+        await window.MedConnectAPI.downloadPrescriptionPdf(folio);
+        showToast('PDF descargado.', 'success');
+      } catch (err) {
+        showToast(err.message || 'No se pudo descargar el PDF.', 'error');
       }
     }
 
@@ -1257,6 +1600,18 @@
       document.getElementById('prevPatientName').textContent = data.patient.name || 'Paciente no especificado';
       document.getElementById('prevPatientAge').textContent = data.patient.age || '-';
       document.getElementById('prevPatientAllergies').textContent = data.patient.allergies || 'Ninguna conocida';
+
+      // Diagnóstico clínico
+      const diagElem = document.getElementById('prevDiagnosisVal');
+      const diagBox = document.getElementById('prevDiagnosisContainer');
+      if (diagElem && diagBox) {
+        if (data.diagnosis) {
+          diagElem.textContent = data.diagnosis;
+          diagBox.style.display = 'block';
+        } else {
+          diagBox.style.display = 'none';
+        }
+      }
 
       // Tabla de tratamientos
       const tbody = document.getElementById('prevTreatmentsTableBody');
@@ -1312,9 +1667,9 @@
 
       const toast = document.createElement('div');
       const colors = {
-        success: { bg: '#EAF4F0', border: '#BCD9CC', text: '#285A48', icon: '✅' },
-        error: { bg: '#FDF2F2', border: '#F8B4B4', text: '#9B1C1C', icon: '🚨' },
-        info: { bg: '#E8F1F8', border: '#BED6E8', text: '#2B5777', icon: 'ℹ️' }
+        success: { bg: '#EAF4F0', border: '#BCD9CC', text: '#285A48', icon: 'check' },
+        error: { bg: '#FDF2F2', border: '#F8B4B4', text: '#9B1C1C', icon: 'alert-triangle' },
+        info: { bg: '#E8F1F8', border: '#BED6E8', text: '#2B5777', icon: 'info' }
       };
       const theme = colors[type] || colors.info;
 
@@ -1332,7 +1687,7 @@
         gap: 0.5rem;
         animation: fadeIn 0.2s ease;
       `;
-      toast.innerHTML = `<span>${theme.icon}</span><span>${escapeHtml(message)}</span>`;
+      toast.innerHTML = `<span>${uiIcon(theme.icon)}</span><span>${escapeHtml(message)}</span>`;
       container.appendChild(toast);
 
       setTimeout(() => {

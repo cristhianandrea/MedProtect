@@ -284,13 +284,46 @@ document.addEventListener('DOMContentLoaded', () => {
   const patientLoginBtn = document.getElementById('patientLoginBtn');
 
   if (patientLoginForm) {
-    const handlePatientLogin = (e) => {
+    const handlePatientLogin = async (e) => {
       if (e) e.preventDefault();
-      setButtonLoading(patientLoginBtn, true, 'Accediendo al Portal del Paciente...');
-      showAlert(loginModalAlert, 'success', '¡Acceso concedido! Abriendo Portal del Paciente...');
+      const cred = (patientCredential && patientCredential.value || '').trim();
+      const pass = patientPassword ? patientPassword.value : '';
+      const patientUserError = document.getElementById('patientUserError');
+      const patientPasswordError = document.getElementById('patientPasswordError');
 
+      if (!cred) {
+        showFieldError(patientCredential, patientUserError, 'Ingresa tu CURP, teléfono o correo.');
+        return;
+      }
+      if (!pass) {
+        showFieldError(patientPassword, patientPasswordError, 'Ingresa tu contraseña.');
+        return;
+      }
+
+      setButtonLoading(patientLoginBtn, true, 'Accediendo al Portal del Paciente...');
+
+      if (!window.MedConnectAPI) {
+        setButtonLoading(patientLoginBtn, false, 'Iniciar Sesión en Portal Paciente');
+        showAlert(loginModalAlert, 'error', 'Cliente de API no disponible. Recarga la página.');
+        return;
+      }
+
+      try {
+        const loginRes = await window.MedConnectAPI.login('patient', cred, pass);
+        if (!loginRes.ok) {
+          setButtonLoading(patientLoginBtn, false, 'Iniciar Sesión en Portal Paciente');
+          showAlert(loginModalAlert, 'error', loginRes.data?.message || 'Paciente no encontrado. Verifica tus datos.');
+          return;
+        }
+      } catch (err) {
+        setButtonLoading(patientLoginBtn, false, 'Iniciar Sesión en Portal Paciente');
+        showAlert(loginModalAlert, 'error', 'No se pudo conectar con el servidor. Inicia el backend en el puerto 5000.');
+        return;
+      }
+
+      showAlert(loginModalAlert, 'success', '¡Acceso concedido! Abriendo Portal del Paciente...');
       setTimeout(() => {
-        window.location.href = 'paciente-dashboard.html';
+        window.location.href = window.MedConnectAPI.getAuthenticatedHomeUrl();
       }, 200);
     };
 
@@ -302,13 +335,42 @@ document.addEventListener('DOMContentLoaded', () => {
   const minorLoginBtn = document.getElementById('minorLoginBtn');
 
   if (minorLoginForm) {
-    minorLoginForm.addEventListener('submit', (e) => {
+    minorLoginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      setButtonLoading(minorLoginBtn, true, 'Accediendo al expediente pediátrico...');
-      showAlert(loginModalAlert, 'success', 'Acceso concedido. Abriendo Portal del Paciente...');
+      const codeInput = document.getElementById('minorLoginCode');
+      const passInput = document.getElementById('minorLoginPassword');
+      const cred = (codeInput && codeInput.value || '').trim();
+      const pass = passInput ? passInput.value : '';
 
+      if (!cred) {
+        showAlert(loginModalAlert, 'error', 'Ingresa el código de expediente o CURP del menor.');
+        return;
+      }
+
+      setButtonLoading(minorLoginBtn, true, 'Accediendo al expediente pediátrico...');
+
+      if (!window.MedConnectAPI) {
+        setButtonLoading(minorLoginBtn, false, 'Iniciar Sesión');
+        showAlert(loginModalAlert, 'error', 'Cliente de API no disponible. Recarga la página.');
+        return;
+      }
+
+      try {
+        const loginRes = await window.MedConnectAPI.login('minor', cred, pass);
+        if (!loginRes.ok) {
+          setButtonLoading(minorLoginBtn, false, 'Iniciar Sesión');
+          showAlert(loginModalAlert, 'error', loginRes.data?.message || 'Expediente no encontrado.');
+          return;
+        }
+      } catch (err) {
+        setButtonLoading(minorLoginBtn, false, 'Iniciar Sesión');
+        showAlert(loginModalAlert, 'error', 'No se pudo conectar con el servidor.');
+        return;
+      }
+
+      showAlert(loginModalAlert, 'success', 'Acceso concedido. Abriendo Portal del Paciente...');
       setTimeout(() => {
-        window.location.href = 'paciente-dashboard.html';
+        window.location.href = window.MedConnectAPI.getAuthenticatedHomeUrl();
       }, 200);
     });
   }
@@ -341,19 +403,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
       setButtonLoading(doctorLoginBtn, true, 'Validando Cédula en Base de Datos...');
 
-      if (window.MedConnectAPI) {
-        try {
-          const loginRes = await window.MedConnectAPI.login('doctor', cred, pass);
-          if (!loginRes.ok) {
-            setButtonLoading(doctorLoginBtn, false, 'Iniciar Sesión Médica');
-            showAlert(loginModalAlert, 'error', 'Médico no registrado en la base de datos de MedConnect. Por favor solicita tu afiliación.');
-            return;
-          }
-        } catch (err) {}
+      if (!window.MedConnectAPI) {
+        setButtonLoading(doctorLoginBtn, false, 'Iniciar Sesión Médica');
+        showAlert(loginModalAlert, 'error', 'Cliente de API no disponible. Recarga la página.');
+        return;
+      }
+
+      try {
+        const loginRes = await window.MedConnectAPI.login('doctor', cred, pass);
+        if (!loginRes.ok) {
+          setButtonLoading(doctorLoginBtn, false, 'Iniciar Sesión Médica');
+          showAlert(loginModalAlert, 'error', loginRes.data?.message || 'Médico no registrado. Solicita tu afiliación o verifica la cédula.');
+          return;
+        }
+      } catch (err) {
+        setButtonLoading(doctorLoginBtn, false, 'Iniciar Sesión Médica');
+        showAlert(loginModalAlert, 'error', 'No se pudo conectar con el servidor. Inicia el backend en el puerto 5000.');
+        return;
       }
 
       setButtonLoading(doctorLoginBtn, false, 'Iniciar Sesión Médica');
-      showAlert(loginModalAlert, 'success', `Sesión médica autorizada para: ${cred}.`);
+      showAlert(loginModalAlert, 'success', `¡Acceso concedido! Abriendo Portal Médico...`);
+
+      setTimeout(() => {
+        window.location.href = window.MedConnectAPI.getAuthenticatedHomeUrl();
+      }, 300);
     });
 
     doctorCredential.addEventListener('input', () => clearFieldError(doctorCredential, doctorUserError));
@@ -684,7 +758,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const submitBtn = document.getElementById('registerPatientSubmitBtn');
       setButtonLoading(submitBtn, true, 'Creando expediente digital...');
 
-      const generatedPatientId = `MC-PAC-2026-${Math.floor(1000 + Math.random() * 9000)}`;
       const selectedAllergySummary = Array.from(allergyCheckboxes)
         .filter(cb => cb.checked && cb.value !== 'Otros')
         .map(cb => cb.value);
@@ -692,31 +765,52 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedAllergySummary.push(`Otros: ${customAllergyText}`);
       }
 
-      setTimeout(() => {
-        setButtonLoading(submitBtn, false, 'Completar Registro de Paciente');
-        
-        showAlert(
-          patientRegisterAlert, 
-          'success', 
-          `✅ ¡Registro completado exitosamente!<br>
-           <strong>Paciente:</strong> ${firstName} ${lastNameP} ${lastNameM}<br>
-           <strong>Fecha Nacimiento:</strong> ${birthDateVal} (${genderVal})<br>
-           <strong>Tipo de Sangre:</strong> <span style="font-weight:700; color:var(--primary);">${bloodTypeVal}</span><br>
-           <strong>Teléfono:</strong> ${phoneVal}<br>
-           <strong>Alergias:</strong> ${selectedAllergySummary.join(', ') || 'Sin alergias'}<br>
-           <strong>Expediente Digital Asignado:</strong> <span style="font-family:monospace; background:rgba(0,0,0,0.06); padding:2px 6px; border-radius:4px;">${generatedPatientId}</span><br>
-           Ya puedes iniciar sesión en el <em>Portal del Paciente</em> con tu CURP, correo o teléfono.`
-        );
+      const patientPayload = {
+        firstName,
+        lastNameP,
+        lastNameM,
+        name: `${firstName} ${lastNameP} ${lastNameM}`.trim(),
+        fullName: `${firstName} ${lastNameP} ${lastNameM}`.trim(),
+        birthDate: birthDateVal,
+        gender: genderVal,
+        phone: phoneVal,
+        bloodType: bloodTypeVal,
+        curp: curpVal,
+        email: emailVal,
+        allergies: selectedAllergySummary.join(', ') || 'Sin alergias conocidas',
+        password: newPass
+      };
 
-        // Prellenar el formulario de login de paciente
-        if (patientCredential) patientCredential.value = curpVal || phoneVal || emailVal || firstName;
-
-        setTimeout(() => {
-          closePatientModal();
-          openLoginModal('patient');
-          showAlert(loginModalAlert, 'info', `Expediente ${generatedPatientId} registrado para ${firstName}. Ingresa tu contraseña para entrar.`);
-        }, 2200);
-      }, 1400);
+      (async () => {
+        try {
+          if (!window.MedConnectAPI) {
+            throw new Error('API no disponible');
+          }
+          const res = await window.MedConnectAPI.register('patient', patientPayload);
+          setButtonLoading(submitBtn, false, 'Completar Registro de Paciente');
+          if (!res.ok) {
+            showAlert(patientRegisterAlert, 'error', res.data?.message || 'No se pudo registrar al paciente.');
+            return;
+          }
+          const generatedPatientId = res.data?.user?.id || `PAT-${Date.now()}`;
+          showAlert(
+            patientRegisterAlert,
+            'success',
+            `✅ ¡Registro completado exitosamente!<br>
+             <strong>Paciente:</strong> ${firstName} ${lastNameP} ${lastNameM}<br>
+             <strong>Expediente:</strong> <span style="font-family:monospace;">${generatedPatientId}</span>`
+          );
+          if (patientCredential) patientCredential.value = curpVal || phoneVal || emailVal || firstName;
+          setTimeout(() => {
+            closePatientModal();
+            openLoginModal('patient');
+            showAlert(loginModalAlert, 'info', `Expediente ${generatedPatientId} registrado. Ingresa tu contraseña para entrar.`);
+          }, 1800);
+        } catch (err) {
+          setButtonLoading(submitBtn, false, 'Completar Registro de Paciente');
+          showAlert(patientRegisterAlert, 'error', 'Error de conexión con el servidor.');
+        }
+      })();
     });
   }
 
@@ -1142,29 +1236,53 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const submitBtn = document.getElementById('registerDoctorSubmitBtn');
-      setButtonLoading(submitBtn, true, 'Validando Cédula Profesional...');
+      setButtonLoading(submitBtn, true, 'Guardando en base de datos...');
 
-      const generatedDocId = `MC-DOC-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+      const doctorPayload = {
+        name: `Dr(a). ${docName} ${docLast} ${document.getElementById('docLastNameM')?.value.trim() || ''}`.trim(),
+        firstName: docName,
+        lastNameP: docLast,
+        lastNameM: document.getElementById('docLastNameM')?.value.trim() || '',
+        curp: document.getElementById('docCurp')?.value.trim() || '',
+        professionalId: docLicense,
+        specialty: docSpecialty,
+        clinicName: document.getElementById('docHospital')?.value.trim() || 'Consultorio Médico Particular',
+        phone: document.getElementById('docPhone')?.value.trim() || '',
+        email: docEmail,
+        password: docPass
+      };
 
-      setTimeout(() => {
-        setButtonLoading(submitBtn, false, 'Registrar Perfil Médico');
-        showAlert(
-          doctorRegisterAlert,
-          'success',
-          `✅ Perfil médico registrado.<br>
-           <strong>Médico:</strong> Dr(a). ${docName} ${docLast}<br>
-           <strong>Cédula:</strong> ${docLicense} (${docSpecialty})<br>
-           <strong>Identificador Clínico:</strong> ${generatedDocId}`
-        );
+      (async () => {
+        try {
+          if (window.MedConnectAPI) {
+            const res = await window.MedConnectAPI.register('doctor', doctorPayload);
+            setButtonLoading(submitBtn, false, 'Registrar Perfil Médico');
 
-        if (doctorCredential) doctorCredential.value = docLicense;
+            if (res.ok) {
+              showAlert(
+                doctorRegisterAlert,
+                'success',
+                `✅ Perfil médico registrado exitosamente en la base de datos.<br>
+                 <strong>Médico:</strong> Dr(a). ${docName} ${docLast}<br>
+                 <strong>Cédula:</strong> ${docLicense} (${docSpecialty})`
+              );
 
-        setTimeout(() => {
-          closeDoctorModal();
-          openLoginModal('doctor');
-          showAlert(loginModalAlert, 'info', `Cédula ${docLicense} lista para autenticación médica.`);
-        }, 2200);
-      }, 1300);
+              if (doctorCredential) doctorCredential.value = docLicense;
+
+              setTimeout(() => {
+                closeDoctorModal();
+                openLoginModal('doctor');
+                showAlert(loginModalAlert, 'info', `Cédula ${docLicense} lista para autenticación médica.`);
+              }, 1800);
+            } else {
+              showAlert(doctorRegisterAlert, 'error', res.data?.message || 'Error al registrar el perfil médico.');
+            }
+          }
+        } catch (err) {
+          setButtonLoading(submitBtn, false, 'Registrar Perfil Médico');
+          showAlert(doctorRegisterAlert, 'error', 'Error de conexión con el servidor.');
+        }
+      })();
     });
   }
 
@@ -1368,14 +1486,21 @@ document.addEventListener('DOMContentLoaded', () => {
 // ================= 10. DEDICADO: DASHBOARD PACIENTE =================
 // =========================================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Comprobar si nos encontramos en la vista de Dashboard Paciente
   const dashboardContainer = document.getElementById('patientDashboardApp');
   if (!dashboardContainer) return;
 
-  // Limpiar cualquier residuo de datos en localStorage para garantizar vista limpia
-  try {
-    localStorage.removeItem('medconnect_active_patient');
-  } catch (err) {}
+  const api = window.MedConnectAPI;
+  if (!api || !api.isAuthenticated()) {
+    window.location.replace('index.html');
+    return;
+  }
+  if (!api.requireAuth('patient')) {
+    window.location.replace(api.getAuthenticatedHomeUrl());
+    return;
+  }
+  if (typeof api.applyAuthenticatedNavigation === 'function') {
+    api.applyAuthenticatedNavigation();
+  }
 
   // ---------------------------------------------------------
   // A. ESTADO DE CITAS Y CALENDARIO (SINCRONIZADO CON API)
