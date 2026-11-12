@@ -1731,20 +1731,25 @@
 
             <!-- Especialidad Médica -->
             <div class="form-group">
-              <label for="docSpecialty" class="form-label">Especialidad o Área <span class="req-star">*</span></label>
-              <select id="docSpecialty" class="form-input form-select" required>
-                <option value="">Selecciona especialidad...</option>
-                <option value="Medicina General">Medicina General / Familiar</option>
-                <option value="Pediatría">Pediatría</option>
-                <option value="Ginecología y Obstetricia">Ginecología y Obstetricia</option>
-                <option value="Cardiología">Cardiología</option>
-                <option value="Cirugía General">Cirugía General</option>
-                <option value="Medicina Interna">Medicina Interna</option>
-                <option value="Traumatología y Ortopedia">Traumatología y Ortopedia</option>
-                <option value="Oftalmología">Oftalmología</option>
-                <option value="Dermatología">Dermatología</option>
-                <option value="Otras Especialidades">Otras Especialidades</option>
-              </select>
+              <label for="docSpecialtyTrigger" class="form-label">Especialidad o Área <span class="req-star">*</span></label>
+              <div class="page-select landing-select" id="docSpecialty" data-value="">
+                <button type="button" id="docSpecialtyTrigger" class="page-select-trigger form-input is-empty" aria-haspopup="listbox" aria-expanded="false" aria-controls="docSpecialtyMenu">
+                  <span class="page-select-label">Selecciona especialidad...</span>
+                  <svg class="page-select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <ul class="page-select-menu landing-select-menu" id="docSpecialtyMenu" role="listbox" hidden>
+                  <li role="presentation"><button type="button" role="option" data-value="Medicina General" aria-selected="false">Medicina General / Familiar<svg class="page-select-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></button></li>
+                  <li role="presentation"><button type="button" role="option" data-value="Pediatría" aria-selected="false">Pediatría<svg class="page-select-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></button></li>
+                  <li role="presentation"><button type="button" role="option" data-value="Ginecología y Obstetricia" aria-selected="false">Ginecología y Obstetricia<svg class="page-select-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></button></li>
+                  <li role="presentation"><button type="button" role="option" data-value="Cardiología" aria-selected="false">Cardiología<svg class="page-select-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></button></li>
+                  <li role="presentation"><button type="button" role="option" data-value="Cirugía General" aria-selected="false">Cirugía General<svg class="page-select-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></button></li>
+                  <li role="presentation"><button type="button" role="option" data-value="Medicina Interna" aria-selected="false">Medicina Interna<svg class="page-select-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></button></li>
+                  <li role="presentation"><button type="button" role="option" data-value="Traumatología y Ortopedia" aria-selected="false">Traumatología y Ortopedia<svg class="page-select-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></button></li>
+                  <li role="presentation"><button type="button" role="option" data-value="Oftalmología" aria-selected="false">Oftalmología<svg class="page-select-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></button></li>
+                  <li role="presentation"><button type="button" role="option" data-value="Dermatología" aria-selected="false">Dermatología<svg class="page-select-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></button></li>
+                  <li role="presentation"><button type="button" role="option" data-value="Otras Especialidades" aria-selected="false">Otras Especialidades<svg class="page-select-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></button></li>
+                </ul>
+              </div>
             </div>
 
             <!-- Hospital o Clínica de Adscripción -->
@@ -1837,15 +1842,20 @@
           </div>
 
           <div class="form-group">
-            <label for="clinicType" class="form-label">Tipo de Establecimiento <span class="req-star">*</span></label>
-            <select id="clinicType" class="form-input form-select" required>
-              <option value="">Selecciona categoría...</option>
-              <option value="publico_imss_issste">Sector Público (IMSS / ISSSTE / SSA / Centro de Salud)</option>
-              <option value="privado_hospital">Hospital / Policlínico Privado</option>
-              <option value="farmacia_similares">Consultorio Anexo a Farmacia (Similares / Guadalajara / Ahorro / Benavides)</option>
-              <option value="consultorio_independiente">Consultorio Médico Independiente / Particular</option>
-              <option value="laboratorio">Laboratorio Clínico / Imagenología</option>
-            </select>
+            <label for="clinicTypeTrigger" class="form-label">Tipo de Establecimiento <span class="req-star">*</span></label>
+            <div class="page-select landing-select" id="clinicType" data-value="">
+              <button type="button" id="clinicTypeTrigger" class="page-select-trigger form-input is-empty" aria-haspopup="listbox" aria-expanded="false" aria-controls="clinicTypeMenu">
+                <span class="page-select-label">Selecciona categoría...</span>
+                <svg class="page-select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+              <ul class="page-select-menu landing-select-menu" id="clinicTypeMenu" role="listbox" hidden>
+                <li role="presentation"><button type="button" role="option" data-value="publico_imss_issste" aria-selected="false">Sector Público (IMSS / ISSSTE / SSA / Centro de Salud)<svg class="page-select-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></button></li>
+                <li role="presentation"><button type="button" role="option" data-value="privado_hospital" aria-selected="false">Hospital / Policlínico Privado<svg class="page-select-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></button></li>
+                <li role="presentation"><button type="button" role="option" data-value="farmacia_similares" aria-selected="false">Consultorio Anexo a Farmacia (Similares / Guadalajara / Ahorro / Benavides)<svg class="page-select-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></button></li>
+                <li role="presentation"><button type="button" role="option" data-value="consultorio_independiente" aria-selected="false">Consultorio Médico Independiente / Particular<svg class="page-select-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></button></li>
+                <li role="presentation"><button type="button" role="option" data-value="laboratorio" aria-selected="false">Laboratorio Clínico / Imagenología<svg class="page-select-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></button></li>
+              </ul>
+            </div>
           </div>
 
           <div class="form-group">

@@ -646,8 +646,23 @@
       if (!docsList || !window.MedConnectAPI) return;
 
       try {
-        const res = await window.MedConnectAPI.getPrescriptions();
-        const prescriptions = res.data?.prescriptions || [];
+        const sessionUser = window.MedConnectAPI.getActiveUser() || {};
+        const ownId = String(sessionUser.id || sessionUser.patientId || '');
+        const ownCurp = String(sessionUser.curp || '').trim().toLowerCase();
+        const ownName = String(sessionUser.fullName || sessionUser.name || '').trim().toLowerCase();
+        const filters = {};
+        if (ownId) filters.patientId = ownId;
+        else if (ownCurp) filters.curp = ownCurp;
+        const res = await window.MedConnectAPI.getPrescriptions(filters);
+        const prescriptions = (res.data?.prescriptions || []).filter(rx => {
+          const pat = rx.patient || {};
+          const rxId = String(pat.patientId || rx.patientId || '');
+          if (ownId && rxId === ownId) return true;
+          const rxCurp = String(pat.curp || '').trim().toLowerCase();
+          if (ownCurp && rxCurp && rxCurp === ownCurp) return true;
+          const rxName = String(pat.name || rx.patientName || '').trim().toLowerCase();
+          return !!(ownName && rxName && rxName === ownName);
+        });
 
         if (prescriptions.length > 0) {
           docsList.innerHTML = '';
@@ -657,6 +672,10 @@
             card.style.cssText = 'background: #FFFFFF; border: 1px solid #CAD6DF; border-radius: 10px; padding: 1.25rem; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;';
             
             const medsSummary = (rx.treatments || []).map(t => `${t.medication} (${t.dose})`).join(', ');
+            const folio = rx.folio || rx.id || '';
+            const pdfUrl = window.MedConnectAPI.getPrescriptionPdfUrl
+              ? window.MedConnectAPI.getPrescriptionPdfUrl(folio)
+              : `/api/prescriptions/${encodeURIComponent(folio)}/pdf`;
 
             card.innerHTML = `
               <div>
@@ -672,8 +691,8 @@
                 </div>
               </div>
               <div style="display: flex; gap: 0.5rem;">
-                <a href="medico-receta.html" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.825rem; text-decoration: none; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.35rem;">
-                  <span>👁️</span> Ver / Emitir
+                <a href="${pdfUrl}" target="_blank" rel="noopener" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.825rem; text-decoration: none; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.35rem;">
+                  <span>👁️</span> Ver receta
                 </a>
               </div>
             `;

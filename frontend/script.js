@@ -1188,6 +1188,90 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================
   // 7. MODAL 2: REGISTRO DE MÉDICO / ESPECIALISTA (USO 2)
   // =========================================================
+  const landingSelectClosers = [];
+  let landingSelectDismissBound = false;
+
+  function bindLandingSelect(rootId, menuId, placeholder) {
+    const root = document.getElementById(rootId);
+    const menu = document.getElementById(menuId);
+    const trigger = root?.querySelector('.page-select-trigger');
+    const label = root?.querySelector('.page-select-label');
+    if (!root || !menu || !trigger || !label) return { close() {}, reset() {} };
+    const slot = { parent: menu.parentElement, next: menu.nextSibling };
+
+    const close = () => {
+      menu.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+      menu.style.position = '';
+      menu.style.left = '';
+      menu.style.top = '';
+      menu.style.width = '';
+      menu.style.zIndex = '';
+      if (menu.parentElement !== slot.parent) slot.parent.insertBefore(menu, slot.next);
+    };
+    landingSelectClosers.push(close);
+
+    const place = () => {
+      const rect = trigger.getBoundingClientRect();
+      menu.style.position = 'fixed';
+      menu.style.zIndex = '10050';
+      menu.style.left = `${Math.round(rect.left)}px`;
+      menu.style.width = `${Math.round(rect.width)}px`;
+      const height = menu.offsetHeight;
+      const below = rect.bottom + 6;
+      const top = below + height > window.innerHeight - 8 ? Math.max(8, rect.top - height - 6) : below;
+      menu.style.top = `${Math.round(top)}px`;
+    };
+
+    trigger.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const willOpen = menu.hidden;
+      landingSelectClosers.forEach((fn) => fn());
+      if (!willOpen) return;
+      menu.hidden = false;
+      document.body.appendChild(menu);
+      place();
+      trigger.setAttribute('aria-expanded', 'true');
+    });
+
+    menu.querySelectorAll('[role="option"]').forEach((option) => {
+      option.addEventListener('click', (event) => {
+        event.stopPropagation();
+        root.dataset.value = option.dataset.value || '';
+        label.textContent = (option.childNodes[0]?.textContent || '').trim();
+        trigger.classList.remove('is-empty');
+        menu.querySelectorAll('[role="option"]').forEach((item) => {
+          item.setAttribute('aria-selected', item === option ? 'true' : 'false');
+        });
+        close();
+      });
+    });
+
+    if (!landingSelectDismissBound) {
+      landingSelectDismissBound = true;
+      document.addEventListener('click', (event) => {
+        if (event.target.closest('.landing-select, .landing-select-menu')) return;
+        landingSelectClosers.forEach((fn) => fn());
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') landingSelectClosers.forEach((fn) => fn());
+      });
+      window.addEventListener('resize', () => landingSelectClosers.forEach((fn) => fn()));
+    }
+
+    return {
+      close,
+      reset() {
+        close();
+        root.dataset.value = '';
+        label.textContent = placeholder;
+        trigger.classList.add('is-empty');
+        menu.querySelectorAll('[role="option"]').forEach((item) => item.setAttribute('aria-selected', 'false'));
+      }
+    };
+  }
+
+  const specialtySelect = bindLandingSelect('docSpecialty', 'docSpecialtyMenu', 'Selecciona especialidad...');
   const registerDoctorModal = document.getElementById('registerDoctorModal');
   const openRegisterDoctorModalBtn = document.getElementById('openRegisterDoctorModalBtn');
   const btnUseDoctorCta = document.getElementById('btnUseDoctorCta');
@@ -1205,6 +1289,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeDoctorModal = () => {
     registerDoctorModal.classList.add('hidden');
     registerDoctorForm.reset();
+    specialtySelect.reset();
     doctorRegisterAlert.classList.add('hidden');
   };
 
@@ -1220,7 +1305,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const docName = document.getElementById('docFirstName').value.trim();
       const docLast = document.getElementById('docLastNameP').value.trim();
       const docLicense = document.getElementById('docLicense').value.trim();
-      const docSpecialty = document.getElementById('docSpecialty').value;
+      const docSpecialty = document.getElementById('docSpecialty')?.dataset.value || '';
       const docEmail = document.getElementById('docEmail').value.trim();
       const docPass = document.getElementById('docPassword').value;
       const docConfirm = document.getElementById('docConfirmPassword').value;
@@ -1297,6 +1382,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const registerClinicForm = document.getElementById('registerClinicForm');
   const clinicRegisterAlert = document.getElementById('clinicRegisterAlert');
 
+  const clinicSelect = bindLandingSelect('clinicType', 'clinicTypeMenu', 'Selecciona categoría...');
+
   const openClinicModal = () => {
     closeAffiliationChooser();
     registerClinicModal.classList.remove('hidden');
@@ -1306,6 +1393,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeClinicModal = () => {
     registerClinicModal.classList.add('hidden');
     registerClinicForm.reset();
+    clinicSelect.reset();
     clinicRegisterAlert.classList.add('hidden');
   };
 
@@ -1319,7 +1407,7 @@ document.addEventListener('DOMContentLoaded', () => {
     registerClinicForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const clinicName = document.getElementById('clinicName').value.trim();
-      const clinicType = document.getElementById('clinicType').value;
+      const clinicType = document.getElementById('clinicType')?.dataset.value || '';
       const director = document.getElementById('contactDirector').value.trim();
       const directorLicense = document.getElementById('directorLicense').value.trim();
       const officialEmail = document.getElementById('officialEmail').value.trim();

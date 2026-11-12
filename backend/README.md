@@ -1,10 +1,5 @@
-# MedConnect API (Backend)
 
-API REST de interoperabilidad y servicios clínicos para la plataforma **MedConnect**.
-
----
-
-## 📁 Estructura del Backend
+##  Estructura del Backend
 
 ```
 MedConnectApi/
@@ -23,25 +18,7 @@ MedConnectApi/
 
 ---
 
-## 🚀 Cómo Iniciar el Backend
-
-### Opción 1: Conector Nativo de Windows (Sin dependencias)
-Ejecuta en PowerShell:
-```powershell
-.\dev-api-server.ps1
-```
-El servidor arrancará inmediatamente en `http://localhost:5000`.
-
-### Opción 2: Node.js / Express
-Si tienes Node.js instalado:
-```bash
-npm install
-npm run dev
-```
-
----
-
-## 📡 Endpoints REST Disponibles
+##  Endpoints REST Disponibles
 
 | Método | Endpoint | Descripción |
 |---|---|---|

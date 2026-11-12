@@ -1,0 +1,16 @@
+[
+  {
+    "id": "INS-1794506441612",
+    "nameKey": "hospital del angel",
+    "name": "Hospital del Angel",
+    "address": "",
+    "phone": "",
+    "email": "",
+    "logoFile": "logos/INS-1794506441612-mwe42jtf-f3cc8e.png",
+    "ownerDoctorId": "DOC-1794506024179",
+    "memberIds": [
+      "DOC-1794506024179"
+    ],
+    "logoOriginal": ""
+  }
+]

@@ -1,5 +1,695 @@
 [
   {
+    "id": "RX-1794524212276",
+    "folio": "FOL-2026-0020",
+    "consultationId": "CON-1794524212273",
+    "diagnosis": "a",
+    "reason": "a",
+    "clinicalNotes": "a",
+    "issuedAt": "2026-11-12T22:56:52.276Z",
+    "doctor": {
+      "name": "Dr(a). Cristhian Avila Hernández",
+      "professionalId": "12345678",
+      "specialty": "Pediatría",
+      "email": "cristhianavilah@outlook.es",
+      "phone": "4494270232",
+      "doctorId": "DOC-1794506024179"
+    },
+    "clinic": {
+      "name": "Hospital del Angel",
+      "address": "",
+      "phone": "",
+      "clues": ""
+    },
+    "patient": {
+      "name": "A",
+      "birthDate": "2026-11-12",
+      "age": "0",
+      "curp": "AA",
+      "allergies": "Ninguna conocida",
+      "patientId": "PAT-1794524186264"
+    },
+    "treatments": [
+      {
+        "item": 1,
+        "medication": "Amoxicilina 500 mg",
+        "dose": "a",
+        "route": "a",
+        "frequency": "a",
+        "duration": "a",
+        "quantity": "",
+        "notes": "a"
+      }
+    ],
+    "observations": "a",
+    "signature": null,
+    "status": "Emitida",
+    "createdAt": "2026-11-12T22:56:52.276Z",
+    "branding": {
+      "kind": "clinic",
+      "clinicName": "Hospital del Angel",
+      "address": "",
+      "phone": "",
+      "email": "",
+      "logoFile": "logos/INS-1794506441612-mwe42jtf-f3cc8e.png"
+    },
+    "signatureFile": "signatures/RX-1794524212276-mwe5ds1h.png",
+    "signatureRecord": {
+      "method": "graphic",
+      "kind": "simple-graphic",
+      "signedAt": "2026-11-12T22:56:52.276Z",
+      "doctorId": "DOC-1794506024179"
+    }
+  },
+  {
+    "id": "RX-1794524116792",
+    "folio": "FOL-2026-0019",
+    "consultationId": "CON-1794524116790",
+    "diagnosis": "A",
+    "reason": "A",
+    "clinicalNotes": "A",
+    "issuedAt": "2026-11-12T22:55:16.792Z",
+    "doctor": {
+      "name": "Dr(a). Cristhian Avila Hernández",
+      "professionalId": "12345678",
+      "specialty": "Pediatría",
+      "email": "cristhianavilah@outlook.es",
+      "phone": "4494270232",
+      "doctorId": "DOC-1794506024179"
+    },
+    "clinic": {
+      "name": "Hospital del Angel",
+      "address": "",
+      "phone": "",
+      "clues": ""
+    },
+    "patient": {
+      "name": "Juan Perez",
+      "birthDate": "1990-01-01",
+      "age": "36",
+      "curp": "PEPJ900101HDFRRN01",
+      "allergies": "Ninguna conocida",
+      "patientId": "PAT-1790042758820"
+    },
+    "treatments": [
+      {
+        "item": 1,
+        "medication": "Paracetamol 500 mg",
+        "dose": "A",
+        "route": "A",
+        "frequency": "A",
+        "duration": "A",
+        "quantity": "A",
+        "notes": "A"
+      }
+    ],
+    "observations": "A",
+    "signature": null,
+    "status": "Emitida",
+    "createdAt": "2026-11-12T22:55:16.792Z",
+    "branding": {
+      "kind": "clinic",
+      "clinicName": "Hospital del Angel",
+      "address": "",
+      "phone": "",
+      "email": "",
+      "logoFile": "logos/INS-1794506441612-mwe42jtf-f3cc8e.png"
+    },
+    "signatureFile": "signatures/RX-1794524116792-mwe5bqd5.png",
+    "signatureRecord": {
+      "method": "graphic",
+      "kind": "simple-graphic",
+      "signedAt": "2026-11-12T22:55:16.792Z",
+      "doctorId": "DOC-1794506024179"
+    }
+  },
+  {
+    "id": "RX-1794507519137",
+    "folio": "FOL-2026-0018",
+    "consultationId": "CON-1790097153714",
+    "diagnosis": "Cefalea tensional / Rinofaringitis aguda leve",
+    "reason": "Cefalea intensa y dolor muscular",
+    "clinicalNotes": "Paracetamol 500 mg cada 8 horas por 5 días. Reposo e hidratación.",
+    "issuedAt": "2026-11-12T18:18:39.137Z",
+    "doctor": {
+      "name": "Dr(a). Cristhian Avila Hernández",
+      "professionalId": "12345678",
+      "specialty": "Pediatría",
+      "email": "cristhianavilah@outlook.es",
+      "phone": "4494270232",
+      "doctorId": "DOC-1794506024179"
+    },
+    "clinic": {
+      "name": "Hospital del Angel",
+      "address": "",
+      "phone": "",
+      "clues": ""
+    },
+    "patient": {
+      "name": "Juan Perez",
+      "birthDate": "1990-01-01",
+      "age": "36",
+      "curp": "PEPJ900101HDFRRN01",
+      "allergies": "Ninguna conocida",
+      "patientId": "PAT-1790042758820"
+    },
+    "treatments": [
+      {
+        "item": 1,
+        "medication": "Paracetamol 500 mg",
+        "dose": "a",
+        "route": "a",
+        "frequency": "aa",
+        "duration": "a",
+        "quantity": "a",
+        "notes": "a"
+      }
+    ],
+    "observations": "j",
+    "signature": null,
+    "status": "Emitida",
+    "createdAt": "2026-11-12T18:18:39.138Z",
+    "branding": {
+      "kind": "clinic",
+      "clinicName": "Hospital del Angel",
+      "address": "",
+      "phone": "",
+      "email": "",
+      "logoFile": "logos/INS-1794506441612-mwdusw3z-c36c16.png"
+    }
+  },
+  {
+    "id": "RX-1794507047136",
+    "folio": "FOL-2026-0017",
+    "consultationId": "CON-1794507047134",
+    "diagnosis": "a",
+    "reason": "a",
+    "clinicalNotes": "aa",
+    "issuedAt": "2026-11-12T18:10:47.136Z",
+    "doctor": {
+      "name": "Dr(a). Cristhian Avila Hernández",
+      "professionalId": "12345678",
+      "specialty": "Pediatría",
+      "email": "cristhianavilah@outlook.es",
+      "phone": "4494270232",
+      "doctorId": "DOC-1794506024179"
+    },
+    "clinic": {
+      "name": "Hospital del Angel",
+      "address": "",
+      "phone": "",
+      "clues": ""
+    },
+    "patient": {
+      "name": "Juan Perez",
+      "birthDate": "1990-01-01",
+      "age": "36",
+      "curp": "PEPJ900101HDFRRN01",
+      "allergies": "Ninguna conocida",
+      "patientId": "PAT-1790042758820"
+    },
+    "treatments": [
+      {
+        "item": 1,
+        "medication": "Paracetamol 500 mg",
+        "dose": "a",
+        "route": "a",
+        "frequency": "a",
+        "duration": "a",
+        "quantity": "a",
+        "notes": "a"
+      }
+    ],
+    "observations": "a",
+    "signature": null,
+    "status": "Emitida",
+    "createdAt": "2026-11-12T18:10:47.136Z",
+    "branding": {
+      "kind": "clinic",
+      "clinicName": "Hospital del Angel",
+      "address": "",
+      "phone": "",
+      "email": "",
+      "logoFile": "logos/INS-1794506441612-mwdusw3z-c36c16.png"
+    }
+  },
+  {
+    "id": "RX-1794506761047",
+    "folio": "FOL-2026-0016",
+    "consultationId": "CON-1794506761045",
+    "diagnosis": "a",
+    "reason": "a",
+    "clinicalNotes": "a",
+    "issuedAt": "2026-11-12T18:06:01.047Z",
+    "doctor": {
+      "name": "Dr(a). Cristhian Avila Hernández",
+      "professionalId": "12345678",
+      "specialty": "Pediatría",
+      "email": "cristhianavilah@outlook.es",
+      "phone": "4494270232",
+      "doctorId": "DOC-1794506024179"
+    },
+    "clinic": {
+      "name": "Hospital del Angel",
+      "address": "",
+      "phone": "",
+      "clues": ""
+    },
+    "patient": {
+      "name": "Juan Perez",
+      "birthDate": "1990-01-01",
+      "age": "36",
+      "curp": "PEPJ900101HDFRRN01",
+      "allergies": "Ninguna conocida",
+      "patientId": "PAT-1790042758820"
+    },
+    "treatments": [
+      {
+        "item": 1,
+        "medication": "Paracetamol 500 mg",
+        "dose": "a",
+        "route": "a",
+        "frequency": "aa",
+        "duration": "a",
+        "quantity": "a",
+        "notes": "a"
+      }
+    ],
+    "observations": "a",
+    "signature": null,
+    "status": "Emitida",
+    "createdAt": "2026-11-12T18:06:01.049Z",
+    "branding": {
+      "kind": "clinic",
+      "clinicName": "Hospital del Angel",
+      "address": "",
+      "phone": "",
+      "email": "",
+      "logoFile": "logos/INS-1794506441612-mwdusw3z-c36c16.png"
+    }
+  },
+  {
+    "id": "RX-1794506090221",
+    "folio": "FOL-2026-0015",
+    "consultationId": "CON-1794506090219",
+    "diagnosis": "a",
+    "reason": "a",
+    "clinicalNotes": "a",
+    "issuedAt": "2026-11-12T17:54:50.221Z",
+    "doctor": {
+      "name": "Dr(a). Cristhian Avila Hernández",
+      "professionalId": "12345678",
+      "specialty": "Pediatría",
+      "email": "cristhianavilah@outlook.es",
+      "phone": "4494270232",
+      "doctorId": "DOC-1794506024179"
+    },
+    "clinic": {
+      "name": "Hospital del Angel",
+      "address": "",
+      "phone": "",
+      "clues": ""
+    },
+    "patient": {
+      "name": "Sofía Valenzuela Morales",
+      "birthDate": "1994-05-20",
+      "age": "32",
+      "curp": "VAMS940520MDF",
+      "allergies": "Penicilina / Cefalosporinas",
+      "patientId": "PAT-1789949275190"
+    },
+    "treatments": [
+      {
+        "item": 1,
+        "medication": "Azitromicina 500 mg",
+        "dose": "s",
+        "route": "s",
+        "frequency": "s",
+        "duration": "s",
+        "quantity": "s",
+        "notes": "s"
+      }
+    ],
+    "observations": "s",
+    "signature": null,
+    "status": "Emitida",
+    "createdAt": "2026-11-12T17:54:50.221Z",
+    "branding": {
+      "kind": "clinic",
+      "clinicName": "Hospital del Angel",
+      "address": "",
+      "phone": "",
+      "email": "",
+      "logoFile": ""
+    }
+  },
+  {
+    "id": "RX-1794504664154",
+    "folio": "FOL-2026-0014",
+    "consultationId": "CON-1794504664150",
+    "diagnosis": "b",
+    "reason": "h",
+    "clinicalNotes": "ssss",
+    "issuedAt": "2026-11-12T17:31:04.154Z",
+    "doctor": {
+      "name": "Dr(a). Cristhian Avila Hernandez",
+      "professionalId": "1234567",
+      "specialty": "Pediatría",
+      "email": "c@gmail.com",
+      "phone": "4494270232",
+      "doctorId": "DOC-1790096953113"
+    },
+    "clinic": {
+      "name": "Hospital",
+      "address": "",
+      "phone": "",
+      "clues": ""
+    },
+    "patient": {
+      "name": "Sofía Valenzuela Morales",
+      "birthDate": "1994-05-20",
+      "age": "32",
+      "curp": "VAMS940520MDF",
+      "allergies": "Penicilina / Cefalosporinas",
+      "patientId": "PAT-1789949275190"
+    },
+    "treatments": [
+      {
+        "item": 1,
+        "medication": "s",
+        "dose": "",
+        "route": "",
+        "frequency": "",
+        "duration": "",
+        "quantity": "",
+        "notes": ""
+      }
+    ],
+    "observations": "hh",
+    "signature": null,
+    "status": "Emitida",
+    "createdAt": "2026-11-12T17:31:04.154Z"
+  },
+  {
+    "id": "RX-1794501367764",
+    "folio": "FOL-2026-0013",
+    "consultationId": "CON-1794501367758",
+    "diagnosis": "m",
+    "reason": "m",
+    "clinicalNotes": "m",
+    "issuedAt": "2026-11-12T16:36:07.764Z",
+    "doctor": {
+      "name": "Dr(a). Cristhian Avila Hernandez",
+      "professionalId": "1234567",
+      "specialty": "Pediatría",
+      "email": "c@gmail.com",
+      "phone": "4494270232",
+      "doctorId": "DOC-1790096953113"
+    },
+    "clinic": {
+      "name": "Hospital",
+      "address": "",
+      "phone": "",
+      "clues": ""
+    },
+    "patient": {
+      "name": "Sofía Valenzuela Morales",
+      "birthDate": "1994-05-20",
+      "age": "32",
+      "curp": "VAMS940520MDF",
+      "allergies": "Penicilina / Cefalosporinas",
+      "patientId": "PAT-1789949275190"
+    },
+    "treatments": [
+      {
+        "item": 1,
+        "medication": "Ibuprofeno 400 mg",
+        "dose": "5",
+        "route": "5",
+        "frequency": "5",
+        "duration": "5",
+        "quantity": "5",
+        "notes": "5"
+      }
+    ],
+    "observations": "na",
+    "signature": null,
+    "status": "Emitida",
+    "createdAt": "2026-11-12T16:36:07.768Z"
+  },
+  {
+    "id": "RX-1793726609731",
+    "folio": "FOL-2026-0012",
+    "consultationId": "CON-1790098661271",
+    "diagnosis": "Cefalea tensional / Rinofaringitis aguda leve",
+    "issuedAt": "2026-11-03T17:23:29.731Z",
+    "doctor": {
+      "name": "Dr(a). Cristhian Avila Hernandez",
+      "professionalId": "1234567",
+      "specialty": "Pediatría",
+      "email": "c@gmail.com",
+      "phone": "4494270232",
+      "doctorId": "DOC-1790096953113"
+    },
+    "clinic": {
+      "name": "Hospital",
+      "address": "",
+      "phone": "",
+      "clues": ""
+    },
+    "patient": {
+      "name": "Juan Perez",
+      "age": 36,
+      "curp": "PEPJ900101HDFRRN01",
+      "allergies": "Ninguna conocida",
+      "patientId": "PAT-1790042758820"
+    },
+    "treatments": [
+      {
+        "item": 1,
+        "medication": "Loratadina 10 mg",
+        "dose": "s",
+        "frequency": "s",
+        "duration": "s",
+        "notes": "s"
+      }
+    ],
+    "observations": "s",
+    "signature": null,
+    "status": "Emitida",
+    "createdAt": "2026-11-03T17:23:29.731Z"
+  },
+  {
+    "id": "RX-1791944248766",
+    "folio": "FOL-2026-0011",
+    "consultationId": "CON-1791944248763",
+    "diagnosis": "6",
+    "issuedAt": "2026-10-14T02:17:28.766Z",
+    "doctor": {
+      "name": "Dr(a). Cristhian Avila Hernandez",
+      "professionalId": "1234567",
+      "specialty": "Pediatría",
+      "email": "c@gmail.com",
+      "phone": "4494270232",
+      "doctorId": "DOC-1790096953113"
+    },
+    "clinic": {
+      "name": "Hospital",
+      "address": "",
+      "phone": "",
+      "clues": ""
+    },
+    "patient": {
+      "name": "Sofía Valenzuela Morales",
+      "age": 32,
+      "curp": "VAMS940520MDF",
+      "allergies": "Penicilina / Cefalosporinas",
+      "patientId": "PAT-1789949275190"
+    },
+    "treatments": [
+      {
+        "item": 1,
+        "medication": "6s6s6",
+        "dose": "s6s",
+        "frequency": "s6",
+        "duration": "6s",
+        "notes": "s6"
+      }
+    ],
+    "observations": "s6",
+    "signature": null,
+    "status": "Emitida",
+    "createdAt": "2026-10-14T02:17:28.766Z"
+  },
+  {
+    "id": "RX-1791943411134",
+    "folio": "FOL-2026-0010",
+    "consultationId": "CON-1791943411130",
+    "diagnosis": "dddd",
+    "issuedAt": "2026-10-14T02:03:31.134Z",
+    "doctor": {
+      "name": "Dr(a). Cristhian Avila Hernandez",
+      "professionalId": "1234567",
+      "specialty": "Pediatría",
+      "email": "c@gmail.com",
+      "phone": "4494270232",
+      "doctorId": "DOC-1790096953113"
+    },
+    "clinic": {
+      "name": "Hospital",
+      "address": "",
+      "phone": "",
+      "clues": ""
+    },
+    "patient": {
+      "name": "Juan Perez",
+      "age": 36,
+      "curp": "PEPJ900101HDFRRN01",
+      "allergies": "Ninguna conocida",
+      "patientId": "PAT-1790042758820"
+    },
+    "treatments": [
+      {
+        "item": 1,
+        "medication": ",dd",
+        "dose": "",
+        "frequency": "4",
+        "duration": "4",
+        "notes": "4"
+      }
+    ],
+    "observations": "4",
+    "signature": null,
+    "status": "Emitida",
+    "createdAt": "2026-10-14T02:03:31.134Z"
+  },
+  {
+    "id": "RX-1791943047739",
+    "folio": "FOL-2026-0009",
+    "consultationId": "CON-1791943047735",
+    "diagnosis": "G44.2 Cefalea tensional",
+    "issuedAt": "2026-10-14T01:57:27.739Z",
+    "doctor": {
+      "name": "Dr(a). Cristhian Avila Hernandez",
+      "professionalId": "1234567",
+      "specialty": "Pediatría",
+      "email": "c@gmail.com",
+      "phone": "4494270232",
+      "doctorId": "DOC-1790096953113"
+    },
+    "clinic": {
+      "name": "Hospital",
+      "address": "",
+      "phone": "",
+      "clues": ""
+    },
+    "patient": {
+      "name": "Juan Perez",
+      "age": 36,
+      "curp": "PEPJ900101HDFRRN01",
+      "allergies": "Ninguna conocida",
+      "patientId": "PAT-1790042758820"
+    },
+    "treatments": [
+      {
+        "item": 1,
+        "medication": "Paracetamol 500 mg",
+        "dose": "500 mg",
+        "frequency": "cada 8 hrs",
+        "duration": "5 dias",
+        "notes": "Oral"
+      }
+    ],
+    "observations": "Reposo e hidratacion",
+    "signature": null,
+    "status": "Emitida",
+    "createdAt": "2026-10-14T01:57:27.739Z"
+  },
+  {
+    "id": "RX-1791419167377",
+    "folio": "FOL-2026-0008",
+    "consultationId": "CON-1791419167367",
+    "diagnosis": "Control de rutina",
+    "issuedAt": "2026-10-08T00:26:07.377Z",
+    "doctor": {
+      "name": "Dr. Verificador Automatizado",
+      "professionalId": "CED-998877",
+      "specialty": "Medicina General",
+      "email": "",
+      "phone": "",
+      "doctorId": "DOC-TEST-001"
+    },
+    "clinic": {
+      "name": "Centro Médico San Ángel",
+      "address": "Av. Insurgentes Sur 1200",
+      "phone": "",
+      "clues": ""
+    },
+    "patient": {
+      "name": "Juan Perez",
+      "age": "70kg Talla 1.75m",
+      "curp": "PEPJ900101HDFRRN01",
+      "allergies": "Ninguna conocida",
+      "patientId": "PAT-1790042758820"
+    },
+    "treatments": [
+      {
+        "item": 1,
+        "medication": "Paracetamol",
+        "dose": "500 mg",
+        "frequency": "cada 8 horas",
+        "duration": "3 días",
+        "notes": ""
+      }
+    ],
+    "observations": "Prueba de emisión oficial",
+    "signature": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+    "status": "Emitida",
+    "createdAt": "2026-10-08T00:26:07.377Z"
+  },
+  {
+    "id": "RX-1790097249946",
+    "folio": "FOL-2026-0007",
+    "consultationId": "CON-1790097243113",
+    "diagnosis": "Cefalea tensional / Rinofaringitis aguda leve",
+    "issuedAt": "2026-09-22T17:14:09.946Z",
+    "doctor": {
+      "name": "Dr(a). Cristhian Avila Hernandez",
+      "professionalId": "1234567",
+      "specialty": "Pediatría",
+      "email": "c@gmail.com",
+      "phone": "4494270232",
+      "doctorId": "DOC-1790096953113"
+    },
+    "clinic": {
+      "name": "Hospital",
+      "address": "Dirección de la clínica",
+      "phone": "4494270232",
+      "clues": ""
+    },
+    "patient": {
+      "name": "Juan Perez",
+      "age": "68kg • Talla 1.70m (IMC: 23.53)",
+      "curp": "PEPJ900101HDFRRN01",
+      "allergies": "Ninguna conocida",
+      "patientId": "PAT-1790042758820"
+    },
+    "treatments": [
+      {
+        "item": 1,
+        "medication": "Paracetamol",
+        "dose": "500 mg",
+        "frequency": "cada 8 horas",
+        "duration": "5 días",
+        "notes": "Indicación registrada en consulta"
+      }
+    ],
+    "observations": "Reposo relativo durante 48 horas. Hidratación abundante (mínimo 2 litros de agua al día). Evitar cambios bruscos de temperatura. En caso de fiebre persistente mayor a 38.5°C acudir a valoración. (Próxima cita: En 7 días o antes si se presentan signos de alarma)",
+    "signature": null,
+    "status": "Emitida",
+    "createdAt": "2026-09-22T17:14:09.946Z"
+  },
+  {
     "id": "RX-1790090406068",
     "folio": "FOL-2026-0006",
     "consultationId": "CON-1790090399606",

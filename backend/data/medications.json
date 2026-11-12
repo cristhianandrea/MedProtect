@@ -1,1 +1,12 @@
-[]
+[
+  { "id": "MED-001", "name": "Paracetamol 500 mg", "activeIngredient": "Paracetamol", "type": "analgesico" },
+  { "id": "MED-002", "name": "Ibuprofeno 400 mg", "activeIngredient": "Ibuprofeno", "type": "analgesico" },
+  { "id": "MED-003", "name": "Naproxeno 250 mg", "activeIngredient": "Naproxeno", "type": "analgesico" },
+  { "id": "MED-004", "name": "Amoxicilina 500 mg", "activeIngredient": "Amoxicilina", "type": "antibiotico" },
+  { "id": "MED-005", "name": "Azitromicina 500 mg", "activeIngredient": "Azitromicina", "type": "antibiotico" },
+  { "id": "MED-006", "name": "Loratadina 10 mg", "activeIngredient": "Loratadina", "type": "antihistaminico" },
+  { "id": "MED-007", "name": "Omeprazol 20 mg", "activeIngredient": "Omeprazol", "type": "gastrointestinal" },
+  { "id": "MED-008", "name": "Metformina 850 mg", "activeIngredient": "Metformina", "type": "metabolico" },
+  { "id": "MED-009", "name": "Losartán 50 mg", "activeIngredient": "Losartán", "type": "cardiovascular" },
+  { "id": "MED-010", "name": "Salbutamol inhalado", "activeIngredient": "Salbutamol", "type": "respiratorio" }
+]

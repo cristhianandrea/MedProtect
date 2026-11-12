@@ -258,10 +258,24 @@ const MedConnectAPI = (() => {
       return await request(`/api/doctor/profile${qStr}`);
     },
 
+    async previewInstitutionLogo(logoBase64) {
+      return await request('/api/logos/preview', {
+        method: 'POST',
+        body: JSON.stringify({ logoBase64 })
+      });
+    },
+
     async updateDoctorProfile(doctorData) {
       return await request('/api/doctor/profile', {
         method: 'PUT',
         body: JSON.stringify(doctorData)
+      });
+    },
+
+    async changeDoctorPassword(payload) {
+      return await request('/api/doctor/password', {
+        method: 'POST',
+        body: JSON.stringify(payload)
       });
     },
 
@@ -305,6 +319,13 @@ const MedConnectAPI = (() => {
         console.warn('Error en respaldo de consultas:', err);
       }
       return res;
+    },
+
+    async completeConsultation(payload) {
+      return await request('/api/consultations/complete', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
     },
 
     async getConsultations(filters = {}) {
@@ -376,8 +397,30 @@ const MedConnectAPI = (() => {
     // =========================================================
     // 3. CITAS MÉDICAS (AGENDA)
     // =========================================================
-    async getAppointments() {
-      return await request('/api/appointments');
+    async getAppointments(filters = {}) {
+      const params = new URLSearchParams();
+      if (filters.doctorId) params.set('doctorId', filters.doctorId);
+      if (filters.patientId) params.set('patientId', filters.patientId);
+      if (filters.startDate) params.set('startDate', filters.startDate);
+      if (filters.endDate) params.set('endDate', filters.endDate);
+      if (filters.status) params.set('status', filters.status);
+      if (filters.view) params.set('view', filters.view);
+      const query = params.toString();
+      return await request(`/api/appointments${query ? `?${query}` : ''}`);
+    },
+
+    async holdAppointment(holdData) {
+      return await request('/api/appointments/holds', {
+        method: 'POST',
+        body: JSON.stringify(holdData)
+      });
+    },
+
+    async releaseAppointmentHold(holdId) {
+      if (!holdId) return { ok: true, data: { success: true } };
+      return await request(`/api/appointments/holds/${encodeURIComponent(holdId)}`, {
+        method: 'DELETE'
+      });
     },
 
     async createAppointment(appointmentData) {
@@ -391,6 +434,13 @@ const MedConnectAPI = (() => {
       return await request(`/api/appointments/${id}`, {
         method: 'PUT',
         body: JSON.stringify({ date: newDate, time: newTime })
+      });
+    },
+
+    async updateAppointmentStatus(id, status) {
+      return await request(`/api/appointments/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({ status })
       });
     },
 
